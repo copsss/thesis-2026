@@ -5,24 +5,10 @@
 \begin{spacing}{1.5}
 {
 
-此模板最初按照南开大学计算机/网络空间安全学院本科生毕业设计要求制作整理。我们希望此模板能够帮助更多的同学。本模板会根据同学们的需求进行更新。最新版本请关注本模版主页：\href{https://tr0py.github.io/NKU-thesis-template-2020/}{NKThesis: 南开大学本科生毕业论文模板}。
+随着深度学习技术在计算机视觉领域的快速发展，三维场景重建技术经历了从传统多视图几何到神经辐射场（Neural Radiance Fields, NeRF）的范式转变。三维高斯溅射（3D Gaussian Splatting, 3DGS）作为新兴的实时辐射场渲染技术，以其高效的训练速度和实时渲染能力受到广泛关注。然而，现有方法主要针对空气中的静态场景，对水下环境的特殊物理特性考虑不足，也难以处理动态场景。
 
-如果遇到使用问题，你可以用以下方式求助：
-\begin{itemize}
-	\item 在\href{https://github.com/Tr0py/NKU-thesis-template-2020/discussions}{GitHub讨论区}询问你不懂的地方。
-	\item 在\href{https://github.com/Tr0py/NKU-thesis-template-2020/issues}{GitHub Issue}中提出你遇到的待修复的问题。
-	\item 如果不会使用GitHub，你可以在QQ群中提问：群号469868290。
-\end{itemize}
+该文提出将SeaSplat的水下物理建模技术迁移至4DGaussians动态场景重建框架，构建能够同时处理水下光学退化与动态场景变化的统一重建系统。主要工作包括：（1）将基于物理的水下成像模型（衰减网络、后向散射网络及相关损失函数）嵌入动态场景重建流程；（2）引入基于Depth Anything V2的单目深度监督机制，提升几何一致性；（3）设计分阶段训练策略，通过参数冻结与突发更新缓解梯度冲突。实验结果表明，该方法在Robot、Fish、Coral、Streaks四个动态水下场景上平均峰值信噪比（Peak Signal-to-Noise Ratio, PSNR）达30.54 dB，较UDR-GS提升1.6\%，较4DGaussians提升3.1\%，在Coral场景达33.29 dB，验证了三组件的互补性与方法的有效性。
 
-	
-感谢历届的贡献者们：
-\begin{itemize}
-    \item 费迪，22届本科毕业生，\url{fd@nbjl.nankai.edu.cn}
-    \item 林雪，22届本科毕业生，\url{ylsnowy@gmail.com}
-    \item 黎鸿儒，22届本科毕业生，\url{lihongru@mail.nankai.edu.cn}
-    \item 潘宇，20届本科毕业生，\url{panyu@nbjl.nankai.edu.cn}，\href{https://nbjl.nankai.edu.cn/2019/0513/c19244a264683/page.htm}{主页}
-    \item 赵子懿，20届本科毕业生，\url{troppingz@gmail.com}，\href{https://tr0py.github.io/}{主页}
-\end{itemize}
 }
 
 \end{spacing}
@@ -32,19 +18,21 @@
 
 
 \begin{guanjianci}
-南开大学；毕业论文；模板
+三维高斯溅射(3DGS)；水下场景重建；动态场景建模；物理成像模型；深度监督
 \end{guanjianci}
 
 
 
 \begin{abstract}
 \begin{spacing}{1.5}
-Since 1998, two independent supernova research groups have discovered that the universe is accelerating, and the dark energy has become a hot topic in cosmology. 
+With the rapid advancement of deep learning in computer vision, 3D scene reconstruction has evolved from traditional multi-view geometry to Neural Radiance Fields (NeRF). 3D Gaussian Splatting (3DGS), as an emerging real-time radiance field rendering technique, has attracted considerable attention for its efficient training and real-time rendering capabilities. However, existing methods primarily target static aerial scenes and insufficiently address the unique physical properties of underwater environments, while also struggling with dynamic scenes.
+
+This work proposes migrating SeaSplat's underwater physical modeling into the 4DGaussians dynamic scene reconstruction framework, building a unified system capable of simultaneously handling underwater optical degradation and dynamic scene changes. The main contributions include: (1) embedding a physics-based underwater imaging model (attenuation network, backscatter network, and associated loss functions) into the dynamic reconstruction pipeline; (2) introducing monocular depth supervision based on Depth Anything V2 to improve geometric consistency; (3) designing a staged training strategy that mitigates gradient conflicts through parameter freezing and burst updates. Experimental results demonstrate that the proposed method achieves an average Peak Signal-to-Noise Ratio (PSNR) of 30.54 dB across four dynamic underwater scenes (Robot, Fish, Coral, and Streaks), surpassing UDR-GS by 1.6\% and 4DGaussians by 3.1\%, with 33.29 dB on the Coral scene, validating the complementarity of the three components and the effectiveness of the approach.
 
 \end{spacing}
 \end{abstract}
 
 
 \begin{keywords}
-dark energy model; dynamic analysis
-\end{keywords} 
+3D Gaussian splatting; underwater scene reconstruction; dynamic scene modeling; physical imaging model; depth supervision
+\end{keywords}

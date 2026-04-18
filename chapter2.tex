@@ -1,0 +1,298 @@
+
+\chapter{相关技术基础}
+
+本章介绍本文研究所涉及的核心技术基础，包括三维高斯散射（3D Gaussian Splatting）的基本原理、水下图像成像的物理模型、面向水下场景的SeaSplat建模方法、以及4DGaussians动态重建框架和单目深度估计技术。这些技术共同构成本文方法的理论基石，理解其原理对于把握后续章节中方法设计的动机与思路至关重要。
+
+\section{3D Gaussian Splatting基础}
+
+3D Gaussian Splatting（3DGS）\upcite{kerbl2023gaussian}是一种基于显式点云表示的实时神经辐射场渲染方法。与NeRF\upcite{mildenhall2020nerf}等隐式方法依赖神经网络对空间点进行隐式编码不同，3DGS直接将场景表示为一组三维高斯基元的集合，并通过可微光栅化实现高效的图像合成。该方法在保持高质量渲染效果的同时，可达到实时渲染帧率，在新视角合成领域取得了显著突破。
+
+\subsection{场景表示}
+
+在3DGS框架中，三维场景由$N$个三维高斯基元$\{\mathcal{G}_i\}_{i=1}^{N}$共同描述。每个高斯基元携带以下可学习属性：
+
+\begin{itemize}
+    \item \textbf{位置}：$\boldsymbol{\mu}_i \in \mathbb{R}^3$，表示高斯基元的空间中心；
+    \item \textbf{协方差矩阵}：$\boldsymbol{\Sigma}_i \in \mathbb{R}^{3\times3}$，描述高斯基元的形状与朝向；
+    \item \textbf{球谐系数}：$\mathbf{c}_i$，用于表示视角相关的颜色；
+    \item \textbf{不透明度}：$\alpha_i \in [0,1]$，控制基元的透明程度。
+\end{itemize}
+
+每个高斯基元在三维空间中的密度分布由以下公式定义：
+
+\begin{equation}
+    \mathcal{G}(\mathbf{x}) = \exp\!\left(-\frac{1}{2}(\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu})\right)
+    \label{eq:gaussian3d}
+\end{equation}
+
+其中$\mathbf{x} \in \mathbb{R}^3$为空间中的任意查询点，$\boldsymbol{\mu}$为高斯中心，$\boldsymbol{\Sigma}$为协方差矩阵。
+
+为保证协方差矩阵的半正定性，同时使其可通过梯度下降进行优化，3DGS将$\boldsymbol{\Sigma}$分解为缩放矩阵与旋转矩阵的组合形式：
+
+\begin{equation}
+    \boldsymbol{\Sigma} = \mathbf{R}\mathbf{S}\mathbf{S}^\top\mathbf{R}^\top
+    \label{eq:cov_decomp}
+\end{equation}
+
+其中$\mathbf{S} = \text{diag}(s_x, s_y, s_z)$为对角缩放矩阵，$s_x, s_y, s_z > 0$为三个轴方向的缩放因子；$\mathbf{R}$为由单位四元数$\mathbf{q}$参数化的旋转矩阵。通过分别优化缩放向量$\mathbf{s} \in \mathbb{R}^3$和旋转四元数$\mathbf{q} \in \mathbb{R}^4$，可以确保协方差矩阵在整个优化过程中始终保持物理上的合法性。视角相关颜色通过球谐函数（Spherical Harmonics）展开表示，在初始阶段使用低阶（0阶）球谐系数，随训练进行逐步提升阶数以捕捉更精细的视角变化效果。
+
+\subsection{可微光栅化渲染}
+
+给定相机的内参矩阵$\mathbf{K}$与外参矩阵$[\mathbf{R}_c|\mathbf{t}_c]$，三维高斯基元首先被投影至二维图像平面。投影后，三维协方差矩阵$\boldsymbol{\Sigma}$变换为二维协方差矩阵$\boldsymbol{\Sigma}' \in \mathbb{R}^{2\times2}$：
+
+\begin{equation}
+    \boldsymbol{\Sigma}' = \mathbf{J}\mathbf{W}\boldsymbol{\Sigma}\mathbf{W}^\top\mathbf{J}^\top
+    \label{eq:proj_cov}
+\end{equation}
+
+其中$\mathbf{W}$为视图变换矩阵，$\mathbf{J}$为射影变换的仿射近似雅可比矩阵。
+
+完成投影后，图像中某像素$\mathbf{p}$的颜色通过深度排序后的$\alpha$混合（Alpha Compositing）公式计算：
+
+\begin{equation}
+    \mathbf{C}(\mathbf{p}) = \sum_{i=1}^{N} \mathbf{c}_i \hat{\alpha}_i \prod_{j=1}^{i-1}(1 - \hat{\alpha}_j)
+    \label{eq:alpha_blend}
+\end{equation}
+
+其中$\mathbf{c}_i$为第$i$个高斯基元在当前视角下由球谐函数计算得到的颜色，$\hat{\alpha}_i$为结合二维高斯密度与不透明度$\alpha_i$后的有效透明度值：
+
+\begin{equation}
+    \hat{\alpha}_i = \alpha_i \cdot \exp\!\left(-\frac{1}{2}(\mathbf{p} - \boldsymbol{\mu}'_i)^\top {\boldsymbol{\Sigma}'_i}^{-1} (\mathbf{p} - \boldsymbol{\mu}'_i)\right)
+    \label{eq:eff_alpha}
+\end{equation}
+
+类似地，像素的深度值通过相同的混合权重对各高斯基元的投影深度$z_i$加权得到：
+
+\begin{equation}
+    D(\mathbf{p}) = \sum_{i=1}^{N} z_i \hat{\alpha}_i \prod_{j=1}^{i-1}(1 - \hat{\alpha}_j)
+    \label{eq:depth_render}
+\end{equation}
+
+在实现层面，3DGS采用基于图块（Tile-based）的并行光栅化策略：将图像划分为若干$16\times16$像素的图块，对每个图块内的高斯基元按深度排序后并行执行$\alpha$混合，从而实现在GPU上的高效实时渲染。
+
+\subsection{自适应密度控制}
+
+3DGS在训练过程中对高斯基元的数量与分布进行动态调整，以适应不同复杂度的场景结构，这一机制称为自适应密度控制（Adaptive Density Control）。
+
+\textbf{致密化（Densification）}：当某区域的几何结构未得到充分重建时，系统通过检测各高斯基元的位置梯度均值$\bar{\nabla}_{\boldsymbol{\mu}}$来识别欠重建区域。当梯度均值超过预设阈值$\tau_{\text{pos}}$时，触发以下两种操作：
+\begin{itemize}
+    \item \textbf{克隆（Clone）}：对尺寸较小的高斯基元，在其梯度方向复制一个新基元，用于填充欠采样区域；
+    \item \textbf{分裂（Split）}：对尺寸过大的高斯基元（最大缩放因子超过阈值$\tau_{\text{scale}}$），将其拆分为两个较小的高斯基元，以更精细地建模复杂几何细节。
+\end{itemize}
+
+\textbf{剪枝（Pruning）}：每隔固定迭代步数，将不透明度$\alpha_i$低于阈值$\tau_{\alpha}$的高斯基元从场景中移除，以消除无效基元并防止基元数量无限增长。此外，定期将所有基元的不透明度重置为较小值，并通过后续训练决定其是否保留，从而实现自动剪枝。
+
+通过上述自适应密度控制策略，3DGS能够在保持场景表示紧凑性的同时，自动在复杂区域增加表示容量，在简单区域降低冗余度，显著提升了场景重建的质量与效率。
+
+\section{水下图像成像模型}
+
+水下环境中的光学成像与空气中存在本质差异。水分子及其中悬浮的微粒对光线的吸收与散射会导致图像出现颜色偏移、对比度下降和细节模糊等退化现象，理解这些物理过程是构建水下场景重建方法的基础。
+
+\subsection{光在水中的传播特性}
+
+光在水介质中传播时遵循Beer-Lambert定律\upcite{mobley1994light}，即光强随传播距离呈指数衰减：
+
+\begin{equation}
+    I(d, \lambda) = I_0(\lambda) \cdot \exp(-\alpha(\lambda) \cdot d)
+    \label{eq:beer_lambert}
+\end{equation}
+
+其中$I(d, \lambda)$为光线经距离$d$传播后在波长$\lambda$处的强度，$I_0(\lambda)$为初始光强，$\alpha(\lambda)$为波长相关的衰减系数。由于水对红光的吸收系数远大于蓝绿光，水下图像通常呈现明显的蓝绿色偏色现象。
+
+除吸收效应外，水体中的散射效应同样不可忽视，主要分为两类\upcite{mcglamery1980underwater,jaffe1990computer}：
+
+\begin{itemize}
+    \item \textbf{前向散射（Forward Scattering）}：光线在传播方向发生小角度偏折，导致场景中物体边缘模糊，降低图像清晰度；
+    \item \textbf{后向散射（Backscattering）}：水体中的微粒将环境光反射回相机，在图像上形成随深度增大而增厚的雾状遮蔽层（Water Column Veil），严重降低图像对比度与可见距离。
+\end{itemize}
+
+\subsection{修正水下图像形成模型}
+
+基于上述物理分析，Akkaynak与Treibitz提出了修正水下图像形成模型（Revised Underwater Image Formation Model）\upcite{akkaynak2018revised,akkaynak2019sea}，该模型在经典Jaffe-McGlamery模型基础上，将直接透射衰减与后向散射衰减分别参数化，更加精确地描述了水下光学成像过程。对于颜色通道$c \in \{r, g, b\}$，图像像素值$I_c$满足：
+
+\begin{equation}
+    I_c = J_c \cdot \exp\!\left(-\beta_c^D \cdot Z\right) + B_c^\infty \cdot \left(1 - \exp\!\left(-\beta_c^B \cdot Z\right)\right)
+    \label{eq:underwater_model}
+\end{equation}
+
+其中各符号的物理含义如下：
+\begin{itemize}
+    \item $J_c$：场景在无水介质干扰时的真实颜色（清晰场景图像）；
+    \item $Z$：场景点到相机的距离（深度）；
+    \item $\beta_c^D$：直接透射分量的波长相关衰减系数；
+    \item $\beta_c^B$：后向散射分量的波长相关衰减系数；
+    \item $B_c^\infty$：无穷远处后向散射的饱和颜色值。
+\end{itemize}
+
+该模型揭示了水下图像退化的两个核心机制：第一项描述清晰场景颜色随深度指数衰减的过程，第二项描述随深度增大、后向散射逐渐主导成像的过程。当$Z \to \infty$时，图像趋向于均匀的后向散射背景颜色$B_c^\infty$。该模型是SeaSplat\upcite{seasplat2025icra}方法的核心物理依据。
+
+\subsection{暗通道先验}
+
+暗通道先验（Dark Channel Prior，DCP）由He等人\upcite{he2011dcp}提出，是图像去雾领域的经典先验假设。其核心观察为：在无雾的自然图像中，绝大多数局部区块内至少存在一个颜色通道，其像素值接近于零。形式化定义为：
+
+对于无雾图像$J$，其暗通道$J^{\text{dark}}$定义为：
+
+\begin{equation}
+    J^{\text{dark}}(\mathbf{x}) = \min_{c \in \{r,g,b\}} \min_{\mathbf{y} \in \Omega(\mathbf{x})} J^c(\mathbf{y})
+    \label{eq:dark_channel}
+\end{equation}
+
+其中$\Omega(\mathbf{x})$为以像素$\mathbf{x}$为中心的局部邻域窗口，$J^c(\mathbf{y})$为像素$\mathbf{y}$在颜色通道$c$上的强度值。对于无雾清晰图像，统计规律表明$J^{\text{dark}}(\mathbf{x}) \approx 0$。
+
+在水下场景复原中，暗通道先验被用作正则化约束：要求网络恢复出的清晰图像$J$的暗通道尽量趋近于零，从而抑制后向散射的污染效应，约束网络输出物理上合理的清晰场景颜色。这一先验虽然并非对所有水下场景严格成立，但作为软约束可以有效引导优化方向。
+
+\section{SeaSplat水下建模方法}
+
+SeaSplat\upcite{seasplat2025icra}是在3DGS框架基础上专门针对水下场景设计的建模方法，其核心思想是将修正水下图像形成模型嵌入3DGS的可微渲染流程，通过轻量级的神经网络模块估计水体光学参数，从而在重建场景三维结构的同时实现水下图像的物理解耦。
+
+\subsection{BackscatterNet网络}
+
+后向散射估计网络（BackscatterNet）负责从深度图中估计后向散射颜色图$\mathbf{B}$。该网络采用轻量级的深度图卷积结构，以渲染得到的深度图$\mathbf{Z}$作为输入，输出每通道的后向散射强度：
+
+\begin{equation}
+    B_c(z) = \sigma(B_c^\infty) \cdot \left(1 - \exp(-\beta_c \cdot z)\right)
+    \label{eq:backscatter}
+\end{equation}
+
+其中$\sigma(\cdot)$为Sigmoid激活函数，$B_c^\infty$为可学习的无穷远处后向散射颜色参数，$\beta_c$为可学习的后向散射衰减系数。Sigmoid函数将$B_c^\infty$约束在$(0,1)$范围内，保证颜色值的物理合理性。
+
+BackscatterNet的网络参数量约为1K，计算开销可忽略不计，在引入水下物理建模能力的同时不对整体渲染速度产生明显影响。
+
+\subsection{AttenuateNet网络}
+
+直接透射衰减估计网络（AttenuateNet）负责计算场景颜色随深度的衰减映射。SeaSplat采用AttenuateNetV3变体，其结构最为简洁，训练稳定性最优：
+
+\begin{equation}
+    A_c(z) = \exp\!\left(-\beta_c^{\text{conv}} \cdot z\right)
+    \label{eq:attenuation}
+\end{equation}
+
+其中$\beta_c^{\text{conv}}$为每通道单独学习的衰减系数，无需额外的卷积结构，直接将深度$z$通过指数变换映射为衰减系数图。最终渲染颜色与水下物理模型的耦合形式为：
+
+\begin{equation}
+    \hat{I}_c = \mathbf{C}_c \cdot A_c(\mathbf{Z}) + B_c(\mathbf{Z})
+    \label{eq:final_render}
+\end{equation}
+
+其中$\mathbf{C}_c$为3DGS光栅化输出的清晰场景颜色图，$\mathbf{Z}$为深度图，$A_c$与$B_c$分别由AttenuateNet和BackscatterNet估计。
+
+\subsection{水下损失函数}
+
+SeaSplat在标准3DGS的光度损失基础上，增加了一系列面向水下物理特性的正则化损失项，以提升水下参数估计的准确性与稳定性。
+
+\textbf{暗通道先验损失}（$\mathcal{L}_{\text{dark}}$）：最小化恢复出的清晰场景图像$\hat{J}$的暗通道均值，促使清晰场景符合自然图像的统计规律：
+
+\begin{equation}
+    \mathcal{L}_{\text{dark}} = \frac{1}{|\mathcal{P}|}\sum_{\mathbf{p} \in \mathcal{P}} J^{\text{dark}}(\mathbf{p})
+    \label{eq:loss_dark}
+\end{equation}
+
+\textbf{灰度世界损失}（$\mathcal{L}_{\text{gray}}$）：假设清晰场景在全图上各颜色通道均值应趋于中性灰（0.5），以纠正颜色偏差：
+
+\begin{equation}
+    \mathcal{L}_{\text{gray}} = \sum_{c \in \{r,g,b\}} \left(\frac{1}{|\mathcal{P}|}\sum_{\mathbf{p}} \hat{J}_c(\mathbf{p}) - 0.5\right)^2
+    \label{eq:loss_gray}
+\end{equation}
+
+\textbf{饱和度损失}（$\mathcal{L}_{\text{sat}}$）：惩罚清晰场景图像中超出$[0,1]$范围的像素值，防止颜色过曝或欠曝：
+
+\begin{equation}
+    \mathcal{L}_{\text{sat}} = \frac{1}{|\mathcal{P}|}\sum_{\mathbf{p}} \max\!\left(0,\, \hat{J}(\mathbf{p}) - 1\right) + \max\!\left(0,\, -\hat{J}(\mathbf{p})\right)
+    \label{eq:loss_sat}
+\end{equation}
+
+\textbf{背景散射损失}（$\mathcal{L}_{\text{bg}}$）：抑制水柱中漂浮的高斯基元，防止模型将后向散射误建模为场景几何：
+
+\begin{equation}
+    \mathcal{L}_{\text{bg}} = \frac{1}{N}\sum_{i=1}^{N} \alpha_i \cdot \mathbf{1}[z_i > z_{\text{thresh}}]
+    \label{eq:loss_bg}
+\end{equation}
+
+\textbf{深度平滑损失}（$\mathcal{L}_{\text{smooth}}$）：鼓励渲染深度图在相邻像素之间平滑变化，减少深度估计中的噪声：
+
+\begin{equation}
+    \mathcal{L}_{\text{smooth}} = \sum_{\mathbf{p}} \left|\nabla_x D(\mathbf{p})\right| + \left|\nabla_y D(\mathbf{p})\right|
+    \label{eq:loss_smooth}
+\end{equation}
+
+总损失函数为各项加权之和：
+
+\begin{equation}
+    \mathcal{L} = \mathcal{L}_{\text{photo}} + \lambda_1 \mathcal{L}_{\text{dark}} + \lambda_2 \mathcal{L}_{\text{gray}} + \lambda_3 \mathcal{L}_{\text{sat}} + \lambda_4 \mathcal{L}_{\text{bg}} + \lambda_5 \mathcal{L}_{\text{smooth}}
+    \label{eq:total_loss_seasplat}
+\end{equation}
+
+\section{4DGaussians动态重建方法}
+
+4DGaussians\upcite{wu2024gaussian}是将3DGS扩展至动态场景重建的代表性方法之一，通过引入时间维度和变形网络，实现了对非刚性运动场景的高效重建与渲染。该方法在动态3D高斯散射（Dynamic 3DGS）\upcite{luiten2024dynamic}等工作基础上，利用HexPlane时空特征平面编码高效捕捉场景的时空相关性。
+
+\subsection{时间维度扩展}
+
+在4DGaussians框架中，场景由一组规范空间（Canonical Space）中的高斯基元描述，每个基元通过变形网络（Deformation Network）得到时刻$t$下的形变属性偏移量。给定第$i$个高斯基元在规范空间中的位置$\boldsymbol{\mu}_i$，变形网络$\mathcal{F}$接收四维时空坐标$(x_i, y_i, z_i, t)$作为输入，预测各属性的偏移量：
+
+\begin{equation}
+    (\Delta\boldsymbol{\mu}_i,\, \Delta\mathbf{s}_i,\, \Delta\mathbf{q}_i,\, \Delta\alpha_i) = \mathcal{F}(x_i, y_i, z_i, t)
+    \label{eq:deform_network}
+\end{equation}
+
+时刻$t$下各基元的最终属性通过规范属性与偏移量叠加得到：
+
+\begin{equation}
+    \boldsymbol{\mu}'_i = \boldsymbol{\mu}_i + \Delta\boldsymbol{\mu}_i,\quad \mathbf{s}'_i = \mathbf{s}_i + \Delta\mathbf{s}_i,\quad \mathbf{q}'_i = \mathbf{q}_i + \Delta\mathbf{q}_i,\quad \alpha'_i = \alpha_i + \Delta\alpha_i
+    \label{eq:deform_apply}
+\end{equation}
+
+随后，时刻$t$的渲染图像由变形后的高斯集合通过标准3DGS光栅化流程得到。这种规范空间加变形网络的设计将场景的静态结构信息与动态运动信息解耦，有利于两者的分别优化。
+
+\subsection{HexPlane多分辨率时空网格}
+
+变形网络的核心模块为HexPlane时空特征平面\upcite{cao2023hexplane}。HexPlane将四维时空体（$x, y, z, t$）分解为6个二维特征平面，分别对应三维空间的3个空间平面（$xy$、$xz$、$yz$）和3个时空平面（$xt$、$yt$、$zt$）：
+
+\begin{equation}
+    \mathbf{f}(\mathbf{x}, t) = \bigcup_{(u,v) \in \{xy,xz,yz,xt,yt,zt\}} \Phi_{uv}(u(\mathbf{x},t),\, v(\mathbf{x},t))
+    \label{eq:hexplane}
+\end{equation}
+
+其中$\Phi_{uv}$表示对应二维特征平面的双线性插值查询，$u(\cdot)$和$v(\cdot)$为从四维坐标中提取对应分量的投影操作。6个平面查询得到的特征向量拼接后输入轻量级MLP，得到最终的形变预测。
+
+为捕捉不同尺度下的时空相关性，HexPlane采用多分辨率特征方案：在$1\times$、$2\times$、$4\times$三种分辨率下分别维护一组特征平面，对应分辨率的查询结果拼接后共同表达多尺度的时空信息。这种分解策略将四维时空体的存储与计算复杂度由$O(N^4)$降低至$O(N^2)$，大幅提升了方法的可扩展性。
+
+\subsection{变形网络架构}
+
+变形网络的完整架构包含三个模块：位置编码模块、HexPlane特征提取模块和MLP预测头。
+
+输入的四维时空坐标$(x, y, z, t)$首先通过正弦位置编码（Sinusoidal Positional Encoding）进行高频特征扩展，增强网络对细节运动的表达能力。随后，编码后的坐标通过HexPlane的6个平面查询提取时空特征，并将6组特征拼接后送入多层感知机。MLP输出层设置独立的预测头分别输出位置偏移$\Delta\boldsymbol{\mu}$、缩放偏移$\Delta\mathbf{s}$、旋转偏移$\Delta\mathbf{q}$和不透明度偏移$\Delta\alpha$。为支持视角相关的动态颜色变化，可选地引入球谐系数偏移预测头$\Delta\mathbf{c}$。
+
+在场景中同时存在静态背景与动态前景时，4DGaussians通过动/静分离机制为两类高斯基元分别处理：静态基元不经过变形网络，直接在规范空间中渲染；动态基元的属性则经变形网络预测后再进行渲染，从而避免对静态场景部分不必要的形变扰动。
+
+\subsection{两阶段训练策略}
+
+4DGaussians采用粗细两阶段的训练策略，以稳定优化过程并提升最终重建质量。
+
+\textbf{粗阶段（Coarse Stage）}：在此阶段关闭变形网络，仅优化规范空间中的高斯基元属性（位置、形状、颜色、不透明度），同时进行自适应密度控制。此阶段的目标是在规范空间中建立稳定的场景几何骨架，为后续动态建模提供良好的初始化。
+
+\textbf{细阶段（Fine Stage）}：在粗阶段的高斯初始化基础上，联合优化高斯属性和变形网络，使模型逐步学习场景中的动态变化。细阶段的损失函数为：
+
+\begin{equation}
+    \mathcal{L} = (1-\lambda)\mathcal{L}_1 + \lambda \mathcal{L}_{\text{SSIM}} + \lambda_{\text{TV}}\mathcal{L}_{\text{TV}} + \lambda_t \mathcal{L}_t
+    \label{eq:4dgs_loss}
+\end{equation}
+
+其中$\mathcal{L}_1$为像素级L1损失，$\mathcal{L}_{\text{SSIM}}$为结构相似性损失\upcite{wang2004ssim}，$\mathcal{L}_{\text{TV}}$为HexPlane特征平面的全变分（Total Variation）正则化损失，用于约束特征平面的空间平滑性，$\mathcal{L}_t$为时间平滑性损失，惩罚相邻时刻之间的形变突变，有效抑制时间维度上的抖动现象。
+
+\section{单目深度估计}
+
+准确的深度信息对于水下场景重建和水体参数估计具有重要意义，然而水下环境通常缺乏主动深度传感器。单目深度估计（Monocular Depth Estimation）提供了一种仅依赖RGB图像推断场景深度的方案。
+
+Depth Anything V2\upcite{yang2024depthv2}是目前性能最优的单目深度估计模型之一，通过在大规模合成数据与真实数据混合训练集上进行预训练，获得了强大的跨场景泛化能力，在自然场景、室内场景乃至水下场景均展现出良好的深度估计性能。
+
+该模型的输出为相对逆深度图（Relative Inverse Depth Map）$\hat{D}_{\text{inv}}$，与真实深度$Z$的关系为：
+
+\begin{equation}
+    \hat{D}_{\text{inv}} \propto \frac{1}{Z}
+    \label{eq:inv_depth}
+\end{equation}
+
+采用逆深度表示的优势在于其数值分布更为均匀：近处物体的逆深度值较大且变化范围宽，远处物体逆深度值较小且趋于集中，这一特性与水下场景中远处物体因水体散射而自然模糊的视觉规律相契合，有助于在近处提供更精细的深度监督信号。
+
+在本文的方法中，Depth Anything V2的输出被用作弱监督信号（Weak Supervision）：在训练过程中，通过仿射不变深度损失将3DGS渲染的深度图与预测逆深度图进行尺度-偏移对齐后施加监督，引导场景几何向更合理的深度分布收敛，同时避免对单目深度估计绝对精度的过度依赖。这种弱监督策略在无主动深度传感器的水下场景中尤为实用，可以有效缓解仅依赖光度损失进行几何优化时容易出现的尺度模糊与深度坍塌等问题。
