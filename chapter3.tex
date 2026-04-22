@@ -56,14 +56,14 @@ SeaSplat\upcite{seasplat2025icra}基于原始3DGS静态框架实现，而4DGS\up
 \textbf{BackscatterNetV2。}背散射网络负责根据深度图预测逐像素的背散射贡献。网络结构为两层轻量卷积（Conv2D），以归一化深度图为输入，输出背散射颜色图$\mathbf{B}(Z)$：
 \begin{equation}
   B_c(Z) = \mathrm{sigmoid}(B_c^{\infty}) \cdot \left(1 - \exp(-\beta_c^B \cdot Z)\right)
-  \label{eq:backscatter}
+  \label{eq:backscatter_impl}
 \end{equation}
 网络参数量约1K，计算开销极小。该模块已迁移至\texttt{deepseecolor/models.py}，作为独立的\texttt{nn.Module}注册，以便与主优化器统一管理。
 
 \textbf{AttenuateNetV3。}衰减网络有三种变体（V1、V2、V3），经消融实验对比后选用V3版本，因其训练过程最为稳定。V3采用单参数逐通道设计，对每个颜色通道学习一个标量衰减系数$\beta_c^D$，衰减图计算如下：
 \begin{equation}
   A_c(Z) = \exp\!\left(-\beta_c^D \cdot Z\right)
-  \label{eq:attenuation}
+  \label{eq:attenuation_impl}
 \end{equation}
 参数初始化以较小正值为起点，使系统初始阶段接近无衰减状态，便于粗训练阶段高斯几何的稳定收敛。
 
