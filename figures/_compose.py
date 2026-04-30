@@ -104,18 +104,24 @@ def depth_heatmap_from_seasplat(path, size=TARGET):
     return to_viridis(a, size)
 
 # ============================================================================
-# 1) render_compare: per-scene cells = GT, SeaSplat, Ours, Depth heatmap
+# 1) render_compare: per-scene cells = Input (with_water), GT, SeaSplat, Ours, Depth heatmap
 # ============================================================================
 def fig_render_compare():
     for s in SCENES:
         size = TARGET
+        # Input: original underwater image (with_water from SeaSplat)
+        try:
+            inp = load_resize(s["sea_dir"] / "with_water" / s["sea_idx"], size)
+        except FileNotFoundError:
+            inp = load_resize(s["sea_dir"] / "with_water" / s["sea_idx_png"], size)
         # GT (use ours dir's gt copy; identical content to seasplat gt)
         gt = load_resize(s["ours_dir"] / "gt" / s["ours_idx"], size)
-        # SeaSplat render uses sea_idx (which is JPG for Robot, PNG for others)
+        # SeaSplat render (dewatered output) uses sea_idx
         sea = load_resize(s["sea_dir"] / "render" / s["sea_idx"], size)
         ours = load_resize(s["ours_dir"] / "renders" / s["ours_idx"], size)
         # Depth heatmap from monocular depth-anything (same input across configs)
         depth = depth_heatmap_from_mono(s["mono_depth"], size)
+        inp.save(DIR_RC / f"{s['key']}_input.png")
         gt.save(DIR_RC / f"{s['key']}_gt.png")
         sea.save(DIR_RC / f"{s['key']}_seasplat.png")
         ours.save(DIR_RC / f"{s['key']}_ours.png")
