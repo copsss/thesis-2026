@@ -4,7 +4,7 @@
 \begin{spacing}{1.5}
 {
 
-水下场景重建面临光学退化与动态变化的双重挑战。现有静态水下方法无法处理运动物体，而通用动态重建方法未考虑水体物理特性。本文提出将SeaSplat的水下物理建模迁移至4DGaussians动态框架，构建统一重建系统。主要工作包括：嵌入水下成像模型（衰减与后向散射网络）处理颜色退化；引入Depth Anything V2深度监督提升几何一致性；设计四阶段渐进训练策略缓解梯度冲突。实验表明，在Robot、Coral、Fish、Streaks四个动态水下场景上，平均PSNR达30.54 dB，较UDR-GS提升1.6\%，较4DGS提升3.1\%，其中Coral场景达33.29 dB，验证了方法的有效性。
+水下场景重建面临光学退化与动态变化的双重挑战。一方面，水体对光线的吸收与散射导致图像颜色偏移、对比度下降及细节丢失；另一方面，水下生物与机械装置的运动引入非刚性形变，传统静态重建方法难以有效建模。现有静态水下方法虽能通过物理成像模型校正颜色退化，但无法处理运动物体；而通用动态重建方法虽具备时序建模能力，却未考虑水体光学特性。针对上述问题，本文提出将SeaSplat的水下物理建模迁移至4DGaussians动态框架，构建统一的水下动态场景重建系统。主要工作包括：第一，嵌入水下成像模型，通过衰减网络与后向散射网络联合估计水体参数，实现颜色退化校正；第二，引入基于Depth Anything V2的单目深度监督机制，采用逆深度归一化与alpha加权损失提升几何一致性，抑制浮游点云伪影；第三，设计多阶段渐进式训练策略，通过参数冻结与间歇式专项更新缓解多模块协同训练的梯度冲突，提升优化稳定性。实验结果表明，本文方法在多个动态水下场景上取得了优于现有基线的渲染质量，定量指标与可视化效果均验证了各组件的有效性与互补性。
 
 }
 \end{spacing}
@@ -18,7 +18,7 @@
 
 \begin{abstract}
 \begin{spacing}{1.5}
-Underwater scene reconstruction faces dual challenges of optical degradation and dynamic motion. Existing static underwater methods cannot handle moving objects, while general dynamic reconstruction methods ignore water physical properties. This paper proposes migrating SeaSplat's underwater physical modeling to the 4DGaussians dynamic framework, building a unified reconstruction system. Main contributions include: embedding underwater imaging models (attenuation and backscatter networks) for color restoration; introducing Depth Anything V2 depth supervision for geometric consistency; designing a four-stage progressive training strategy to mitigate gradient conflicts. Experiments on Robot, Coral, Fish, and Streaks scenes achieve average PSNR of 30.54 dB, surpassing UDR-GS by 1.6\% and 4DGS by 3.1\%, with 33.29 dB on Coral, validating the effectiveness of the proposed approach.
+Underwater scene reconstruction faces dual challenges of optical degradation and dynamic motion. On one hand, water absorption and scattering cause color shift, contrast loss, and detail degradation in images; on the other hand, underwater biological and mechanical movements introduce non-rigid deformations that traditional static methods cannot effectively model. Existing static underwater methods  can correct color degradation through physical imaging models but fail to handle moving objects; general dynamic reconstruction methods  possess temporal modeling capability but ignore water optical properties. To address these issues, this paper proposes migrating SeaSplat's underwater physical modeling to the 4DGaussians dynamic framework, constructing a unified underwater dynamic scene reconstruction system. Main contributions include: first, embedding underwater imaging models with attenuation and backscatter networks to jointly estimate water parameters and correct color degradation; second, introducing monocular depth supervision based on Depth Anything V2, using inverse depth normalization and alpha-weighted loss to enhance geometric consistency and suppress floating point cloud artifacts; third, designing a multi-stage progressive training strategy with parameter freezing and intermittent specialized updates to mitigate gradient conflicts from multi-module joint training. Experimental results demonstrate that the proposed method achieves superior rendering quality compared to existing baselines across multiple dynamic underwater scenes, with both quantitative metrics and visual effects validating the effectiveness and complementarity of each component.
 \end{spacing}
 \end{abstract}
 
