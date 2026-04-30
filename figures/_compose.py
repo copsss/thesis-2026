@@ -95,6 +95,14 @@ def depth_heatmap_from_mono(path, size=TARGET):
         a = a[..., 0]
     return to_viridis(a, size, invert=False)
 
+def depth_heatmap_from_render(path, size=TARGET):
+    """Rendered depth image (8-bit or 16-bit) → viridis heatmap."""
+    im = Image.open(path)
+    a = np.array(im)
+    if a.ndim == 3:
+        a = a[..., 0]
+    return to_viridis(a, size, invert=True)  # invert: closer = brighter
+
 def depth_heatmap_from_seasplat(path, size=TARGET):
     """SeaSplat depth image → viridis heatmap for consistency."""
     im = Image.open(path)
@@ -123,8 +131,8 @@ def fig_render_compare():
             sea_depth = depth_heatmap_from_seasplat(s["sea_dir"] / "depth" / s["sea_idx_png"], size)
         # 本文方法 render
         ours = load_resize(s["ours_dir"] / "renders" / s["ours_idx"], size)
-        # 本文深度热力图 (使用 monocular depth supervision)
-        ours_depth = depth_heatmap_from_mono(s["mono_depth"], size)
+        # 本文深度热力图 (使用渲染输出的深度图)
+        ours_depth = depth_heatmap_from_render(s["ours_dir"] / "depth" / s["ours_idx"], size)
 
         gt.save(DIR_RC / f"{s['key']}_gt.png")
         sea_water.save(DIR_RC / f"{s['key']}_sea_water.png")
