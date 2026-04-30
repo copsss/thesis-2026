@@ -1,0 +1,1442 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{张杰2020水下机器人}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=9e28e16dc078315dffce410da0740f3a}{%
+           family={张杰},
+           familyi={张\bibinitperiod}}}%
+        {{hash=804e309499c07ee978c3d948e0a9cfd5}{%
+           family={刘明},
+           familyi={刘\bibinitperiod}}}%
+        {{hash=0843cef43ff6aef08d141344b1c8e33b}{%
+           family={王伟},
+           familyi={王\bibinitperiod}}}%
+      }
+      \strng{namehash}{02abef5514202fe5d8ab33664b255427}
+      \strng{fullhash}{02abef5514202fe5d8ab33664b255427}
+      \strng{fullhashraw}{02abef5514202fe5d8ab33664b255427}
+      \strng{bibnamehash}{02abef5514202fe5d8ab33664b255427}
+      \strng{authorbibnamehash}{02abef5514202fe5d8ab33664b255427}
+      \strng{authornamehash}{02abef5514202fe5d8ab33664b255427}
+      \strng{authorfullhash}{02abef5514202fe5d8ab33664b255427}
+      \strng{authorfullhashraw}{02abef5514202fe5d8ab33664b255427}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{机器人}
+      \field{number}{6}
+      \field{title}{水下机器人视觉系统研究进展}
+      \field{userf}{zh}
+      \field{volume}{42}
+      \field{year}{2020}
+      \field{pages}{752\bibrangedash 768}
+      \range{pages}{17}
+    \endentry
+    \entry{李建平2019海洋}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=64eaa5f160903e346b05536560d9a58a}{%
+           family={李建平},
+           familyi={李\bibinitperiod}}}%
+        {{hash=047f9b42cd387b4ddd1a2795a750524c}{%
+           family={陈朝晖},
+           familyi={陈\bibinitperiod}}}%
+        {{hash=abcb6a75a2a18e37aa4a98f4ed817a78}{%
+           family={王凡},
+           familyi={王\bibinitperiod}}}%
+      }
+      \strng{namehash}{71ea98ee46e4c71836a8ee169149b211}
+      \strng{fullhash}{71ea98ee46e4c71836a8ee169149b211}
+      \strng{fullhashraw}{71ea98ee46e4c71836a8ee169149b211}
+      \strng{bibnamehash}{71ea98ee46e4c71836a8ee169149b211}
+      \strng{authorbibnamehash}{71ea98ee46e4c71836a8ee169149b211}
+      \strng{authornamehash}{71ea98ee46e4c71836a8ee169149b211}
+      \strng{authorfullhash}{71ea98ee46e4c71836a8ee169149b211}
+      \strng{authorfullhashraw}{71ea98ee46e4c71836a8ee169149b211}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{海洋学报}
+      \field{number}{10}
+      \field{title}{海洋探测技术发展现状与趋势}
+      \field{userf}{zh}
+      \field{volume}{41}
+      \field{year}{2019}
+      \field{pages}{1\bibrangedash 15}
+      \range{pages}{15}
+    \endentry
+    \entry{mobley1994light}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=b2bc1db2c0550160c5c679234f2f4f05}{%
+           family={Mobley},
+           familyi={M\bibinitperiod},
+           given={Curtis\bibnamedelima D},
+           giveni={C\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {San Diego}%
+      }
+      \list{publisher}{1}{%
+        {Academic Press}%
+      }
+      \strng{namehash}{b2bc1db2c0550160c5c679234f2f4f05}
+      \strng{fullhash}{b2bc1db2c0550160c5c679234f2f4f05}
+      \strng{fullhashraw}{b2bc1db2c0550160c5c679234f2f4f05}
+      \strng{bibnamehash}{b2bc1db2c0550160c5c679234f2f4f05}
+      \strng{authorbibnamehash}{b2bc1db2c0550160c5c679234f2f4f05}
+      \strng{authornamehash}{b2bc1db2c0550160c5c679234f2f4f05}
+      \strng{authorfullhash}{b2bc1db2c0550160c5c679234f2f4f05}
+      \strng{authorfullhashraw}{b2bc1db2c0550160c5c679234f2f4f05}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Light and Water: Radiative Transfer in Natural Waters}
+      \field{year}{1994}
+    \endentry
+    \entry{赵大鹏2023水下}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=7196bb9c86cef495a04a31e66a53e6fc}{%
+           family={赵大鹏},
+           familyi={赵\bibinitperiod}}}%
+        {{hash=9ccc1f129737cf72f77505dfe0b8a1cc}{%
+           family={刘辰},
+           familyi={刘\bibinitperiod}}}%
+        {{hash=6944d9d6078e831516c34d85a309d191}{%
+           family={李阳},
+           familyi={李\bibinitperiod}}}%
+      }
+      \strng{namehash}{c72a6a18239fbeed567161b77ad5c1dd}
+      \strng{fullhash}{c72a6a18239fbeed567161b77ad5c1dd}
+      \strng{fullhashraw}{c72a6a18239fbeed567161b77ad5c1dd}
+      \strng{bibnamehash}{c72a6a18239fbeed567161b77ad5c1dd}
+      \strng{authorbibnamehash}{c72a6a18239fbeed567161b77ad5c1dd}
+      \strng{authornamehash}{c72a6a18239fbeed567161b77ad5c1dd}
+      \strng{authorfullhash}{c72a6a18239fbeed567161b77ad5c1dd}
+      \strng{authorfullhashraw}{c72a6a18239fbeed567161b77ad5c1dd}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{自动化学报}
+      \field{number}{4}
+      \field{title}{水下视觉感知技术研究进展}
+      \field{userf}{zh}
+      \field{volume}{49}
+      \field{year}{2023}
+      \field{pages}{715\bibrangedash 740}
+      \range{pages}{26}
+    \endentry
+    \entry{mildenhall2020nerf}{inproceedings}{}{}
+      \name{author}{6}{}{%
+        {{hash=a3567364ab52973659adf74ee0c6e6f3}{%
+           family={Mildenhall},
+           familyi={M\bibinitperiod},
+           given={Ben},
+           giveni={B\bibinitperiod}}}%
+        {{hash=b503d22b8c86fb9dfd477d2f70a59650}{%
+           family={Srinivasan},
+           familyi={S\bibinitperiod},
+           given={Pratul\bibnamedelima P},
+           giveni={P\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=9a18985a5c8b8be23d0ec9de0a3c87b9}{%
+           family={Tancik},
+           familyi={T\bibinitperiod},
+           given={Matthew},
+           giveni={M\bibinitperiod}}}%
+        {{hash=562f3254a241932db4a6d44a97473ec5}{%
+           family={Barron},
+           familyi={B\bibinitperiod},
+           given={Jonathan\bibnamedelima T},
+           giveni={J\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+        {{hash=e7e274981ceb0dd123d44af35cc7bedf}{%
+           family={Ramamoorthi},
+           familyi={R\bibinitperiod},
+           given={Ravi},
+           giveni={R\bibinitperiod}}}%
+        {{hash=96e30bdc2cf905aa1109c46617b16252}{%
+           family={Ng},
+           familyi={N\bibinitperiod},
+           given={Ren},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{4d426255f49fbfdee4dcf85e64cc11d8}
+      \strng{fullhash}{9bee638bba28fb3cd739399aa8dc9983}
+      \strng{fullhashraw}{9bee638bba28fb3cd739399aa8dc9983}
+      \strng{bibnamehash}{4d426255f49fbfdee4dcf85e64cc11d8}
+      \strng{authorbibnamehash}{4d426255f49fbfdee4dcf85e64cc11d8}
+      \strng{authornamehash}{4d426255f49fbfdee4dcf85e64cc11d8}
+      \strng{authorfullhash}{9bee638bba28fb3cd739399aa8dc9983}
+      \strng{authorfullhashraw}{9bee638bba28fb3cd739399aa8dc9983}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{European Conference on Computer Vision (ECCV)}
+      \field{title}{NeRF: Representing scenes as neural radiance fields for view synthesis}
+      \field{year}{2020}
+      \field{pages}{405\bibrangedash 421}
+      \range{pages}{17}
+    \endentry
+    \entry{barron2021mipnerf}{inproceedings}{}{}
+      \name{author}{6}{}{%
+        {{hash=562f3254a241932db4a6d44a97473ec5}{%
+           family={Barron},
+           familyi={B\bibinitperiod},
+           given={Jonathan\bibnamedelima T},
+           giveni={J\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+        {{hash=a3567364ab52973659adf74ee0c6e6f3}{%
+           family={Mildenhall},
+           familyi={M\bibinitperiod},
+           given={Ben},
+           giveni={B\bibinitperiod}}}%
+        {{hash=9a18985a5c8b8be23d0ec9de0a3c87b9}{%
+           family={Tancik},
+           familyi={T\bibinitperiod},
+           given={Matthew},
+           giveni={M\bibinitperiod}}}%
+        {{hash=157d821a2f0829e6758eb6c188684a09}{%
+           family={Hedman},
+           familyi={H\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+        {{hash=42005139be072c494eab6ffcdb947f2d}{%
+           family={Martin-Brualla},
+           familyi={M\bibinithyphendelim B\bibinitperiod},
+           given={Ricardo},
+           giveni={R\bibinitperiod}}}%
+        {{hash=b503d22b8c86fb9dfd477d2f70a59650}{%
+           family={Srinivasan},
+           familyi={S\bibinitperiod},
+           given={Pratul\bibnamedelima P},
+           giveni={P\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \strng{namehash}{5acf5088ba74e2250adf1813c720e9cf}
+      \strng{fullhash}{fdf6d74ac0d387a476895b4631458185}
+      \strng{fullhashraw}{fdf6d74ac0d387a476895b4631458185}
+      \strng{bibnamehash}{5acf5088ba74e2250adf1813c720e9cf}
+      \strng{authorbibnamehash}{5acf5088ba74e2250adf1813c720e9cf}
+      \strng{authornamehash}{5acf5088ba74e2250adf1813c720e9cf}
+      \strng{authorfullhash}{fdf6d74ac0d387a476895b4631458185}
+      \strng{authorfullhashraw}{fdf6d74ac0d387a476895b4631458185}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{IEEE/CVF International Conference on Computer Vision (ICCV)}
+      \field{title}{Mip-NeRF: A multiscale representation for anti-aliasing neural radiance fields}
+      \field{year}{2021}
+      \field{pages}{5855\bibrangedash 5864}
+      \range{pages}{10}
+    \endentry
+    \entry{muller2022instantngp}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{hash=c2ad285eb682bccdfe2685694db2188f}{%
+           family={Müller},
+           familyi={M\bibinitperiod},
+           given={Thomas},
+           giveni={T\bibinitperiod}}}%
+        {{hash=384420ee5132168a95e9f097058e3c55}{%
+           family={Evans},
+           familyi={E\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod}}}%
+        {{hash=56d271cf4aa34e6b3942487f50bc0419}{%
+           family={Schied},
+           familyi={S\bibinitperiod},
+           given={Christoph},
+           giveni={C\bibinitperiod}}}%
+        {{hash=611ada91d1e542d341733a32d3b74766}{%
+           family={Keller},
+           familyi={K\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{32756b879ec636cdc347fa11a4e1689e}
+      \strng{fullhash}{5ee9a8053cd04c40f99a57f291d2c4a8}
+      \strng{fullhashraw}{5ee9a8053cd04c40f99a57f291d2c4a8}
+      \strng{bibnamehash}{32756b879ec636cdc347fa11a4e1689e}
+      \strng{authorbibnamehash}{32756b879ec636cdc347fa11a4e1689e}
+      \strng{authornamehash}{32756b879ec636cdc347fa11a4e1689e}
+      \strng{authorfullhash}{5ee9a8053cd04c40f99a57f291d2c4a8}
+      \strng{authorfullhashraw}{5ee9a8053cd04c40f99a57f291d2c4a8}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ACM Transactions on Graphics (TOG)}
+      \field{number}{4}
+      \field{title}{Instant neural graphics primitives with a multiresolution hash encoding}
+      \field{volume}{41}
+      \field{year}{2022}
+      \field{pages}{1\bibrangedash 15}
+      \range{pages}{15}
+    \endentry
+    \entry{reiser2023merf}{inproceedings}{}{}
+      \name{author}{8}{}{%
+        {{hash=50488dd57a60b048dd8a210bb6eb0974}{%
+           family={Reiser},
+           familyi={R\bibinitperiod},
+           given={Christian},
+           giveni={C\bibinitperiod}}}%
+        {{hash=f2e556c93256e7d70895d67702e14f1a}{%
+           family={Szeliski},
+           familyi={S\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod}}}%
+        {{hash=0d0af9b888707d306a6dab79b427493b}{%
+           family={Verbin},
+           familyi={V\bibinitperiod},
+           given={Dor},
+           giveni={D\bibinitperiod}}}%
+        {{hash=b503d22b8c86fb9dfd477d2f70a59650}{%
+           family={Srinivasan},
+           familyi={S\bibinitperiod},
+           given={Pratul\bibnamedelima P},
+           giveni={P\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=a3567364ab52973659adf74ee0c6e6f3}{%
+           family={Mildenhall},
+           familyi={M\bibinitperiod},
+           given={Ben},
+           giveni={B\bibinitperiod}}}%
+        {{hash=06133052ac3c14a188601b82783cd4f7}{%
+           family={Geiger},
+           familyi={G\bibinitperiod},
+           given={Andreas},
+           giveni={A\bibinitperiod}}}%
+        {{hash=562f3254a241932db4a6d44a97473ec5}{%
+           family={Barron},
+           familyi={B\bibinitperiod},
+           given={Jonathan\bibnamedelima T},
+           giveni={J\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+        {{hash=157d821a2f0829e6758eb6c188684a09}{%
+           family={Hedman},
+           familyi={H\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{4aac9b32a34ed8c225a126c28c13b068}
+      \strng{fullhash}{d2b2c4b2ee36f06bb5a465257bfc8f93}
+      \strng{fullhashraw}{d2b2c4b2ee36f06bb5a465257bfc8f93}
+      \strng{bibnamehash}{4aac9b32a34ed8c225a126c28c13b068}
+      \strng{authorbibnamehash}{4aac9b32a34ed8c225a126c28c13b068}
+      \strng{authornamehash}{4aac9b32a34ed8c225a126c28c13b068}
+      \strng{authorfullhash}{d2b2c4b2ee36f06bb5a465257bfc8f93}
+      \strng{authorfullhashraw}{d2b2c4b2ee36f06bb5a465257bfc8f93}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{ACM Transactions on Graphics (TOG)}
+      \field{number}{4}
+      \field{title}{MERF: Memory-efficient radiance fields for real-time view synthesis in unbounded scenes}
+      \field{volume}{42}
+      \field{year}{2023}
+      \field{pages}{1\bibrangedash 12}
+      \range{pages}{12}
+    \endentry
+    \entry{王晓军2023神经}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=fcf66a4b2a0f6c59dcc116e73c95794f}{%
+           family={王晓军},
+           familyi={王\bibinitperiod}}}%
+        {{hash=571e4cc7ea33235c1d6c2d6a5779070c}{%
+           family={张雷},
+           familyi={张\bibinitperiod}}}%
+        {{hash=e9d0a2167afd1d3ef5307cc2a6f21e92}{%
+           family={刘波},
+           familyi={刘\bibinitperiod}}}%
+      }
+      \strng{namehash}{e169d696784a0d63343309da0349842a}
+      \strng{fullhash}{e169d696784a0d63343309da0349842a}
+      \strng{fullhashraw}{e169d696784a0d63343309da0349842a}
+      \strng{bibnamehash}{e169d696784a0d63343309da0349842a}
+      \strng{authorbibnamehash}{e169d696784a0d63343309da0349842a}
+      \strng{authornamehash}{e169d696784a0d63343309da0349842a}
+      \strng{authorfullhash}{e169d696784a0d63343309da0349842a}
+      \strng{authorfullhashraw}{e169d696784a0d63343309da0349842a}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{中国图象图形学报}
+      \field{number}{10}
+      \field{title}{神经辐射场技术综述}
+      \field{userf}{zh}
+      \field{volume}{28}
+      \field{year}{2023}
+      \field{pages}{2951\bibrangedash 2975}
+      \range{pages}{25}
+    \endentry
+    \entry{杨帆2022三维}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=9ecf2556015c73226f8fccc172c3529f}{%
+           family={杨帆},
+           familyi={杨\bibinitperiod}}}%
+        {{hash=80a64e07831777e91b64460688bcda23}{%
+           family={王瑞},
+           familyi={王\bibinitperiod}}}%
+        {{hash=15095d14367f7f02655030d498a4ba03}{%
+           family={李明},
+           familyi={李\bibinitperiod}}}%
+      }
+      \strng{namehash}{d09facd5d50e7ea8d98f9e013c9034f8}
+      \strng{fullhash}{d09facd5d50e7ea8d98f9e013c9034f8}
+      \strng{fullhashraw}{d09facd5d50e7ea8d98f9e013c9034f8}
+      \strng{bibnamehash}{d09facd5d50e7ea8d98f9e013c9034f8}
+      \strng{authorbibnamehash}{d09facd5d50e7ea8d98f9e013c9034f8}
+      \strng{authornamehash}{d09facd5d50e7ea8d98f9e013c9034f8}
+      \strng{authorfullhash}{d09facd5d50e7ea8d98f9e013c9034f8}
+      \strng{authorfullhashraw}{d09facd5d50e7ea8d98f9e013c9034f8}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{计算机研究与发展}
+      \field{number}{5}
+      \field{title}{基于深度学习的三维场景重建方法综述}
+      \field{userf}{zh}
+      \field{volume}{59}
+      \field{year}{2022}
+      \field{pages}{1038\bibrangedash 1058}
+      \range{pages}{21}
+    \endentry
+    \entry{kerbl2023gaussian}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{hash=c73d638ffd25328757379835747302ff}{%
+           family={Kerbl},
+           familyi={K\bibinitperiod},
+           given={Bernhard},
+           giveni={B\bibinitperiod}}}%
+        {{hash=2ab758a425dcd6ed440f4ae0d994dc2c}{%
+           family={Kopanas},
+           familyi={K\bibinitperiod},
+           given={Georgios},
+           giveni={G\bibinitperiod}}}%
+        {{hash=23f06719145b1e18e13a7e436bb8c2fc}{%
+           family={Leimkühler},
+           familyi={L\bibinitperiod},
+           given={Thomas},
+           giveni={T\bibinitperiod}}}%
+        {{hash=70ecb4c4a672f7c20e4b53b57d5a437e}{%
+           family={Drettakis},
+           familyi={D\bibinitperiod},
+           given={George},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{8479b049e52b63ea21fe5e3437d87ed2}
+      \strng{fullhash}{36d84a8a291db8ba20b3f78b93a2eeee}
+      \strng{fullhashraw}{36d84a8a291db8ba20b3f78b93a2eeee}
+      \strng{bibnamehash}{8479b049e52b63ea21fe5e3437d87ed2}
+      \strng{authorbibnamehash}{8479b049e52b63ea21fe5e3437d87ed2}
+      \strng{authornamehash}{8479b049e52b63ea21fe5e3437d87ed2}
+      \strng{authorfullhash}{36d84a8a291db8ba20b3f78b93a2eeee}
+      \strng{authorfullhashraw}{36d84a8a291db8ba20b3f78b93a2eeee}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ACM Transactions on Graphics (TOG)}
+      \field{number}{4}
+      \field{title}{3D Gaussian splatting for real-time radiance field rendering}
+      \field{volume}{42}
+      \field{year}{2023}
+      \field{pages}{1\bibrangedash 14}
+      \range{pages}{14}
+    \endentry
+    \entry{mcglamery1980underwater}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=931ae777cb6abd13dc482349de501d0d}{%
+           family={McGlamery},
+           familyi={M\bibinitperiod},
+           given={Ben\bibnamedelima L},
+           giveni={B\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \strng{namehash}{931ae777cb6abd13dc482349de501d0d}
+      \strng{fullhash}{931ae777cb6abd13dc482349de501d0d}
+      \strng{fullhashraw}{931ae777cb6abd13dc482349de501d0d}
+      \strng{bibnamehash}{931ae777cb6abd13dc482349de501d0d}
+      \strng{authorbibnamehash}{931ae777cb6abd13dc482349de501d0d}
+      \strng{authornamehash}{931ae777cb6abd13dc482349de501d0d}
+      \strng{authorfullhash}{931ae777cb6abd13dc482349de501d0d}
+      \strng{authorfullhashraw}{931ae777cb6abd13dc482349de501d0d}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of SPIE}
+      \field{title}{A computer model for underwater camera systems}
+      \field{volume}{208}
+      \field{year}{1980}
+      \field{pages}{221\bibrangedash 231}
+      \range{pages}{11}
+    \endentry
+    \entry{jaffe1990computer}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=6f4816e59e5499c35c029cfc82bc1d1a}{%
+           family={Jaffe},
+           familyi={J\bibinitperiod},
+           given={Jules\bibnamedelima S},
+           giveni={J\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \strng{namehash}{6f4816e59e5499c35c029cfc82bc1d1a}
+      \strng{fullhash}{6f4816e59e5499c35c029cfc82bc1d1a}
+      \strng{fullhashraw}{6f4816e59e5499c35c029cfc82bc1d1a}
+      \strng{bibnamehash}{6f4816e59e5499c35c029cfc82bc1d1a}
+      \strng{authorbibnamehash}{6f4816e59e5499c35c029cfc82bc1d1a}
+      \strng{authornamehash}{6f4816e59e5499c35c029cfc82bc1d1a}
+      \strng{authorfullhash}{6f4816e59e5499c35c029cfc82bc1d1a}
+      \strng{authorfullhashraw}{6f4816e59e5499c35c029cfc82bc1d1a}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Journal of Oceanic Engineering}
+      \field{number}{2}
+      \field{title}{Computer modeling and the design of optimal underwater imaging systems}
+      \field{volume}{15}
+      \field{year}{1990}
+      \field{pages}{101\bibrangedash 111}
+      \range{pages}{11}
+    \endentry
+    \entry{he2011dcp}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=6b4b60e909e78633945f3f9c9dc83e01}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={Kaiming},
+           giveni={K\bibinitperiod}}}%
+        {{hash=f85751488058842b5777c7b4074077b5}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Jian},
+           giveni={J\bibinitperiod}}}%
+        {{hash=7e09524e32e7b51c169850f848787677}{%
+           family={Tang},
+           familyi={T\bibinitperiod},
+           given={Xiaoou},
+           giveni={X\bibinitperiod}}}%
+      }
+      \strng{namehash}{01813d8e3e7083ced7930a4911fb06bb}
+      \strng{fullhash}{01813d8e3e7083ced7930a4911fb06bb}
+      \strng{fullhashraw}{01813d8e3e7083ced7930a4911fb06bb}
+      \strng{bibnamehash}{01813d8e3e7083ced7930a4911fb06bb}
+      \strng{authorbibnamehash}{01813d8e3e7083ced7930a4911fb06bb}
+      \strng{authornamehash}{01813d8e3e7083ced7930a4911fb06bb}
+      \strng{authorfullhash}{01813d8e3e7083ced7930a4911fb06bb}
+      \strng{authorfullhashraw}{01813d8e3e7083ced7930a4911fb06bb}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Pattern Analysis and Machine Intelligence}
+      \field{number}{12}
+      \field{title}{Single image haze removal using dark channel prior}
+      \field{volume}{33}
+      \field{year}{2011}
+      \field{pages}{2341\bibrangedash 2353}
+      \range{pages}{13}
+    \endentry
+    \entry{akkaynak2018revised}{inproceedings}{}{}
+      \name{author}{2}{}{%
+        {{hash=d1fbfdeb589f52b75882b394c60f4008}{%
+           family={Akkaynak},
+           familyi={A\bibinitperiod},
+           given={Derya},
+           giveni={D\bibinitperiod}}}%
+        {{hash=f5f17c396d941b76aaae3a72ea01ce02}{%
+           family={Treibitz},
+           familyi={T\bibinitperiod},
+           given={Tali},
+           giveni={T\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{a60641951c0a2b8492c78a5075a59a0f}
+      \strng{fullhash}{a60641951c0a2b8492c78a5075a59a0f}
+      \strng{fullhashraw}{a60641951c0a2b8492c78a5075a59a0f}
+      \strng{bibnamehash}{a60641951c0a2b8492c78a5075a59a0f}
+      \strng{authorbibnamehash}{a60641951c0a2b8492c78a5075a59a0f}
+      \strng{authornamehash}{a60641951c0a2b8492c78a5075a59a0f}
+      \strng{authorfullhash}{a60641951c0a2b8492c78a5075a59a0f}
+      \strng{authorfullhashraw}{a60641951c0a2b8492c78a5075a59a0f}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
+      \field{title}{A revised underwater image formation model}
+      \field{year}{2018}
+      \field{pages}{6723\bibrangedash 6732}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1109/CVPR.2018.00703
+      \endverb
+    \endentry
+    \entry{akkaynak2019sea}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=d1fbfdeb589f52b75882b394c60f4008}{%
+           family={Akkaynak},
+           familyi={A\bibinitperiod},
+           given={Derya},
+           giveni={D\bibinitperiod}}}%
+        {{hash=f5f17c396d941b76aaae3a72ea01ce02}{%
+           family={Treibitz},
+           familyi={T\bibinitperiod},
+           given={Tali},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{a60641951c0a2b8492c78a5075a59a0f}
+      \strng{fullhash}{a60641951c0a2b8492c78a5075a59a0f}
+      \strng{fullhashraw}{a60641951c0a2b8492c78a5075a59a0f}
+      \strng{bibnamehash}{a60641951c0a2b8492c78a5075a59a0f}
+      \strng{authorbibnamehash}{a60641951c0a2b8492c78a5075a59a0f}
+      \strng{authornamehash}{a60641951c0a2b8492c78a5075a59a0f}
+      \strng{authorfullhash}{a60641951c0a2b8492c78a5075a59a0f}
+      \strng{authorfullhashraw}{a60641951c0a2b8492c78a5075a59a0f}
+      \field{extraname}{2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
+      \field{title}{Sea-thru: A method for removing water from underwater images}
+      \field{year}{2019}
+      \field{pages}{1682\bibrangedash 1691}
+      \range{pages}{10}
+    \endentry
+    \entry{levy2023seathrunerf}{inproceedings}{}{}
+      \name{author}{7}{}{%
+        {{hash=6b41dcb3834246b9cbde649eecba5352}{%
+           family={Levy},
+           familyi={L\bibinitperiod},
+           given={Deborah},
+           giveni={D\bibinitperiod}}}%
+        {{hash=c1648a1d0f87939f8c8f93a50ca3cf34}{%
+           family={Peleg},
+           familyi={P\bibinitperiod},
+           given={Amit},
+           giveni={A\bibinitperiod}}}%
+        {{hash=072b671c1e2d3b5edf0520a96a6263cc}{%
+           family={Pearl},
+           familyi={P\bibinitperiod},
+           given={Naama},
+           giveni={N\bibinitperiod}}}%
+        {{hash=a8da94ca4efd9bc2df7bcf17695c6d9a}{%
+           family={Rosenbaum},
+           familyi={R\bibinitperiod},
+           given={Dan},
+           giveni={D\bibinitperiod}}}%
+        {{hash=d1fbfdeb589f52b75882b394c60f4008}{%
+           family={Akkaynak},
+           familyi={A\bibinitperiod},
+           given={Derya},
+           giveni={D\bibinitperiod}}}%
+        {{hash=43f6d00d54a0cbbf9e6af0379d4dafb1}{%
+           family={Korman},
+           familyi={K\bibinitperiod},
+           given={Simon},
+           giveni={S\bibinitperiod}}}%
+        {{hash=f5f17c396d941b76aaae3a72ea01ce02}{%
+           family={Treibitz},
+           familyi={T\bibinitperiod},
+           given={Tali},
+           giveni={T\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{3645893eee67ce0e4521f02627da05a3}
+      \strng{fullhash}{7d60b794806a3a737b854f8bdcace97a}
+      \strng{fullhashraw}{7d60b794806a3a737b854f8bdcace97a}
+      \strng{bibnamehash}{3645893eee67ce0e4521f02627da05a3}
+      \strng{authorbibnamehash}{3645893eee67ce0e4521f02627da05a3}
+      \strng{authornamehash}{3645893eee67ce0e4521f02627da05a3}
+      \strng{authorfullhash}{7d60b794806a3a737b854f8bdcace97a}
+      \strng{authorfullhashraw}{7d60b794806a3a737b854f8bdcace97a}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
+      \field{title}{SeaThru-NeRF: Neural radiance fields in scattering media}
+      \field{year}{2023}
+      \field{pages}{56\bibrangedash 65}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1109/CVPR52729.2023.00014
+      \endverb
+    \endentry
+    \entry{seasplat2025icra}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=79d398a3bb9479ce92b0a691545759ef}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod}}}%
+        {{hash=6c960232ba2aefe8f363bbf79b4c03b7}{%
+           family={Leonard},
+           familyi={L\bibinitperiod},
+           given={John\bibnamedelima J.},
+           giveni={J\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=ccf6a3aad5c9a0f2e65c6d0e7bc2d5de}{%
+           family={Girdhar},
+           familyi={G\bibinitperiod},
+           given={Yogesh},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{c0601dc659b985914b008352bde91189}
+      \strng{fullhash}{c0601dc659b985914b008352bde91189}
+      \strng{fullhashraw}{c0601dc659b985914b008352bde91189}
+      \strng{bibnamehash}{c0601dc659b985914b008352bde91189}
+      \strng{authorbibnamehash}{c0601dc659b985914b008352bde91189}
+      \strng{authornamehash}{c0601dc659b985914b008352bde91189}
+      \strng{authorfullhash}{c0601dc659b985914b008352bde91189}
+      \strng{authorfullhashraw}{c0601dc659b985914b008352bde91189}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2025 IEEE International Conference on Robotics and Automation (ICRA)}
+      \field{title}{SeaSplat: Representing underwater scenes with 3D Gaussian splatting and a physically grounded image formation model}
+      \field{year}{2025}
+      \field{pages}{7632\bibrangedash 7638}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1109/ICRA55743.2025.11128502
+      \endverb
+    \endentry
+    \entry{zhang2024watersplatting}{inproceedings}{}{}
+      \name{author}{2}{}{%
+        {{hash=8aa8790036ee13bbb4a752761d527ef2}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Huapeng},
+           giveni={H\bibinitperiod}}}%
+        {{hash=57f3d65edf65578d5be03190d6170c56}{%
+           family={Sattar},
+           familyi={S\bibinitperiod},
+           given={Junaed},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{0985507f3e2fb75721a36dda563700b7}
+      \strng{fullhash}{0985507f3e2fb75721a36dda563700b7}
+      \strng{fullhashraw}{0985507f3e2fb75721a36dda563700b7}
+      \strng{bibnamehash}{0985507f3e2fb75721a36dda563700b7}
+      \strng{authorbibnamehash}{0985507f3e2fb75721a36dda563700b7}
+      \strng{authornamehash}{0985507f3e2fb75721a36dda563700b7}
+      \strng{authorfullhash}{0985507f3e2fb75721a36dda563700b7}
+      \strng{authorfullhashraw}{0985507f3e2fb75721a36dda563700b7}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{arXiv preprint arXiv:2408.08206}
+      \field{title}{WaterSplatting: Fast underwater 3D scene reconstruction using Gaussian splatting}
+      \field{year}{2024}
+    \endentry
+    \entry{wang2024uwgs}{inproceedings}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=4ecbdeaec835537d95d1ebf3f676fb38}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Haoran},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{4d21a3489366f503f9b29de271bcf0ee}
+      \strng{fullhash}{4d21a3489366f503f9b29de271bcf0ee}
+      \strng{fullhashraw}{4d21a3489366f503f9b29de271bcf0ee}
+      \strng{bibnamehash}{4d21a3489366f503f9b29de271bcf0ee}
+      \strng{authorbibnamehash}{4d21a3489366f503f9b29de271bcf0ee}
+      \strng{authornamehash}{4d21a3489366f503f9b29de271bcf0ee}
+      \strng{authorfullhash}{4d21a3489366f503f9b29de271bcf0ee}
+      \strng{authorfullhashraw}{4d21a3489366f503f9b29de271bcf0ee}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{arXiv preprint arXiv:2410.01517}
+      \field{title}{UW-GS: Distractor-aware 3D Gaussian splatting for enhanced underwater scene reconstruction}
+      \field{year}{2024}
+    \endentry
+    \entry{li2024seafreegs}{inproceedings}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=50e1884edfdda9686c94ab712a7f4e10}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Qiankun},
+           giveni={Q\bibinitperiod}}}%
+      }
+      \strng{namehash}{1daf2a23876f2d681eec90b0b9c12920}
+      \strng{fullhash}{1daf2a23876f2d681eec90b0b9c12920}
+      \strng{fullhashraw}{1daf2a23876f2d681eec90b0b9c12920}
+      \strng{bibnamehash}{1daf2a23876f2d681eec90b0b9c12920}
+      \strng{authorbibnamehash}{1daf2a23876f2d681eec90b0b9c12920}
+      \strng{authornamehash}{1daf2a23876f2d681eec90b0b9c12920}
+      \strng{authorfullhash}{1daf2a23876f2d681eec90b0b9c12920}
+      \strng{authorfullhashraw}{1daf2a23876f2d681eec90b0b9c12920}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{arXiv preprint}
+      \field{title}{SeaFree-GS: Reconstructing underwater 3D scenes with true appearances}
+      \field{year}{2024}
+    \endentry
+    \entry{sun2024recgs}{inproceedings}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=bed5b52151dea40da32c6515a918598b}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Tianyi},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{1b783e75b610f0558b23b1fba569f6fb}
+      \strng{fullhash}{1b783e75b610f0558b23b1fba569f6fb}
+      \strng{fullhashraw}{1b783e75b610f0558b23b1fba569f6fb}
+      \strng{bibnamehash}{1b783e75b610f0558b23b1fba569f6fb}
+      \strng{authorbibnamehash}{1b783e75b610f0558b23b1fba569f6fb}
+      \strng{authornamehash}{1b783e75b610f0558b23b1fba569f6fb}
+      \strng{authorfullhash}{1b783e75b610f0558b23b1fba569f6fb}
+      \strng{authorfullhashraw}{1b783e75b610f0558b23b1fba569f6fb}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{arXiv preprint arXiv:2407.10318}
+      \field{title}{RecGS: Removing water caustic with recurrent Gaussian splatting}
+      \field{year}{2024}
+    \endentry
+    \entry{chen20243duir}{inproceedings}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=215c7d91e47bc648dac2d6096241a0e5}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Chi},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{30eb585be005f6c0f9cb5fa9932b5294}
+      \strng{fullhash}{30eb585be005f6c0f9cb5fa9932b5294}
+      \strng{fullhashraw}{30eb585be005f6c0f9cb5fa9932b5294}
+      \strng{bibnamehash}{30eb585be005f6c0f9cb5fa9932b5294}
+      \strng{authorbibnamehash}{30eb585be005f6c0f9cb5fa9932b5294}
+      \strng{authornamehash}{30eb585be005f6c0f9cb5fa9932b5294}
+      \strng{authorfullhash}{30eb585be005f6c0f9cb5fa9932b5294}
+      \strng{authorfullhashraw}{30eb585be005f6c0f9cb5fa9932b5294}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{arXiv preprint}
+      \field{title}{3D-UIR: 3D Gaussian for underwater 3D scene reconstruction via physics-based appearance-medium decoupling}
+      \field{year}{2024}
+    \endentry
+    \entry{wang2024dualphysgs}{inproceedings}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=c26cc02bbb5db725a2c79cb200894d76}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Peng},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{1945ae4f24598c69c95ba36c072b63da}
+      \strng{fullhash}{1945ae4f24598c69c95ba36c072b63da}
+      \strng{fullhashraw}{1945ae4f24598c69c95ba36c072b63da}
+      \strng{bibnamehash}{1945ae4f24598c69c95ba36c072b63da}
+      \strng{authorbibnamehash}{1945ae4f24598c69c95ba36c072b63da}
+      \strng{authornamehash}{1945ae4f24598c69c95ba36c072b63da}
+      \strng{authorfullhash}{1945ae4f24598c69c95ba36c072b63da}
+      \strng{authorfullhashraw}{1945ae4f24598c69c95ba36c072b63da}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{arXiv preprint}
+      \field{title}{DualPhys-GS: Dual physically-guided 3D Gaussian splatting for underwater scene reconstruction}
+      \field{year}{2024}
+    \endentry
+    \entry{zhang2024aquaticgs}{inproceedings}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=ec44eedac068b80195c2d8242e35f30a}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Shaohua},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{4e125aae6f51c6bc880d87a45eb12c2b}
+      \strng{fullhash}{4e125aae6f51c6bc880d87a45eb12c2b}
+      \strng{fullhashraw}{4e125aae6f51c6bc880d87a45eb12c2b}
+      \strng{bibnamehash}{4e125aae6f51c6bc880d87a45eb12c2b}
+      \strng{authorbibnamehash}{4e125aae6f51c6bc880d87a45eb12c2b}
+      \strng{authornamehash}{4e125aae6f51c6bc880d87a45eb12c2b}
+      \strng{authorfullhash}{4e125aae6f51c6bc880d87a45eb12c2b}
+      \strng{authorfullhashraw}{4e125aae6f51c6bc880d87a45eb12c2b}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{arXiv preprint}
+      \field{title}{Aquatic-GS: A hybrid 3D representation for underwater scenes}
+      \field{year}{2024}
+    \endentry
+    \entry{周鑫2021水下}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=f98b5a608d50b196b1810c64e7fd7445}{%
+           family={周鑫},
+           familyi={周\bibinitperiod}}}%
+        {{hash=305be7965375e114a6965c245e1ffc9e}{%
+           family={张伟},
+           familyi={张\bibinitperiod}}}%
+        {{hash=0dc6c9d510dab2c680c4d6e0dbf748ab}{%
+           family={陆军},
+           familyi={陆\bibinitperiod}}}%
+      }
+      \strng{namehash}{4275f9085e920194df9ec87b7ff44c53}
+      \strng{fullhash}{4275f9085e920194df9ec87b7ff44c53}
+      \strng{fullhashraw}{4275f9085e920194df9ec87b7ff44c53}
+      \strng{bibnamehash}{4275f9085e920194df9ec87b7ff44c53}
+      \strng{authorbibnamehash}{4275f9085e920194df9ec87b7ff44c53}
+      \strng{authornamehash}{4275f9085e920194df9ec87b7ff44c53}
+      \strng{authorfullhash}{4275f9085e920194df9ec87b7ff44c53}
+      \strng{authorfullhashraw}{4275f9085e920194df9ec87b7ff44c53}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{计算机学报}
+      \field{number}{3}
+      \field{title}{水下图像增强与复原方法综述}
+      \field{userf}{zh}
+      \field{volume}{44}
+      \field{year}{2021}
+      \field{pages}{534\bibrangedash 568}
+      \range{pages}{35}
+    \endentry
+    \entry{park2021nerfies}{inproceedings}{}{}
+      \name{author}{7}{}{%
+        {{hash=24407a1130d6c1f523023c2769f89ecc}{%
+           family={Park},
+           familyi={P\bibinitperiod},
+           given={Keunhong},
+           giveni={K\bibinitperiod}}}%
+        {{hash=dd3bc10238575847e3d45f62243b4c59}{%
+           family={Sinha},
+           familyi={S\bibinitperiod},
+           given={Utkarsh},
+           giveni={U\bibinitperiod}}}%
+        {{hash=562f3254a241932db4a6d44a97473ec5}{%
+           family={Barron},
+           familyi={B\bibinitperiod},
+           given={Jonathan\bibnamedelima T},
+           giveni={J\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+        {{hash=e7394b6c3bcd83f0f728fb6487b35039}{%
+           family={Bouaziz},
+           familyi={B\bibinitperiod},
+           given={Sofien},
+           giveni={S\bibinitperiod}}}%
+        {{hash=73f1f1fd46977d69cc9ca95d408b9373}{%
+           family={Goldman},
+           familyi={G\bibinitperiod},
+           given={Dan\bibnamedelima B},
+           giveni={D\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=4b86c0c2d3cd7ef6aa76cea9261cd526}{%
+           family={Seitz},
+           familyi={S\bibinitperiod},
+           given={Steven\bibnamedelima M},
+           giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=42005139be072c494eab6ffcdb947f2d}{%
+           family={Martin-Brualla},
+           familyi={M\bibinithyphendelim B\bibinitperiod},
+           given={Ricardo},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{602012c6628b8c331aba0b8108a5e027}
+      \strng{fullhash}{633e48d43ae03e7119cb49486166efe6}
+      \strng{fullhashraw}{633e48d43ae03e7119cb49486166efe6}
+      \strng{bibnamehash}{602012c6628b8c331aba0b8108a5e027}
+      \strng{authorbibnamehash}{602012c6628b8c331aba0b8108a5e027}
+      \strng{authornamehash}{602012c6628b8c331aba0b8108a5e027}
+      \strng{authorfullhash}{633e48d43ae03e7119cb49486166efe6}
+      \strng{authorfullhashraw}{633e48d43ae03e7119cb49486166efe6}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{IEEE/CVF International Conference on Computer Vision (ICCV)}
+      \field{title}{Nerfies: Deformable neural radiance fields}
+      \field{year}{2021}
+      \field{pages}{5865\bibrangedash 5874}
+      \range{pages}{10}
+    \endentry
+    \entry{pumarola2021dnerf}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{hash=1bbd9bcaa0e4dd5aa88e3c867edbbe7d}{%
+           family={Pumarola},
+           familyi={P\bibinitperiod},
+           given={Albert},
+           giveni={A\bibinitperiod}}}%
+        {{hash=7938e909303b967c6c3939de128ebc02}{%
+           family={Corona},
+           familyi={C\bibinitperiod},
+           given={Enric},
+           giveni={E\bibinitperiod}}}%
+        {{hash=ad16f6eab34f1f33393889dcaac427d6}{%
+           family={Pons-Moll},
+           familyi={P\bibinithyphendelim M\bibinitperiod},
+           given={Gerard},
+           giveni={G\bibinitperiod}}}%
+        {{hash=7ed44f3258cf3a4902d1da8f7b547651}{%
+           family={Moreno-Noguer},
+           familyi={M\bibinithyphendelim N\bibinitperiod},
+           given={Francesc},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{a01bfc8e89b7244ea7c4a493565cb3e6}
+      \strng{fullhash}{7c8c9a2dfb54c6af0e2b4c6c2f2cd316}
+      \strng{fullhashraw}{7c8c9a2dfb54c6af0e2b4c6c2f2cd316}
+      \strng{bibnamehash}{a01bfc8e89b7244ea7c4a493565cb3e6}
+      \strng{authorbibnamehash}{a01bfc8e89b7244ea7c4a493565cb3e6}
+      \strng{authornamehash}{a01bfc8e89b7244ea7c4a493565cb3e6}
+      \strng{authorfullhash}{7c8c9a2dfb54c6af0e2b4c6c2f2cd316}
+      \strng{authorfullhashraw}{7c8c9a2dfb54c6af0e2b4c6c2f2cd316}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
+      \field{title}{D-NeRF: Neural radiance fields for dynamic scenes}
+      \field{year}{2021}
+      \field{pages}{10318\bibrangedash 10327}
+      \range{pages}{10}
+    \endentry
+    \entry{luiten2024dynamic}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{hash=8c336c193892d2f1d5a6c952eb5b1d4c}{%
+           family={Luiten},
+           familyi={L\bibinitperiod},
+           given={Jonathon},
+           giveni={J\bibinitperiod}}}%
+        {{hash=2ab758a425dcd6ed440f4ae0d994dc2c}{%
+           family={Kopanas},
+           familyi={K\bibinitperiod},
+           given={Georgios},
+           giveni={G\bibinitperiod}}}%
+        {{hash=89e3f1ee83923a2c7a44b7597b35fccd}{%
+           family={Leibe},
+           familyi={L\bibinitperiod},
+           given={Bastian},
+           giveni={B\bibinitperiod}}}%
+        {{hash=aedcd3831845183e070aef16857d83ea}{%
+           family={Ramanan},
+           familyi={R\bibinitperiod},
+           given={Deva},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{7bc3f94be849af3eb3d0f4accad5e302}
+      \strng{fullhash}{fe4ae51fb5aca6e58a9262aef0bdc94d}
+      \strng{fullhashraw}{fe4ae51fb5aca6e58a9262aef0bdc94d}
+      \strng{bibnamehash}{7bc3f94be849af3eb3d0f4accad5e302}
+      \strng{authorbibnamehash}{7bc3f94be849af3eb3d0f4accad5e302}
+      \strng{authornamehash}{7bc3f94be849af3eb3d0f4accad5e302}
+      \strng{authorfullhash}{fe4ae51fb5aca6e58a9262aef0bdc94d}
+      \strng{authorfullhashraw}{fe4ae51fb5aca6e58a9262aef0bdc94d}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2024 International Conference on 3D Vision (3DV)}
+      \field{title}{Dynamic 3D Gaussians: Tracking by persistent dynamic view synthesis}
+      \field{year}{2024}
+      \field{pages}{800\bibrangedash 809}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1109/3dv62453.2024.00044
+      \endverb
+    \endentry
+    \entry{wu2024gaussian}{inproceedings}{}{}
+      \name{author}{9}{}{%
+        {{hash=829c8b4961cb19d6e3736d621f750f36}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Guanjun},
+           giveni={G\bibinitperiod}}}%
+        {{hash=cd0e0f0fb10d4c0e47964662a5fcfff7}{%
+           family={Yi},
+           familyi={Y\bibinitperiod},
+           given={Taoran},
+           giveni={T\bibinitperiod}}}%
+        {{hash=ec5ce127932e919a209dd5a9db85cee9}{%
+           family={Fang},
+           familyi={F\bibinitperiod},
+           given={Jiemin},
+           giveni={J\bibinitperiod}}}%
+        {{hash=465fac3aefe5aab59dc6ab47670a1bdd}{%
+           family={Xie},
+           familyi={X\bibinitperiod},
+           given={Lingxi},
+           giveni={L\bibinitperiod}}}%
+        {{hash=98e539acf79367dc0d0a2e4bfc57598f}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Xiaopeng},
+           giveni={X\bibinitperiod}}}%
+        {{hash=c1d89b1112687aab0def500c9ed1fd46}{%
+           family={Wei},
+           familyi={W\bibinitperiod},
+           given={Wei},
+           giveni={W\bibinitperiod}}}%
+        {{hash=d2354226a305a694e082d0c47c299a00}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Wenyu},
+           giveni={W\bibinitperiod}}}%
+        {{hash=9632951617f2079b7d7fa6a955341020}{%
+           family={Tian},
+           familyi={T\bibinitperiod},
+           given={Qi},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=1bd616b774bd66d7d77e025ac08c962d}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Xinggang},
+           giveni={X\bibinitperiod}}}%
+      }
+      \strng{namehash}{f4e6a02cd1e1b3d8d3091e5d5de114da}
+      \strng{fullhash}{a405185958fd6b2f4df005d1990fa0bd}
+      \strng{fullhashraw}{a405185958fd6b2f4df005d1990fa0bd}
+      \strng{bibnamehash}{f4e6a02cd1e1b3d8d3091e5d5de114da}
+      \strng{authorbibnamehash}{f4e6a02cd1e1b3d8d3091e5d5de114da}
+      \strng{authornamehash}{f4e6a02cd1e1b3d8d3091e5d5de114da}
+      \strng{authorfullhash}{a405185958fd6b2f4df005d1990fa0bd}
+      \strng{authorfullhashraw}{a405185958fd6b2f4df005d1990fa0bd}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
+      \field{title}{4D Gaussian splatting for real-time dynamic scene rendering}
+      \field{year}{2024}
+      \field{pages}{20310\bibrangedash 20320}
+      \range{pages}{11}
+    \endentry
+    \entry{udrgs2024symmetry}{article}{}{}
+      \name{author}{5}{}{%
+        {{hash=2574d6df17b717937de799574005bb14}{%
+           family={Du},
+           familyi={D\bibinitperiod},
+           given={Yu},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=38cea0c74320594c6cd9c6b0045ed085}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Zhisheng},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=f189b293bd3263254702f8c5fe1d714b}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Peng},
+           giveni={P\bibinitperiod}}}%
+        {{hash=59eaf27c32447b7323877072f8533d7c}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Fuchun},
+           giveni={F\bibinitperiod}}}%
+        {{hash=0261af8ffb5922c5da696e41d4389d06}{%
+           family={Lv},
+           familyi={L\bibinitperiod},
+           given={Xiao},
+           giveni={X\bibinitperiod}}}%
+      }
+      \strng{namehash}{efd25bda2ba54e26d91d51eb5baaa7b0}
+      \strng{fullhash}{759db143cf3eeefbebcc51cdeccf6f10}
+      \strng{fullhashraw}{759db143cf3eeefbebcc51cdeccf6f10}
+      \strng{bibnamehash}{efd25bda2ba54e26d91d51eb5baaa7b0}
+      \strng{authorbibnamehash}{efd25bda2ba54e26d91d51eb5baaa7b0}
+      \strng{authornamehash}{efd25bda2ba54e26d91d51eb5baaa7b0}
+      \strng{authorfullhash}{759db143cf3eeefbebcc51cdeccf6f10}
+      \strng{authorfullhashraw}{759db143cf3eeefbebcc51cdeccf6f10}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2073-8994}
+      \field{journaltitle}{Symmetry}
+      \field{number}{8}
+      \field{title}{UDR-GS: Enhancing underwater dynamic scene reconstruction with depth regularization}
+      \field{volume}{16}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.3390/sym16081010
+      \endverb
+    \endentry
+    \entry{yang2024depthanything}{article}{}{}
+      \name{author}{6}{}{%
+        {{hash=f1eeb2dd1fc5922091709e59023496f5}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Lihe},
+           giveni={L\bibinitperiod}}}%
+        {{hash=f00adc70822a55eef709dcde125a234b}{%
+           family={Kang},
+           familyi={K\bibinitperiod},
+           given={Bingyi},
+           giveni={B\bibinitperiod}}}%
+        {{hash=800352834f20c08bfb9c71e2873d3d37}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Zilong},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=517d6a07fe7557d7f01c4e145ea3b2b6}{%
+           family={Xu},
+           familyi={X\bibinitperiod},
+           given={Xiaogang},
+           giveni={X\bibinitperiod}}}%
+        {{hash=ee4de6563d3aa74999c7a69f8f345e56}{%
+           family={Feng},
+           familyi={F\bibinitperiod},
+           given={Jiashi},
+           giveni={J\bibinitperiod}}}%
+        {{hash=b2c00b2ccbbe98f22709d2cb8ccc0bba}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Hengshuang},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{ff361b32cd2d130d6dfc5219d027767b}
+      \strng{fullhash}{b747e9da8f05ff81e8ffd026c30db1d0}
+      \strng{fullhashraw}{b747e9da8f05ff81e8ffd026c30db1d0}
+      \strng{bibnamehash}{ff361b32cd2d130d6dfc5219d027767b}
+      \strng{authorbibnamehash}{ff361b32cd2d130d6dfc5219d027767b}
+      \strng{authornamehash}{ff361b32cd2d130d6dfc5219d027767b}
+      \strng{authorfullhash}{b747e9da8f05ff81e8ffd026c30db1d0}
+      \strng{authorfullhashraw}{b747e9da8f05ff81e8ffd026c30db1d0}
+      \field{extraname}{1}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2401.10891}
+      \field{title}{Depth anything: Unleashing the power of large-scale unlabeled data}
+      \field{year}{2024}
+    \endentry
+    \entry{yang2024depthv2}{article}{}{}
+      \name{author}{7}{}{%
+        {{hash=f1eeb2dd1fc5922091709e59023496f5}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Lihe},
+           giveni={L\bibinitperiod}}}%
+        {{hash=f00adc70822a55eef709dcde125a234b}{%
+           family={Kang},
+           familyi={K\bibinitperiod},
+           given={Bingyi},
+           giveni={B\bibinitperiod}}}%
+        {{hash=800352834f20c08bfb9c71e2873d3d37}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Zilong},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=768a78f72c9bf8b5ea782a3124e5c695}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Zhen},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=517d6a07fe7557d7f01c4e145ea3b2b6}{%
+           family={Xu},
+           familyi={X\bibinitperiod},
+           given={Xiaogang},
+           giveni={X\bibinitperiod}}}%
+        {{hash=ee4de6563d3aa74999c7a69f8f345e56}{%
+           family={Feng},
+           familyi={F\bibinitperiod},
+           given={Jiashi},
+           giveni={J\bibinitperiod}}}%
+        {{hash=b2c00b2ccbbe98f22709d2cb8ccc0bba}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Hengshuang},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{ff361b32cd2d130d6dfc5219d027767b}
+      \strng{fullhash}{6430ca374a67896a00bdac35d13834e2}
+      \strng{fullhashraw}{6430ca374a67896a00bdac35d13834e2}
+      \strng{bibnamehash}{ff361b32cd2d130d6dfc5219d027767b}
+      \strng{authorbibnamehash}{ff361b32cd2d130d6dfc5219d027767b}
+      \strng{authornamehash}{ff361b32cd2d130d6dfc5219d027767b}
+      \strng{authorfullhash}{6430ca374a67896a00bdac35d13834e2}
+      \strng{authorfullhashraw}{6430ca374a67896a00bdac35d13834e2}
+      \field{extraname}{2}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2406.09414}
+      \field{title}{Depth anything V2}
+      \field{year}{2024}
+    \endentry
+    \entry{wang2004ssim}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=f244e8ae5eff7776cf2b4b5b84ad8c4a}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Zhou},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=d9c2ab9a8cbcab08292923a454c88ce7}{%
+           family={Bovik},
+           familyi={B\bibinitperiod},
+           given={Alan\bibnamedelima C},
+           giveni={A\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=b21953b57a16342d57782f7a32ca10ea}{%
+           family={Sheikh},
+           familyi={S\bibinitperiod},
+           given={Hamid\bibnamedelima R},
+           giveni={H\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=027ac5801d4cec598c393e1f9875c60b}{%
+           family={Simoncelli},
+           familyi={S\bibinitperiod},
+           given={Eero\bibnamedelima P},
+           giveni={E\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \strng{namehash}{e568872838feb3749ae0528cce82d45c}
+      \strng{fullhash}{678422238c76e65638062cadc184ea94}
+      \strng{fullhashraw}{678422238c76e65638062cadc184ea94}
+      \strng{bibnamehash}{e568872838feb3749ae0528cce82d45c}
+      \strng{authorbibnamehash}{e568872838feb3749ae0528cce82d45c}
+      \strng{authornamehash}{e568872838feb3749ae0528cce82d45c}
+      \strng{authorfullhash}{678422238c76e65638062cadc184ea94}
+      \strng{authorfullhashraw}{678422238c76e65638062cadc184ea94}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Image Processing}
+      \field{number}{4}
+      \field{title}{Image quality assessment: from error visibility to structural similarity}
+      \field{volume}{13}
+      \field{year}{2004}
+      \field{pages}{600\bibrangedash 612}
+      \range{pages}{13}
+    \endentry
+    \entry{zhang2018lpips}{inproceedings}{}{}
+      \name{author}{5}{}{%
+        {{hash=0c65190dcbd461dee172354f7938ae43}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod}}}%
+        {{hash=cae9f806bc99a5f19fadea538fc2db04}{%
+           family={Isola},
+           familyi={I\bibinitperiod},
+           given={Phillip},
+           giveni={P\bibinitperiod}}}%
+        {{hash=5a663b27298722834a8cf09bb93d8c94}{%
+           family={Efros},
+           familyi={E\bibinitperiod},
+           given={Alexei\bibnamedelima A},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=739ef881fb9e0c2c8d7110c90325d960}{%
+           family={Shechtman},
+           familyi={S\bibinitperiod},
+           given={Eli},
+           giveni={E\bibinitperiod}}}%
+        {{hash=4954ab8be479c4a3f1496ddfbc21a605}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Oliver},
+           giveni={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{636e6ae4822477e755423a7db71f9e17}
+      \strng{fullhash}{b4812124f82ca96d3c1cb10ee3db7804}
+      \strng{fullhashraw}{b4812124f82ca96d3c1cb10ee3db7804}
+      \strng{bibnamehash}{636e6ae4822477e755423a7db71f9e17}
+      \strng{authorbibnamehash}{636e6ae4822477e755423a7db71f9e17}
+      \strng{authornamehash}{636e6ae4822477e755423a7db71f9e17}
+      \strng{authorfullhash}{b4812124f82ca96d3c1cb10ee3db7804}
+      \strng{authorfullhashraw}{b4812124f82ca96d3c1cb10ee3db7804}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
+      \field{title}{The unreasonable effectiveness of deep features as a perceptual metric}
+      \field{year}{2018}
+      \field{pages}{586\bibrangedash 595}
+      \range{pages}{10}
+    \endentry
+    \entry{cao2023hexplane}{inproceedings}{}{}
+      \name{author}{2}{}{%
+        {{hash=04e949db1b1c99047ba2a21282e3887a}{%
+           family={Cao},
+           familyi={C\bibinitperiod},
+           given={Ang},
+           giveni={A\bibinitperiod}}}%
+        {{hash=90edc587e1d523d4e173b1fe6e733445}{%
+           family={Johnson},
+           familyi={J\bibinitperiod},
+           given={Justin},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{ab9cac560481ba1bc7bf2e078651637d}
+      \strng{fullhash}{ab9cac560481ba1bc7bf2e078651637d}
+      \strng{fullhashraw}{ab9cac560481ba1bc7bf2e078651637d}
+      \strng{bibnamehash}{ab9cac560481ba1bc7bf2e078651637d}
+      \strng{authorbibnamehash}{ab9cac560481ba1bc7bf2e078651637d}
+      \strng{authornamehash}{ab9cac560481ba1bc7bf2e078651637d}
+      \strng{authorfullhash}{ab9cac560481ba1bc7bf2e078651637d}
+      \strng{authorfullhashraw}{ab9cac560481ba1bc7bf2e078651637d}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
+      \field{title}{HexPlane: A fast representation for dynamic scenes}
+      \field{year}{2023}
+      \field{pages}{130\bibrangedash 141}
+      \range{pages}{12}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

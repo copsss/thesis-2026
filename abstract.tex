@@ -1,38 +1,28 @@
 % -*- coding: utf-8 -*-
 
-
 \begin{zhaiyao}
 \begin{spacing}{1.5}
 {
 
-随着深度学习技术在计算机视觉领域的快速发展，三维场景重建技术经历了从传统多视图几何到神经辐射场（Neural Radiance Fields, NeRF）的范式转变。三维高斯溅射（3D Gaussian Splatting, 3DGS）作为新兴的实时辐射场渲染技术，以其高效的训练速度和实时渲染能力受到广泛关注。然而，现有方法主要针对空气中的静态场景，对水下环境的特殊物理特性考虑不足，也难以处理动态场景。
-
-该文提出将SeaSplat的水下物理建模技术迁移至4DGaussians动态场景重建框架，构建能够同时处理水下光学退化与动态场景变化的统一重建系统。主要工作包括：（1）将基于物理的水下成像模型（衰减网络、后向散射网络及相关损失函数）嵌入动态场景重建流程；（2）引入基于Depth Anything V2的单目深度监督机制，提升几何一致性；（3）设计分阶段训练策略，通过参数冻结与间歇式专项更新缓解梯度冲突。实验结果表明，该方法在Robot、Fish、Coral、Streaks四个动态水下场景上平均峰值信噪比（Peak Signal-to-Noise Ratio, PSNR）达30.54 dB，较UDR-GS提升1.6\%，较4DGaussians提升3.1\%，在Coral场景达33.29 dB，验证了三组件的互补性与方法的有效性。
+水下场景重建面临光学退化与动态变化的双重挑战。现有静态水下方法无法处理运动物体，而通用动态重建方法未考虑水体物理特性。本文提出将SeaSplat的水下物理建模迁移至4DGaussians动态框架，构建统一重建系统。主要工作包括：嵌入水下成像模型（衰减与后向散射网络）处理颜色退化；引入Depth Anything V2深度监督提升几何一致性；设计四阶段渐进训练策略缓解梯度冲突。实验表明，在Robot、Coral、Fish、Streaks四个动态水下场景上，平均PSNR达30.54 dB，较UDR-GS提升1.6\%，较4DGS提升3.1\%，其中Coral场景达33.29 dB，验证了方法的有效性。
 
 }
-
 \end{spacing}
 \end{zhaiyao}
 
 
-
-
 \begin{guanjianci}
-三维高斯溅射(3DGS)；水下场景重建；动态场景建模；物理成像模型；深度监督
+三维高斯溅射；水下场景重建；动态场景建模；水下物理成像；深度监督
 \end{guanjianci}
-
 
 
 \begin{abstract}
 \begin{spacing}{1.5}
-With the rapid advancement of deep learning in computer vision, 3D scene reconstruction has evolved from traditional multi-view geometry to Neural Radiance Fields (NeRF). 3D Gaussian Splatting (3DGS), as an emerging real-time radiance field rendering technique, has attracted considerable attention for its efficient training and real-time rendering capabilities. However, existing methods primarily target static aerial scenes and insufficiently address the unique physical properties of underwater environments, while also struggling with dynamic scenes.
-
-This work proposes migrating SeaSplat's underwater physical modeling into the 4DGaussians dynamic scene reconstruction framework, building a unified system capable of simultaneously handling underwater optical degradation and dynamic scene changes. The main contributions include: (1) embedding a physics-based underwater imaging model (attenuation network, backscatter network, and associated loss functions) into the dynamic reconstruction pipeline; (2) introducing monocular depth supervision based on Depth Anything V2 to improve geometric consistency; (3) designing a staged training strategy that mitigates gradient conflicts through parameter freezing and intermittent dedicated updates. Experimental results demonstrate that the proposed method achieves an average Peak Signal-to-Noise Ratio (PSNR) of 30.54 dB across four dynamic underwater scenes (Robot, Fish, Coral, and Streaks), surpassing UDR-GS by 1.6\% and 4DGaussians by 3.1\%, with 33.29 dB on the Coral scene, validating the complementarity of the three components and the effectiveness of the approach.
-
+Underwater scene reconstruction faces dual challenges of optical degradation and dynamic motion. Existing static underwater methods cannot handle moving objects, while general dynamic reconstruction methods ignore water physical properties. This paper proposes migrating SeaSplat's underwater physical modeling to the 4DGaussians dynamic framework, building a unified reconstruction system. Main contributions include: embedding underwater imaging models (attenuation and backscatter networks) for color restoration; introducing Depth Anything V2 depth supervision for geometric consistency; designing a four-stage progressive training strategy to mitigate gradient conflicts. Experiments on Robot, Coral, Fish, and Streaks scenes achieve average PSNR of 30.54 dB, surpassing UDR-GS by 1.6\% and 4DGS by 3.1\%, with 33.29 dB on Coral, validating the effectiveness of the proposed approach.
 \end{spacing}
 \end{abstract}
 
 
 \begin{keywords}
-3D Gaussian splatting; underwater scene reconstruction; dynamic scene modeling; physical imaging model; depth supervision
+3D Gaussian splatting; underwater scene reconstruction; dynamic scene modeling; underwater physical imaging; depth supervision
 \end{keywords}
