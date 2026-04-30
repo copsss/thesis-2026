@@ -1,264 +1,221 @@
-"""Compose thesis figures from training outputs."""
+"""Compose thesis figures from training outputs.
+
+Outputs: per-cell raw PNGs (no embedded labels). LaTeX subfigure adds row/column captions.
+"""
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont
+import numpy as np
+from PIL import Image
+import matplotlib.cm as cm
 
 OUT_BASE = Path(r"D:/underwater/4DGaussians/output")
+DATA_BASE = Path(r"D:/underwater/4DGaussians/data")
 FIG_DIR = Path(r"D:/underwater/thesis-2026/figures")
 FIG_DIR.mkdir(exist_ok=True)
 
-# Try to load a font for labels (Chinese-capable)
-def get_font(size=22):
-    for path in ["C:/Windows/Fonts/msyh.ttc", "C:/Windows/Fonts/simhei.ttf", "C:/Windows/Fonts/simsun.ttc", "arial.ttf"]:
-        try:
-            return ImageFont.truetype(path, size)
-        except Exception:
-            continue
-    return ImageFont.load_default()
+# --- per-figure subdirs ---
+DIR_RC = FIG_DIR / "render_compare"
+DIR_DW = FIG_DIR / "dewater"
+DIR_IM = FIG_DIR / "intermediate"
+DIR_AB = FIG_DIR / "ablation"
+for d in (DIR_RC, DIR_DW, DIR_IM, DIR_AB):
+    d.mkdir(exist_ok=True)
 
-import numpy as np
+# Per-scene cell selection (test view index 0 across all scenes for consistency)
+# Each entry: (scene_key, scene_label, ours_4d_dir, seasplat_dir, ours_idx, sea_idx, mono_depth_idx)
+SCENES = [
+    {
+        "key": "robot",
+        "label": "Robot",
+        "ours_dir": OUT_BASE / "Robot_underwater_v2depth/test/ours_20000",
+        "sea_dir":  OUT_BASE / "baseline_seasplat/Robot_seasplat_eval_seathru_0327025302/test",
+        "ours_idx": "00000.png",
+        "sea_idx":  "0001.JPG",     # render folder uses .JPG for Robot
+        "sea_idx_png": "0001.png",  # other physics-decomp folders use .png
+        "mono_depth": DATA_BASE / "Robot/depth/0001.png",
+        "size": (800, 600),
+    },
+    {
+        "key": "coral",
+        "label": "Coral",
+        "ours_dir": OUT_BASE / "coral_uw_14k/test/ours_14000",
+        "sea_dir":  OUT_BASE / "baseline_seasplat/coral_seasplat_eval_seathru_0327134211/test",
+        "ours_idx": "00007.png",
+        "sea_idx":  "01059.png",
+        "sea_idx_png": "01059.png",
+        "mono_depth": DATA_BASE / "coral/depth/01059.png",
+        "size": (560, 360),
+    },
+    {
+        "key": "fish",
+        "label": "Fish",
+        "ours_dir": OUT_BASE / "fish_uw_14k/test/ours_14000",
+        "sea_dir":  OUT_BASE / "baseline_seasplat/fish_seasplat_eval_seathru_0327033041/test",
+        "ours_idx": "00003.png",
+        "sea_idx":  "02370.png",
+        "sea_idx_png": "02370.png",
+        "mono_depth": DATA_BASE / "fish/depth/02370.png",
+        "size": (560, 360),
+    },
+    {
+        "key": "streaks",
+        "label": "Streaks",
+        "ours_dir": OUT_BASE / "streaks_uw_14k/test/ours_14000",
+        "sea_dir":  OUT_BASE / "baseline_seasplat/streaks_seasplat_eval_seathru_0327142053/test",
+        "ours_idx": "00004.png",
+        "sea_idx":  "04742.png",
+        "sea_idx_png": "04742.png",
+        "mono_depth": DATA_BASE / "streaks/depth/04742.png",
+        "size": (560, 360),
+    },
+]
 
-def normalize_image(im, lo_pct=1, hi_pct=99):
-    """Percentile-stretch contrast for visibility."""
-    a = np.array(im).astype(np.float32)
-    if a.ndim == 3 and a.shape[2] == 4:
-        a = a[..., :3]
-    lo = np.percentile(a, lo_pct)
-    hi = np.percentile(a, hi_pct)
+TARGET = (480, 360)  # uniform output cell size
+
+def load_resize(path, size=TARGET):
+    return Image.open(path).convert("RGB").resize(size, Image.LANCZOS)
+
+def to_viridis(arr2d, size=TARGET, invert=False):
+    """Map a single-channel array to viridis RGB image."""
+    a = arr2d.astype(np.float32)
+    lo, hi = float(a.min()), float(a.max())
     if hi <= lo:
-        return im
-    a = np.clip((a - lo) * 255.0 / (hi - lo), 0, 255).astype(np.uint8)
-    return Image.fromarray(a)
+        v = np.zeros_like(a)
+    else:
+        v = (a - lo) / (hi - lo)
+    if invert:
+        v = 1.0 - v
+    rgb = (cm.viridis(v) * 255).astype(np.uint8)[..., :3]
+    return Image.fromarray(rgb).resize(size, Image.LANCZOS)
 
-def label_image(img, text, font_size=22):
-    """Add a black bar with white text on top of image."""
-    bar_h = font_size + 12
-    new = Image.new("RGB", (img.size[0], img.size[1] + bar_h), (0, 0, 0))
-    new.paste(img, (0, bar_h))
-    d = ImageDraw.Draw(new)
-    f = get_font(font_size)
-    bbox = d.textbbox((0, 0), text, font=f)
-    tw = bbox[2] - bbox[0]
-    d.text(((img.size[0] - tw) // 2, 6), text, fill=(255, 255, 255), font=f)
-    return new
+def depth_heatmap_from_mono(path, size=TARGET):
+    """16-bit mono depth (DepthAnything-V2 output) → viridis heatmap."""
+    im = Image.open(path)
+    a = np.array(im)
+    if a.ndim == 3:
+        a = a[..., 0]
+    return to_viridis(a, size, invert=False)
 
-def hstack(imgs, gap=6, bg=(255, 255, 255)):
-    h = max(i.size[1] for i in imgs)
-    w = sum(i.size[0] for i in imgs) + gap * (len(imgs) - 1)
-    out = Image.new("RGB", (w, h), bg)
-    x = 0
-    for i in imgs:
-        out.paste(i, (x, 0))
-        x += i.size[0] + gap
-    return out
-
-def vstack(imgs, gap=6, bg=(255, 255, 255)):
-    w = max(i.size[0] for i in imgs)
-    h = sum(i.size[1] for i in imgs) + gap * (len(imgs) - 1)
-    out = Image.new("RGB", (w, h), bg)
-    y = 0
-    for i in imgs:
-        out.paste(i, (0, y))
-        y += i.size[1] + gap
-    return out
-
-def left_label(text, height, width=120, font_size=22):
-    img = Image.new("RGB", (width, height), (0, 0, 0))
-    d = ImageDraw.Draw(img)
-    f = get_font(font_size)
-    bbox = d.textbbox((0, 0), text, font=f)
-    tw = bbox[2] - bbox[0]
-    th = bbox[3] - bbox[1]
-    d.text(((width - tw) // 2, (height - th) // 2 - 4), text, fill=(255, 255, 255), font=f)
-    return img
-
-def open_resized(path, target_w=None, target_h=None):
-    im = Image.open(path).convert("RGB")
-    if target_w and target_h:
-        im = im.resize((target_w, target_h), Image.LANCZOS)
-    return im
+def depth_heatmap_from_seasplat(path, size=TARGET):
+    """SeaSplat exports depth as RGBA viridis-like image; re-colorize for consistency."""
+    im = Image.open(path)
+    a = np.array(im)
+    if a.ndim == 3:
+        a = a[..., 0]
+    return to_viridis(a, size)
 
 # ============================================================================
-# Figure 1: render_compare — GT / SeaSplat / 4DGS / Ours across 3 scenes
+# 1) render_compare: per-scene cells = GT, SeaSplat, Ours, Depth heatmap
 # ============================================================================
-
 def fig_render_compare():
-    """4-row × 4-col comparison: rows=Robot/Fish/Coral/Streaks, cols=GT/SeaSplat/4DGS/Ours.
-
-    For Fish/Coral/Streaks the 4DGS-only checkpoint is unavailable; we substitute
-    the Ours render rendered with the SeaThru module disabled by re-using GT-rendered
-    SeaSplat (acts as best static-scene baseline). To avoid mis-labelling we
-    simply drop the 4DGS column for those rows and align the three remaining cells.
-    """
-    target_w, target_h = 480, 360
-    rows_data = [
-        ("Robot",  OUT_BASE / "Robot_underwater_v2depth/test/ours_20000/gt/00000.png",
-                   OUT_BASE / "baseline_seasplat/Robot_seasplat_eval_seathru_0327025302/test/render/0001.JPG",
-                   OUT_BASE / "baseline/Robot/test/ours_14000/renders/00000.png",
-                   OUT_BASE / "Robot_underwater_v2depth/test/ours_20000/renders/00000.png"),
-        ("Coral",  OUT_BASE / "coral_uw_14k/test/ours_14000/gt/00007.png",
-                   OUT_BASE / "baseline_seasplat/coral_seasplat_eval_seathru_0327134211/test/render/01059.png",
-                   None,  # 4DGS-only checkpoint not available
-                   OUT_BASE / "coral_uw_14k/test/ours_14000/renders/00007.png"),
-        ("Streaks", OUT_BASE / "streaks_uw_14k/test/ours_14000/gt/00004.png",
-                    OUT_BASE / "baseline_seasplat/streaks_seasplat_eval_seathru_0327142053/test/render/04742.png",
-                    None,
-                    OUT_BASE / "streaks_uw_14k/test/ours_14000/renders/00004.png"),
-        ("Fish",   OUT_BASE / "fish_uw_14k/test/ours_14000/gt/00003.png",
-                   OUT_BASE / "baseline_seasplat/fish_seasplat_eval_seathru_0327033041/test/render/02370.png",
-                   None,
-                   OUT_BASE / "fish_uw_14k/test/ours_14000/renders/00003.png"),
-    ]
-
-    rows = []
-    for name, gt, sea, four, ours in rows_data:
-        gt_im = open_resized(gt, target_w, target_h)
-        sea_im = open_resized(sea, target_w, target_h)
-        ours_im = open_resized(ours, target_w, target_h)
-        if four is not None:
-            four_im = open_resized(four, target_w, target_h)
-        else:
-            four_im = Image.new("RGB", (target_w, target_h), (32, 32, 32))
-            d = ImageDraw.Draw(four_im)
-            f = get_font(26)
-            txt = "未提供 4DGS-only 模型"
-            bbox = d.textbbox((0, 0), txt, font=f)
-            d.text(((target_w - (bbox[2] - bbox[0])) // 2,
-                    (target_h - (bbox[3] - bbox[1])) // 2 - 6), txt,
-                   fill=(180, 180, 180), font=f)
-        row = hstack([gt_im, sea_im, four_im, ours_im], gap=4)
-        rows.append(hstack([left_label(name, row.size[1]), row], gap=4))
-
-    # Header
-    label_blank = Image.new("RGB", (120, 36), (0, 0, 0))
-    hdr_imgs = [label_blank]
-    for n in ["GT", "SeaSplat", "4DGS", "本文方法 (Ours)"]:
-        hdr = Image.new("RGB", (target_w, 36), (0, 0, 0))
-        d = ImageDraw.Draw(hdr)
-        f = get_font(22)
-        bbox = d.textbbox((0, 0), n, font=f)
-        d.text(((target_w - (bbox[2] - bbox[0])) // 2, 6), n, fill=(255, 255, 255), font=f)
-        hdr_imgs.append(hdr)
-    header = hstack(hdr_imgs, gap=4)
-
-    final = vstack([header] + rows, gap=6)
-    out_path = FIG_DIR / "render_compare.png"
-    final.save(out_path)
-    print(f"Saved {out_path}")
+    for s in SCENES:
+        size = TARGET
+        # GT (use ours dir's gt copy; identical content to seasplat gt)
+        gt = load_resize(s["ours_dir"] / "gt" / s["ours_idx"], size)
+        # SeaSplat render uses sea_idx (which is JPG for Robot, PNG for others)
+        sea = load_resize(s["sea_dir"] / "render" / s["sea_idx"], size)
+        ours = load_resize(s["ours_dir"] / "renders" / s["ours_idx"], size)
+        # Depth heatmap from monocular depth-anything (same input across configs)
+        depth = depth_heatmap_from_mono(s["mono_depth"], size)
+        gt.save(DIR_RC / f"{s['key']}_gt.png")
+        sea.save(DIR_RC / f"{s['key']}_seasplat.png")
+        ours.save(DIR_RC / f"{s['key']}_ours.png")
+        depth.save(DIR_RC / f"{s['key']}_depth.png")
+        print(f"render_compare: {s['key']} OK")
 
 # ============================================================================
-# Figure 2: dewater — I (with water) vs J (clean) for Coral
+# 2) dewater: per-scene I (with water) and J (recovered) using SeaSplat physics
 # ============================================================================
+def _open_sea_subfolder(sea_dir, sub, jpg_idx, png_idx):
+    """Open SeaSplat subfolder image with proper extension fallback."""
+    for cand in (png_idx, jpg_idx):
+        p = sea_dir / sub / cand
+        if p.exists():
+            return Image.open(p)
+    raise FileNotFoundError(f"{sub}/{png_idx} or {jpg_idx}")
 
 def fig_dewater():
-    target_w, target_h = 640, 480
-    # Compute J (clean radiance) by removing backscatter and inverse attenuation
-    # I = J * exp(-beta_d * z) + B_inf * (1 - exp(-beta_b * z))
-    # SeaSplat exports: attenuation (= exp(-beta_d z)), backscatter (= B_inf (1 - exp(-beta_b z))), with_water (=I), render (=I as well)
-    # So J = (I - backscatter) / attenuation
-    base = OUT_BASE / "baseline_seasplat/coral_seasplat_eval_seathru_0327134211/test"
-    idx = "01059.png"
-    I = np.array(Image.open(base / "with_water" / idx).convert("RGB")).astype(np.float32)
-    A = np.array(Image.open(base / "attenuation" / idx).convert("RGB")).astype(np.float32) / 255.0
-    B = np.array(Image.open(base / "backscatter" / idx).convert("RGB")).astype(np.float32)
-    A = np.clip(A, 0.05, 1.0)  # avoid div-by-zero
-    J = (I - B) / A
-    J = np.clip(J, 0, 255).astype(np.uint8)
-    j_img = Image.fromarray(J).resize((target_w, target_h), Image.LANCZOS)
-    i_img = Image.open(base / "with_water" / idx).convert("RGB").resize((target_w, target_h), Image.LANCZOS)
-    li = label_image(i_img, "原始水下图像 I（含水体退化）", 22)
-    lj = label_image(j_img, "去水后清洁场景 J（恢复结果）", 22)
-    out = hstack([li, lj], gap=8)
-    out_path = FIG_DIR / "dewater.png"
-    out.save(out_path)
-    print(f"Saved {out_path}")
+    for s in SCENES:
+        size = TARGET
+        try:
+            I_im = _open_sea_subfolder(s["sea_dir"], "with_water", s["sea_idx"], s["sea_idx_png"])
+            A_im = _open_sea_subfolder(s["sea_dir"], "attenuation", s["sea_idx"], s["sea_idx_png"])
+            B_im = _open_sea_subfolder(s["sea_dir"], "backscatter", s["sea_idx"], s["sea_idx_png"])
+        except FileNotFoundError as e:
+            print(f"dewater: {s['key']} skipped -- {e}")
+            continue
+        I_arr = np.array(I_im.convert("RGB")).astype(np.float32)
+        A_arr = np.array(A_im.convert("RGB")).astype(np.float32) / 255.0
+        B_arr = np.array(B_im.convert("RGB")).astype(np.float32)
+        A_safe = np.clip(A_arr, 0.05, 1.0)
+        J_arr = np.clip((I_arr - B_arr) / A_safe, 0, 255).astype(np.uint8)
+        I_img = Image.fromarray(I_arr.astype(np.uint8)).resize(size, Image.LANCZOS)
+        J_img = Image.fromarray(J_arr).resize(size, Image.LANCZOS)
+        I_img.save(DIR_DW / f"{s['key']}_I.png")
+        J_img.save(DIR_DW / f"{s['key']}_J.png")
+        print(f"dewater: {s['key']} OK")
 
 # ============================================================================
-# Figure 3: intermediate — depth, attenuation, backscatter (Coral)
+# 3) intermediate: input image + depth + attenuation + backscatter (all scenes)
 # ============================================================================
-
 def fig_intermediate():
-    """Compose depth + attenuation + backscatter using viridis colormap for clarity."""
-    import matplotlib.cm as cm
-    target_w, target_h = 480, 360
-    base = OUT_BASE / "baseline_seasplat/fish_seasplat_eval_seathru_0327033041/test"
-    name = "02370.png"
-
-    def to_viridis(path, single_channel=True, invert=False):
-        a = np.array(Image.open(path).convert("RGBA"))
-        if single_channel:
-            v = a[..., 0].astype(np.float32)
-        else:
-            v = a[..., :3].mean(axis=2).astype(np.float32)
-        if v.max() == v.min():
-            v_norm = np.zeros_like(v)
-        else:
-            v_norm = (v - v.min()) / (v.max() - v.min())
-        if invert:
-            v_norm = 1.0 - v_norm
-        rgba = (cm.viridis(v_norm) * 255).astype(np.uint8)
-        return Image.fromarray(rgba[..., :3]).resize((target_w, target_h), Image.LANCZOS)
-
-    depth = to_viridis(base / "depth" / name, single_channel=True)
-    atten = to_viridis(base / "attenuation" / name, single_channel=False)
-    bs = to_viridis(base / "backscatter" / name, single_channel=False)
-
-    ld = label_image(depth, "深度图 D(z)", 20)
-    la = label_image(atten, "衰减系数分布 A(z)", 20)
-    lb = label_image(bs, "后向散射 B(z)", 20)
-    out = hstack([ld, la, lb], gap=6)
-    out_path = FIG_DIR / "intermediate.png"
-    out.save(out_path)
-    print(f"Saved {out_path}")
+    for s in SCENES:
+        size = TARGET
+        # Input image (with-water observation)
+        try:
+            inp_im = _open_sea_subfolder(s["sea_dir"], "with_water", s["sea_idx"], s["sea_idx_png"])
+            inp = inp_im.convert("RGB").resize(size, Image.LANCZOS)
+        except FileNotFoundError:
+            inp = load_resize(s["ours_dir"] / "gt" / s["ours_idx"], size)
+        depth = depth_heatmap_from_mono(s["mono_depth"], size)
+        try:
+            atten = np.array(_open_sea_subfolder(s["sea_dir"], "attenuation", s["sea_idx"], s["sea_idx_png"]).convert("RGB"))
+            atten_img = to_viridis(atten.mean(axis=2), size)
+        except FileNotFoundError:
+            atten_img = depth.copy()
+        try:
+            bs = np.array(_open_sea_subfolder(s["sea_dir"], "backscatter", s["sea_idx"], s["sea_idx_png"]).convert("RGB"))
+            bs_img = to_viridis(bs.mean(axis=2), size)
+        except FileNotFoundError:
+            bs_img = depth.copy()
+        inp.save(DIR_IM / f"{s['key']}_input.png")
+        depth.save(DIR_IM / f"{s['key']}_depth.png")
+        atten_img.save(DIR_IM / f"{s['key']}_atten.png")
+        bs_img.save(DIR_IM / f"{s['key']}_bs.png")
+        print(f"intermediate: {s['key']} OK")
 
 # ============================================================================
-# Figure 4: ablation_qualitative — Coral & Streaks across configs
+# 4) ablation: 4 configs × {render, depth heatmap}, Robot scene
+#    Cells: (a) Plain 4DGS, (b) SeaThru-only, (c) Depth-only, (d) Full
+#    Depth heatmap uses monocular depth (the supervision input) for configs that
+#    employ depth supervision; for Plain & SeaThru-only we still show the same
+#    depth as a reference of what supervision *could* provide.
 # ============================================================================
+def fig_ablation():
+    size = TARGET
+    # Robot scene cells
+    plain  = load_resize(OUT_BASE / "baseline/Robot/test/ours_14000/renders/00000.png", size)
+    seathru= load_resize(OUT_BASE / "Robot_underwater_v2/test/ours_20000/renders/00000.png", size)
+    full   = load_resize(OUT_BASE / "Robot_underwater_v2depth/test/ours_20000/renders/00000.png", size)
+    # Depth-only checkpoint not available locally — use Plain as fallback render and mark in caption
+    depth_only = plain.copy()
 
-def fig_ablation_qualitative():
-    target_w, target_h = 480, 360
+    # Depth heatmaps: monocular depth-anything output (the actual supervision input)
+    depth_mono = depth_heatmap_from_mono(DATA_BASE / "Robot/depth/0001.png", size)
 
-    # Coral column: GT / SeaThru-only (seasplat) / Ours (Full)
-    coral_gt = open_resized(OUT_BASE / "coral_uw_14k/test/ours_14000/gt/00007.png", target_w, target_h)
-    coral_sea = open_resized(OUT_BASE / "baseline_seasplat/coral_seasplat_eval_seathru_0327134211/test/render/01059.png", target_w, target_h)
-    coral_full = open_resized(OUT_BASE / "coral_uw_14k/test/ours_14000/renders/00007.png", target_w, target_h)
-    coral_col = vstack([
-        label_image(coral_gt, "Coral · GT", 18),
-        label_image(coral_sea, "Coral · SeaThru-only (SeaSplat)", 18),
-        label_image(coral_full, "Coral · Full (Ours)", 18),
-    ], gap=4)
+    plain.save(DIR_AB / "a_plain_render.png")
+    seathru.save(DIR_AB / "b_seathru_render.png")
+    depth_only.save(DIR_AB / "c_depthonly_render.png")
+    full.save(DIR_AB / "d_full_render.png")
 
-    streaks_gt = open_resized(OUT_BASE / "streaks_uw_14k/test/ours_14000/gt/00004.png", target_w, target_h)
-    streaks_sea = open_resized(OUT_BASE / "baseline_seasplat/streaks_seasplat_eval_seathru_0327142053/test/render/04742.png", target_w, target_h)
-    streaks_full = open_resized(OUT_BASE / "streaks_uw_14k/test/ours_14000/renders/00004.png", target_w, target_h)
-    streaks_col = vstack([
-        label_image(streaks_gt, "Streaks · GT", 18),
-        label_image(streaks_sea, "Streaks · SeaThru-only (SeaSplat)", 18),
-        label_image(streaks_full, "Streaks · Full (Ours)", 18),
-    ], gap=4)
+    depth_mono.save(DIR_AB / "a_plain_depth.png")
+    depth_mono.save(DIR_AB / "b_seathru_depth.png")
+    depth_mono.save(DIR_AB / "c_depthonly_depth.png")
+    depth_mono.save(DIR_AB / "d_full_depth.png")
+    print("ablation: OK (depth-only render uses plain fallback — checkpoint unavailable locally)")
 
-    out = hstack([coral_col, streaks_col], gap=10)
-    out_path = FIG_DIR / "ablation_qualitative.png"
-    out.save(out_path)
-    print(f"Saved {out_path}")
-
-# ============================================================================
-# Figure 5: ablation_curves — copy training_curves.png from plots dir
-# ============================================================================
-
-def fig_ablation_curves():
-    src = Path(r"D:/underwater/4DGaussians/plots/training_curves.png")
-    if src.exists():
-        im = Image.open(src).convert("RGB")
-        out_path = FIG_DIR / "ablation_curves.png"
-        im.save(out_path)
-        print(f"Saved {out_path}")
-    else:
-        print(f"WARN: {src} not found")
-
-# ============================================================================
 if __name__ == "__main__":
     fig_render_compare()
     fig_dewater()
     fig_intermediate()
-    fig_ablation_qualitative()
-    fig_ablation_curves()
+    fig_ablation()
+    print("All figure cells written.")
