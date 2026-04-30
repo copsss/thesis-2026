@@ -4,7 +4,7 @@
 \begin{spacing}{1.5}
 {
 
-水下场景重建面临光学退化与动态变化的双重挑战。现有静态水下方法无法处理运动物体，而通用动态重建方法未考虑水体物理特性。本文提出将SeaSplat的水下物理建模迁移至4DGaussians动态框架，构建统一重建系统。主要工作包括：嵌入衰减网络与后向散射网络联合估计水体参数，实现颜色退化校正；引入Depth Anything V2深度监督提升几何一致性；设计多阶段渐进训练策略缓解梯度冲突。实验结果表明，本文方法在多个动态水下场景上取得了优于现有基线的渲染质量，验证了各组件的有效性与互补性。
+水下场景重建面临光学退化与动态变化的双重挑战。现有静态水下方法无法处理运动物体，而通用动态重建方法未考虑水体物理特性。本文提出将SeaSplat的水下物理建模迁移至4DGaussians动态框架，构建统一重建系统。主要工作包括：嵌入衰减网络与后向散射网络联合估计水体参数，实现颜色退化校正；引入深度监督提升几何一致性；设计多阶段渐进训练策略缓解梯度冲突。实验结果表明，本文方法在多个动态水下场景上取得了优于现有基线的渲染质量，验证了各组件的有效性与互补性。
 
 }
 \end{spacing}
@@ -18,7 +18,7 @@
 
 \begin{abstract}
 \begin{spacing}{1.5}
-Underwater scene reconstruction faces dual challenges of optical degradation and dynamic motion. Existing static underwater methods cannot handle moving objects, while general dynamic reconstruction methods ignore water physical properties. This paper proposes migrating SeaSplat's underwater physical modeling to the 4DGaussians dynamic framework, building a unified reconstruction system. Main contributions include: embedding attenuation and backscatter networks to jointly estimate water parameters for color restoration; introducing Depth Anything V2 depth supervision for geometric consistency; designing a multi-stage progressive training strategy to mitigate gradient conflicts. Experimental results demonstrate that the proposed method achieves superior rendering quality compared to existing baselines across multiple dynamic underwater scenes, validating the effectiveness and complementarity of each component.
+Underwater scene reconstruction faces dual challenges of optical degradation and dynamic motion. Existing static underwater methods cannot handle moving objects, while general dynamic reconstruction methods ignore water physical properties. This paper proposes migrating SeaSplat's underwater physical modeling to the 4DGaussians dynamic framework, building a unified reconstruction system. Main contributions include: embedding attenuation and backscatter networks to jointly estimate water parameters for color restoration; introducing  depth supervision for geometric consistency; designing a multi-stage progressive training strategy to mitigate gradient conflicts. Experimental results demonstrate that the proposed method achieves superior rendering quality compared to existing baselines across multiple dynamic underwater scenes, validating the effectiveness and complementarity of each component.
 \end{spacing}
 \end{abstract}
 
