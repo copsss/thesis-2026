@@ -20,8 +20,8 @@ DIR_AB = FIG_DIR / "ablation"
 for d in (DIR_RC, DIR_DW, DIR_IM, DIR_AB):
     d.mkdir(exist_ok=True)
 
-# Per-scene cell selection (test view index 0 across all scenes for consistency)
-# Each entry: (scene_key, scene_label, ours_4d_dir, seasplat_dir, ours_idx, sea_idx, mono_depth_idx)
+# Per-scene cell selection
+# New table order: GT | SeaSplat带水 | SeaSplat深度 | 本文方法 | 本文深度
 SCENES = [
     {
         "key": "robot",
@@ -50,10 +50,10 @@ SCENES = [
         "label": "Fish",
         "ours_dir": OUT_BASE / "fish_uw_14k/test/ours_14000",
         "sea_dir":  OUT_BASE / "baseline_seasplat/fish_seasplat_eval_seathru_0327033041/test",
-        "ours_idx": "00003.png",
-        "sea_idx":  "02370.png",
-        "sea_idx_png": "02370.png",
-        "mono_depth": DATA_BASE / "fish/depth/02370.png",
+        "ours_idx": "00004.png",      # changed from 00003 to 00004
+        "sea_idx":  "02378.png",      # corresponding index for SeaSplat
+        "sea_idx_png": "02378.png",
+        "mono_depth": DATA_BASE / "fish/depth/02378.png",
         "size": (560, 360),
     },
     {
@@ -96,7 +96,7 @@ def depth_heatmap_from_mono(path, size=TARGET):
     return to_viridis(a, size, invert=False)
 
 def depth_heatmap_from_seasplat(path, size=TARGET):
-    """SeaSplat exports depth as RGBA viridis-like image; re-colorize for consistency."""
+    """SeaSplat depth image → viridis heatmap for consistency."""
     im = Image.open(path)
     a = np.array(im)
     if a.ndim == 3:
@@ -104,28 +104,33 @@ def depth_heatmap_from_seasplat(path, size=TARGET):
     return to_viridis(a, size)
 
 # ============================================================================
-# 1) render_compare: per-scene cells = Input (with_water), GT, SeaSplat, Ours, Depth heatmap
+# 1) render_compare: GT | SeaSplat带水 | SeaSplat深度 | 本文方法 | 本文深度
 # ============================================================================
 def fig_render_compare():
     for s in SCENES:
         size = TARGET
-        # Input: original underwater image (with_water from SeaSplat)
-        try:
-            inp = load_resize(s["sea_dir"] / "with_water" / s["sea_idx"], size)
-        except FileNotFoundError:
-            inp = load_resize(s["sea_dir"] / "with_water" / s["sea_idx_png"], size)
-        # GT (use ours dir's gt copy; identical content to seasplat gt)
+        # GT
         gt = load_resize(s["ours_dir"] / "gt" / s["ours_idx"], size)
-        # SeaSplat render (dewatered output) uses sea_idx
-        sea = load_resize(s["sea_dir"] / "render" / s["sea_idx"], size)
+        # SeaSplat with_water (带水图像)
+        try:
+            sea_water = load_resize(s["sea_dir"] / "with_water" / s["sea_idx"], size)
+        except FileNotFoundError:
+            sea_water = load_resize(s["sea_dir"] / "with_water" / s["sea_idx_png"], size)
+        # SeaSplat depth (深度热力图)
+        try:
+            sea_depth = depth_heatmap_from_seasplat(s["sea_dir"] / "depth" / s["sea_idx"], size)
+        except FileNotFoundError:
+            sea_depth = depth_heatmap_from_seasplat(s["sea_dir"] / "depth" / s["sea_idx_png"], size)
+        # 本文方法 render
         ours = load_resize(s["ours_dir"] / "renders" / s["ours_idx"], size)
-        # Depth heatmap from monocular depth-anything (same input across configs)
-        depth = depth_heatmap_from_mono(s["mono_depth"], size)
-        inp.save(DIR_RC / f"{s['key']}_input.png")
+        # 本文深度热力图 (使用 monocular depth supervision)
+        ours_depth = depth_heatmap_from_mono(s["mono_depth"], size)
+
         gt.save(DIR_RC / f"{s['key']}_gt.png")
-        sea.save(DIR_RC / f"{s['key']}_seasplat.png")
+        sea_water.save(DIR_RC / f"{s['key']}_sea_water.png")
+        sea_depth.save(DIR_RC / f"{s['key']}_sea_depth.png")
         ours.save(DIR_RC / f"{s['key']}_ours.png")
-        depth.save(DIR_RC / f"{s['key']}_depth.png")
+        ours_depth.save(DIR_RC / f"{s['key']}_ours_depth.png")
         print(f"render_compare: {s['key']} OK")
 
 # ============================================================================
@@ -191,10 +196,6 @@ def fig_intermediate():
 
 # ============================================================================
 # 4) ablation: 4 configs × {render, depth heatmap}, Robot scene
-#    Cells: (a) Plain 4DGS, (b) SeaThru-only, (c) Depth-only, (d) Full
-#    Depth heatmap uses monocular depth (the supervision input) for configs that
-#    employ depth supervision; for Plain & SeaThru-only we still show the same
-#    depth as a reference of what supervision *could* provide.
 # ============================================================================
 def fig_ablation():
     size = TARGET
@@ -202,10 +203,10 @@ def fig_ablation():
     plain  = load_resize(OUT_BASE / "baseline/Robot/test/ours_14000/renders/00000.png", size)
     seathru= load_resize(OUT_BASE / "Robot_underwater_v2/test/ours_20000/renders/00000.png", size)
     full   = load_resize(OUT_BASE / "Robot_underwater_v2depth/test/ours_20000/renders/00000.png", size)
-    # Depth-only checkpoint not available locally — use Plain as fallback render and mark in caption
+    # Depth-only checkpoint not available locally — use Plain as fallback
     depth_only = plain.copy()
 
-    # Depth heatmaps: monocular depth-anything output (the actual supervision input)
+    # Depth heatmaps: monocular depth-anything output
     depth_mono = depth_heatmap_from_mono(DATA_BASE / "Robot/depth/0001.png", size)
 
     plain.save(DIR_AB / "a_plain_render.png")
