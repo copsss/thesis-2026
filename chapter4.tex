@@ -167,7 +167,7 @@
   }
 \end{table}
 
-由表\ref{tab:psnr_static}可观察到以下几点：\textbf{第一}，专为静态水下场景设计的 SeaSplat\upcite{seasplat2025icra} 在三个场景（Curaçao、IUI3-RedSea、JapaneseGradens-RedSea 的 SSIM 与 LPIPS）上均取得最优指标，验证其在静态条件下水下成像建模的有效性；\textbf{第二}，本文方法在 JapaneseGradens-RedSea 场景上的 PSNR（23.38 dB）超过所有基线，相较 SeaSplat 提升 +0.68 dB，相较 4DGS 提升 +1.57 dB，反映出当场景具有丰富细粒度纹理时，本文方法的水下物理模型与深度监督相结合所带来的几何—外观联合约束依然能够提供独特增益；\textbf{第三}，相较于不带水下物理模型的原始 4DGS\upcite{wu2024gaussian}，本文方法在所有四个静态场景上的 PSNR 平均提升约 1.05 dB，且 SSIM 与 LPIPS 同步改善，表明所引入的水下物理建模能够在动态主干基础上有效补偿静态场景的色偏与散射；\textbf{第四}，本文方法在 Curaçao、IUI3-RedSea、Panama 上仍略逊于 SeaSplat，原因在于 SeaSplat 专为静态场景优化，而本文方法在这些场景中保留的形变场参数构成不必要的自由度，引入了一定的优化噪声。这一观察也提示：对静态水下场景，关闭形变场（即退化为 SeaSplat 风格的静态高斯散射）可能是更优的部署策略。
+由表\ref{tab:psnr_static}可观察到本文方法在 JapaneseGradens-RedSea 场景上的 PSNR（23.38 dB）超过所有基线，相较 SeaSplat 提升 +0.68 dB，相较 4DGS 提升 +1.57 dB，反映出当场景具有丰富细粒度纹理时，本文方法的水下物理模型与深度监督相结合所带来的联合约束依然能够提供增益；\textbf{第三}，相较于不带水下物理模型的原始 4DGS\upcite{wu2024gaussian}，本文方法在所有四个静态场景上的 PSNR 平均提升约 1.05 dB，且 SSIM 与 LPIPS 同步改善，表明所引入的水下物理建模能够在动态主干基础上有效补偿静态场景的色偏与散射；\textbf{第四}，本文方法在 Curaçao、IUI3-RedSea、Panama 上仍略逊于 SeaSplat，原因在于 SeaSplat 专为静态场景优化，而本文方法在这些场景中保留的形变场参数构成不必要的自由度，引入了一定的优化噪声。这一观察也提示：对静态水下场景，关闭形变场（即退化为 SeaSplat 风格的静态高斯散射）可能是更优的部署策略。
 
 此外，本文方法在 SaltPond 场景上的实验也作为额外的鲁棒性参考。在该场景上，仅使用深度监督（noUW）而未启用水下优化的配置 PSNR 为 26.11 dB（SSIM 0.6251），但由于 SaltPond 的训练仅完成至精细阶段第1000步，指标偏低；启用完整水下优化的本文方法 PSNR 提升至 27.15 dB（SSIM 0.7036），相较原始 SeaSplat 论文报告的 27.47 dB 仅低 0.32 dB。考虑到本地训练资源受限及该场景训练步数不足，该结果说明本文方法在跨数据集迁移时仍能够保持基本的色彩与几何重建能力。
 

@@ -1,0 +1,57 @@
+\begin{tikzpicture}[
+  font=\footnotesize,
+  >=Stealth,
+  node distance=0.95cm and 1.0cm,
+  box/.style={
+    draw=#1!75!black,
+    fill=#1!8,
+    rounded corners=2pt,
+    line width=0.7pt,
+    minimum height=1.15cm,
+    text width=2.65cm,
+    align=center,
+    inner sep=4pt
+  },
+  box/.default=blue,
+  stagebox/.style={
+    draw=#1!70!black,
+    fill=#1!5,
+    dashed,
+    rounded corners=4pt,
+    line width=0.65pt,
+    inner sep=8pt
+  },
+  arr/.style={->, line width=0.75pt, draw=black!70},
+  darr/.style={->, line width=0.75pt, dashed, draw=black!60},
+  note/.style={font=\scriptsize, align=center, text=black!70}
+]
+
+\node[box=cyan] (images) at (0, 2.5) {多视角水下\\图像序列\\$I_t^v$};
+\node[box=teal, right=of images] (colmap) {COLMAP SfM\\相机位姿 $P_v$\\稀疏点云 $X_0$};
+\node[box=green, right=of colmap] (init) {4D 高斯初始化\\$\{\mu,\Sigma,\alpha,f,t\}$};
+\node[box=orange, right=of init] (coarse) {粗训练\\原始 4DGS\\几何骨架与密度控制};
+\node[box=red, right=of coarse] (fine) {精细训练\\SeaSplat 物理模型\\单目深度监督};
+\node[box=purple, right=of fine] (output) {新视角合成\\$\hat I,\hat J,Z,A,B$\\任意视角/时刻};
+
+\node[box=cyan, below=1.05cm of images] (depthany) {Depth Anything V2\\离线单目推理};
+\node[box=cyan, right=of depthany] (mono) {逆深度先验\\$d_{\mathrm{mono}}$\\与有效掩码};
+
+\draw[arr] (images) -- (colmap);
+\draw[arr] (colmap) -- (init);
+\draw[arr] (init) -- (coarse);
+\draw[arr] (coarse) -- node[note, above] {checkpoint} (fine);
+\draw[arr] (fine) -- (output);
+\draw[darr] (images) -- (depthany);
+\draw[arr] (depthany) -- (mono);
+\draw[darr] (mono.east) -| node[note, pos=0.25, below] {深度结构约束} (fine.south);
+
+\node[note, below=0.28cm of colmap] (sfmnote) {离线预处理：恢复相机轨迹并提供稀疏几何初值};
+\node[note, below=0.28cm of fine] (trainnote) {训练阶段：物理解耦、动态建模和深度先验端到端联合优化};
+
+\begin{scope}[on background layer]
+  \node[stagebox=cyan, fit=(images)(colmap)(depthany)(mono)(sfmnote)] {};
+  \node[stagebox=orange, fit=(init)(coarse)(fine)(trainnote)] {};
+  \node[stagebox=purple, fit=(output)] {};
+\end{scope}
+
+\end{tikzpicture}

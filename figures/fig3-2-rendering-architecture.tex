@@ -1,0 +1,76 @@
+\begin{tikzpicture}[
+  font=\footnotesize,
+  >=Stealth,
+  node distance=0.85cm and 0.95cm,
+  box/.style={
+    draw=#1!75!black,
+    fill=#1!8,
+    rounded corners=2pt,
+    line width=0.7pt,
+    minimum height=1.05cm,
+    text width=2.55cm,
+    align=center,
+    inner sep=4pt
+  },
+  box/.default=blue,
+  smallbox/.style={
+    draw=#1!75!black,
+    fill=#1!8,
+    rounded corners=2pt,
+    line width=0.65pt,
+    minimum height=0.85cm,
+    text width=2.2cm,
+    align=center,
+    inner sep=3pt
+  },
+  smallbox/.default=blue,
+  arr/.style={->, line width=0.75pt, draw=black!72},
+  grad/.style={->, line width=0.7pt, dashed, draw=red!70!black},
+  note/.style={font=\scriptsize, align=center, text=black!70}
+]
+
+\node[box=cyan] (gauss) at (0, 1.8) {4D 高斯点集\\位置/尺度/旋转\\不透明度/球谐颜色};
+\node[box=cyan, below=1.0cm of gauss] (camera) {相机与时间\\位姿 $P_v$\\时间戳 $t$};
+
+\node[box=green, right=1.2cm of gauss] (hex) {HexPlane\\多分辨率\\时空特征};
+\node[box=green, below=1.0cm of hex] (mlp) {Deformation MLP\\$\Delta\mu,\Delta r,\Delta s$};
+\node[box=orange, right=1.2cm of hex, yshift=-0.5cm] (deformed) {时刻 $t$ 的\\动态高斯状态\\$\mathcal{G}_t$};
+\node[box=orange, right=1.2cm of deformed] (raster) {可微高斯光栅化\\分块排序与\\$\alpha$ 混合};
+
+\node[smallbox=blue, right=1.15cm of raster, yshift=0.55cm] (j) {干净颜色\\$\mathbf{J}$};
+\node[smallbox=blue, right=1.15cm of raster, yshift=-0.55cm] (z) {渲染深度/透明度\\$\mathbf{Z},\boldsymbol{\alpha}$};
+
+\node[smallbox=teal, right=1.05cm of z] (norm) {深度归一化\\$\hat{\mathbf Z}$};
+\node[smallbox=red, right=1.05cm of j] (atten) {AttenuateNet\\$\mathbf{A}(\hat Z)$};
+\node[smallbox=red, right=1.05cm of norm] (bs) {BackscatterNet\\$\mathbf{B}(\hat Z)$};
+\node[box=purple, right=1.15cm of atten, yshift=-0.55cm] (synth) {水下成像合成\\$\hat{\mathbf I}=\mathbf J\odot\mathbf A+\mathbf B$};
+
+\node[box=gray, below=1.0cm of synth] (loss) {联合损失\\L1/SSIM + DCP/GW/SAT\\深度平滑 + 单目深度};
+\node[smallbox=gray, below=1.0cm of z] (mono) {Depth Anything V2\\逆深度先验\\$d_{\mathrm{mono}}$};
+
+\draw[arr] (gauss) -- (hex);
+\draw[arr] (camera) -- (mlp);
+\draw[arr] (hex) -- (mlp);
+\draw[arr] (mlp) -- (deformed);
+\draw[arr] (gauss.east) -- ++(0.45,0) |- (deformed.west);
+\draw[arr] (deformed) -- (raster);
+\draw[arr] (camera.east) -- ++(0.5,0) |- (raster.south);
+\draw[arr] (raster) -- (j);
+\draw[arr] (raster) -- (z);
+\draw[arr] (z) -- (norm);
+\draw[arr] (norm) -- (atten);
+\draw[arr] (norm) -- (bs);
+\draw[arr] (j) -- (atten);
+\draw[arr] (atten) -- (synth);
+\draw[arr] (bs) -- (synth);
+\draw[arr] (synth) -- (loss);
+\draw[arr] (mono) -| (loss);
+\draw[arr] (z) -- (mono);
+
+\draw[grad] (loss.west) -| node[note, pos=0.25, below] {梯度回传至高斯与变形网络} (gauss.south);
+\draw[grad] (loss.north west) -- ++(-1.4,0.3) |- node[note, pos=0.55, above] {更新水下网络参数} (atten.south);
+
+\node[note, above=0.18cm of raster] {gaussian\_renderer.render()};
+\node[note, above=0.18cm of synth] {apply underwater models};
+
+\end{tikzpicture}

@@ -16,11 +16,25 @@
 
 \textbf{深度监督层。}水下场景往往缺乏结构光或激光测距等主动深度传感器，多视角几何约束在水体散射干扰下也易出现退化。本系统利用Depth Anything V2\upcite{yang2024depthv2}预生成单目逆深度图，对渲染深度施加软约束，引导几何收敛至合理形状。
 
-整体处理流程如图3-1所示：采集多视角水下图像序列后，首先利用COLMAP进行运动恢复结构（SfM）获得稀疏点云与相机位姿；随后以稀疏点云初始化4D高斯点集，进入两阶段训练（粗训练与精细训练）；最终系统可在任意时刻以任意视角渲染新视图。
+整体处理流程如图\ref{fig:ch3_overall_flow}所示：采集多视角水下图像序列后，首先利用COLMAP进行运动恢复结构（SfM）获得稀疏点云与相机位姿；随后以稀疏点云初始化4D高斯点集，进入两阶段训练（粗训练与精细训练）；最终系统可在任意时刻以任意视角渲染新视图。
+
+\begin{figure}[htbp]
+  \centering
+  \resizebox{\textwidth}{!}{\input{figures/fig3-1-overall-flow.tex}}
+  \caption{面向扰动水下环境的新视角合成总体处理流程}
+  \label{fig:ch3_overall_flow}
+\end{figure}
 
 \subsection{系统架构}
 
-系统渲染管线由以下模块串联构成，如图3-2所示。
+系统渲染管线由以下模块串联构成，如图\ref{fig:ch3_rendering_architecture}所示。
+
+\begin{figure}[htbp]
+  \centering
+  \resizebox{\textwidth}{!}{\input{figures/fig3-2-rendering-architecture.tex}}
+  \caption{融合4D高斯动态表示与SeaSplat水下物理模型的系统渲染管线}
+  \label{fig:ch3_rendering_architecture}
+\end{figure}
 
 \textbf{（1）4D高斯点集。}场景由$N$个三维高斯椭球体参数化，每个高斯体携带位置$\boldsymbol{\mu} \in \mathbb{R}^3$、协方差$\boldsymbol{\Sigma} \in \mathbb{R}^{3\times3}$、不透明度$\alpha \in (0,1)$、球谐系数$\mathbf{f}$以及时间戳$t$\upcite{kerbl2023gaussian,wu2024gaussian}。
 
@@ -78,7 +92,14 @@ SeaSplat\upcite{seasplat2025icra}基于原始3DGS静态框架实现，而4DGS\up
 
 \subsection{渲染流程修改}
 
-图3-3展示了完整的修改后渲染流程。在原有4DGS光栅化输出干净颜色$\mathbf{J}$和深度$\mathbf{Z}$之后，额外执行以下步骤：
+图\ref{fig:ch3_modified_render_flow}展示了完整的修改后渲染流程。在原有4DGS光栅化输出干净颜色$\mathbf{J}$和深度$\mathbf{Z}$之后，额外执行以下步骤：
+
+\begin{figure}[htbp]
+  \centering
+  \resizebox{\textwidth}{!}{\input{figures/fig3-3-render-flow.tex}}
+  \caption{SeaSplat水下模块迁移至4DGS后的渲染流程修改}
+  \label{fig:ch3_modified_render_flow}
+\end{figure}
 
 \textbf{步骤一：深度归一化。}将原始渲染深度归一化至$[0,1]$区间：
 \begin{equation}
@@ -198,4 +219,4 @@ SeaSplat\upcite{seasplat2025icra}基于原始3DGS静态框架实现，而4DGS\up
 
 \section{本章小结}
 
-本章详细介绍了面向扰动水下环境的新视角合成系统的完整设计与实现。主要内容包括：（1）以4DGS为骨架、SeaSplat水下物理模型为外层包装、Depth Anything V2为深度先验的三层系统架构设计；（2）SeaSplat核心水下模块（后向散射网络、衰减网络及多项水下专用损失）向4DGS框架的迁移方案；（3）基于Depth Anything V2的单目深度先验生成流程及尺度不确定性处理机制；（4）五阶段递进式训练策略，有效解决多组件联合优化的梯度干扰问题；（5）工程实现中发现并修复的四项CUDA稳定性问题。系统的整体设计兼顾了物理合理性、训练稳定性与工程可复现性，为后续实验验证奠定了坚实基础。
+本章详细介绍了面向扰动水下环境的新视角合成系统的完整设计与实现。主要内容包括：（1）以4DGS为骨架、SeaSplat水下物理模型为外层包装、Depth Anything V2为深度先验的三层系统架构设计；（2）SeaSplat核心水下模块（后向散射网络、衰减网络及多项水下专用损失）向4DGS框架的迁移方案；（3）基于Depth Anything V2的单目深度先验生成流程及尺度不确定性处理机制；（4）五阶段递进式训练策略，有效解决多组件联合优化的梯度干扰问题。系统的整体设计兼顾了物理合理性、训练稳定性与工程可复现性，为后续实验验证奠定了坚实基础。

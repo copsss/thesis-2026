@@ -1,0 +1,77 @@
+\begin{tikzpicture}[
+  font=\footnotesize,
+  >=Stealth,
+  node distance=0.7cm and 0.85cm,
+  box/.style={
+    draw=#1!76!black,
+    fill=#1!8,
+    rounded corners=2pt,
+    line width=0.7pt,
+    minimum height=0.95cm,
+    text width=2.7cm,
+    align=center,
+    inner sep=4pt
+  },
+  box/.default=blue,
+  code/.style={
+    draw=black!45,
+    fill=black!3,
+    rounded corners=2pt,
+    line width=0.55pt,
+    font=\scriptsize,
+    align=center,
+    text width=3.0cm,
+    inner sep=3pt
+  },
+  arr/.style={->, line width=0.75pt, draw=black!72},
+  darr/.style={->, line width=0.75pt, dashed, draw=black!60},
+  stage/.style={
+    draw=#1!70!black,
+    fill=#1!4,
+    dashed,
+    rounded corners=4pt,
+    inner sep=7pt,
+    line width=0.65pt
+  },
+  note/.style={font=\scriptsize, align=center, text=black!70}
+]
+
+\node[box=cyan] (cam) at (0, 2.8) {训练视角\\viewpoint camera};
+\node[box=green, right=of cam] (render) {render()\\粗阶段直通\\精阶段时序变形};
+\node[box=green, right=of render] (raster) {CUDA 光栅化\\输出 $\mathbf J$、radii\\$\boldsymbol{\alpha}$ 与缓存状态};
+\node[box=orange, right=of raster] (depth) {render depth\\复用 deformed state\\得到相机空间深度 $\mathbf Z$};
+
+\node[box=teal, below=0.95cm of depth] (norm) {normalize depth\\帧级/全局归一化\\可选 $\alpha$ 修正};
+\node[box=red, left=of norm] (atbs) {水下网络前向\\AttenuateNetV3\\BackscatterNetV2};
+\node[box=purple, left=of atbs] (uw) {apply underwater models\\$\hat{\mathbf I}=\mathrm{clamp}(\mathbf J\odot\mathbf A+\mathbf B)$};
+\node[box=gray, left=of uw] (loss) {损失计算\\重建 + 水下先验\\单目逆深度监督};
+
+\node[box=gray, below=0.95cm of atbs] (update) {分阶段更新\\BS/AT 预热\\高斯颜色调整\\联合训练与 burst 更新};
+\node[box=cyan, below=0.95cm of loss] (mono) {离线深度先验\\depth/*.png\\$d_{\mathrm{mono}},m$};
+
+\draw[arr] (cam) -- (render);
+\draw[arr] (render) -- (raster);
+\draw[arr] (raster) -- (depth);
+\draw[arr] (depth) -- (norm);
+\draw[arr] (norm) -- (atbs);
+\draw[arr] (atbs) -- (uw);
+\draw[arr] (uw) -- (loss);
+\draw[arr] (loss) -- (update);
+\draw[darr] (mono) -- node[note, above] {$\lVert d_{\mathrm{render}}-d_{\mathrm{mono}}\rVert_1$} (loss);
+\draw[darr] (update.east) -| node[note, pos=0.28, below] {参数梯度} (render.south);
+
+\node[code, above=0.28cm of render] (code1) {pc.\_deformation(..., time)\\仅在 fine 阶段启用};
+\node[code, below=0.28cm of uw] (code2) {$\mathbf A=\exp(-\beta^D\hat Z)$\\$\mathbf B=B^\infty(1-\exp(-\beta^B\hat Z))$};
+
+\draw[darr] (code1) -- (render);
+\draw[darr] (code2) -- (uw);
+
+\begin{scope}[on background layer]
+  \node[stage=green, fit=(render)(raster)(code1)] {};
+  \node[stage=red, fit=(depth)(norm)(atbs)(uw)(code2)] {};
+  \node[stage=gray, fit=(loss)(update)(mono)] {};
+\end{scope}
+
+\node[note, below=0.08cm of update] {迁移原则：保持 4DGS 时序变形与光栅化接口不变，在光栅化输出后插入可微水下成像模块。};
+
+\end{tikzpicture}
