@@ -63,9 +63,9 @@ SCENES = [
 
 METHODS = [
     {
-        "label": "3DGS",
-        "render": lambda s: ROOT / "3DGS_Results" / s["dir"] / "test" / "ours_30000" / "renders" / s["idx"],
-        "depth": lambda s: None,
+        "label": "Original",
+        "render": lambda s: Path(r"D:/underwater/4DGaussians/data/SeaThru-NeRF/SeathruNeRF_dataset2") / s["stn_dir"] / "images_wb" / s["fname"],
+        "depth": lambda s: "blank",
     },
     {
         "label": "STN",
@@ -177,8 +177,6 @@ def center_text(draw, box, text, fnt, fill=TEXT):
 
 def paste_cell(canvas, cell, x, y):
     canvas.paste(cell, (x, y))
-    draw = ImageDraw.Draw(canvas)
-    draw.rectangle([x, y, x + CELL[0] - 1, y + CELL[1] - 1], outline=BORDER, width=1)
 
 
 def compose_scene(scene):
@@ -208,6 +206,8 @@ def compose_scene(scene):
         depth_path = method["depth"](scene)
         if depth_path is None:
             depth = placeholder()
+        elif depth_path == "blank":
+            depth = Image.new("RGB", CELL, BG)
         else:
             if not Path(depth_path).exists():
                 raise FileNotFoundError(f"Missing depth for {scene['key']} {method['label']}: {depth_path}")
