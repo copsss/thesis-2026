@@ -1,11 +1,11 @@
 """Pick the training iteration where the four ablation configurations
 diverge most visibly, and use the matching mid-training snapshots as the
-a/b/c/d render tiles for the qualitative ablation figure.
+a/b/c/d render AND depth tiles for the qualitative ablation figure.
 
 The training-time snapshots in `<run>/finetest_render/images/{iter}_0.jpg`
-are 2400x600 montages of [GT | render | depth/error] for view 0. The
-middle (render) panel has no text overlay, so we extract just that panel
-and use it for the figure tiles.
+are 2400x600 montages of [GT | render | depth] for view 0. Both the
+middle (render) and rightmost (depth) panels have no text overlay, so we
+extract both and use them for the figure tiles.
 
 Configurations:
   (a) plain 4DGS                : output/baseline/Robot
@@ -13,10 +13,8 @@ Configurations:
   (c) +Depth supervision        : output/Robot_underwater_depth
   (d) Full (SeaThru + Depth)    : output/Robot_underwater_v2depth
 
-Depth tile: the final-iteration full model's rendered depth (the only
-config that outputs a clean post-processed depth map). The depth row is
-therefore replicated across columns, matching the original
-_compose.py behaviour.
+Depth tiles: extracted from the rightmost panel of each config's snapshot
+at the selected iteration, normalized per-config and mapped to viridis.
 """
 from pathlib import Path
 import numpy as np
@@ -36,7 +34,6 @@ CONFIGS = {
     "d": OUT_BASE / "Robot_underwater_v2depth",
 }
 LABELS = {"a": "plain", "b": "seathru", "c": "depthonly", "d": "full"}
-DEPTH_DIR = OUT_BASE / "Robot_underwater_v2depth/test/ours_20000/depth"
 
 
 def crop_render_panel(montage_path):
@@ -45,6 +42,31 @@ def crop_render_panel(montage_path):
     W, H = im.size
     panel_w = W // 3
     return im.crop((panel_w, 0, 2 * panel_w, H))
+
+
+def crop_depth_panel(montage_path):
+    """Extract the rightmost (depth) panel from a 2400x600 [GT|render|depth] montage."""
+    im = Image.open(montage_path).convert("RGB")
+    W, H = im.size
+    panel_w = W // 3
+    return im.crop((2 * panel_w, 0, 3 * panel_w, H))
+
+
+def depth_panel_to_viridis(montage_path, size=TARGET, invert=True):
+    """Extract depth panel and convert to viridis heatmap."""
+    panel = crop_depth_panel(montage_path)
+    arr = np.array(panel)
+    # Use first channel as depth (grayscale)
+    if arr.ndim == 3:
+        depth = arr[..., 0].astype(np.float32)
+    else:
+        depth = arr.astype(np.float32)
+    lo, hi = float(depth.min()), float(depth.max())
+    v = np.zeros_like(depth) if hi <= lo else (depth - lo) / (hi - lo)
+    if invert:
+        v = 1.0 - v
+    rgb = (cm.viridis(v) * 255).astype(np.uint8)[..., :3]
+    return Image.fromarray(rgb).resize(size, Image.LANCZOS)
 
 
 def panel_array(montage_path):
@@ -59,13 +81,6 @@ def to_viridis(arr2d, size=TARGET, invert=True):
         v = 1.0 - v
     rgb = (cm.viridis(v) * 255).astype(np.uint8)[..., :3]
     return Image.fromarray(rgb).resize(size, Image.LANCZOS)
-
-
-def depth_heatmap_from_render(path, size=TARGET):
-    a = np.array(Image.open(path))
-    if a.ndim == 3:
-        a = a[..., 0]
-    return to_viridis(a, size, invert=True)
 
 
 def build_iter_index(stage_subdir):
@@ -138,12 +153,12 @@ def main():
         panel.save(out)
         print(f"  wrote {out.name}  <- {snapshots[tag].relative_to(OUT_BASE)} (middle panel)")
 
-    # Depth tile: final-iteration full model only outputs a clean depth.
-    depth_img = depth_heatmap_from_render(DEPTH_DIR / "00000.png")
+    # Depth tiles: extract right panel from each config's snapshot
     for tag in ("a", "b", "c", "d"):
+        depth_img = depth_panel_to_viridis(snapshots[tag], size=TARGET, invert=True)
         out = FIG_AB / f"{tag}_{LABELS[tag]}_depth.png"
         depth_img.save(out)
-    print("  wrote {a,b,c,d}_*_depth.png  (full-model depth, replicated)")
+        print(f"  wrote {out.name}  <- {snapshots[tag].relative_to(OUT_BASE)} (depth panel)")
 
 
 if __name__ == "__main__":
