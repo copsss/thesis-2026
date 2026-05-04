@@ -1,0 +1,84 @@
+{
+  "experiments": [
+    {
+      "name": "ablation_minimal_warmup_robot",
+      "display_name": "warmup_robot",
+      "dataset": "Robot",
+      "train_images": 29,
+      "test_images": 5,
+      "info": {
+        "experiment_name": "ablation_minimal_warmup_robot",
+        "dataset": "Robot",
+        "model_path": "output/ablation_minimal_warmup_robot",
+        "checkpoint_iteration": "6000"
+      }
+    },
+    {
+      "name": "ablation_no_stages_robot_v3",
+      "display_name": "no_stages_robot",
+      "dataset": "Robot",
+      "train_images": 29,
+      "test_images": 5,
+      "info": {
+        "experiment_name": "ablation_no_stages_robot_v3",
+        "dataset": "Robot",
+        "model_path": "output/ablation_no_stages_robot_v3",
+        "checkpoint_iteration": "20000"
+      }
+    },
+    {
+      "name": "ablation_no_stages_fish_v3",
+      "display_name": "no_stages_fish",
+      "dataset": "Fish",
+      "train_images": 42,
+      "test_images": 7,
+      "info": {
+        "experiment_name": "ablation_no_stages_fish_v3",
+        "dataset": "Fish",
+        "model_path": "output/ablation_no_stages_fish_v3",
+        "checkpoint_iteration": "10000"
+      }
+    },
+    {
+      "name": "ablation_no_stages_coral_v3",
+      "display_name": "no_stages_coral",
+      "dataset": "Coral",
+      "train_images": 102,
+      "test_images": 15,
+      "info": {
+        "experiment_name": "ablation_no_stages_coral_v3",
+        "dataset": "Coral",
+        "model_path": "output/ablation_no_stages_coral_v3",
+        "checkpoint_iteration": "10000"
+      }
+    },
+    {
+      "name": "ablation_no_coarse_fine_streaks",
+      "display_name": "no_coarse_streaks",
+      "dataset": "Streaks",
+      "train_images": 62,
+      "test_images": 9,
+      "info": {
+        "experiment_name": "ablation_no_coarse_fine_streaks",
+        "dataset": "Streaks",
+        "model_path": "output/ablation_no_coarse_fine_streaks",
+        "checkpoint_iteration": "9000"
+      }
+    },
+    {
+      "name": "ablation_no_stages_streaks_v3",
+      "display_name": "no_stages_streaks",
+      "dataset": "Streaks",
+      "train_images": 62,
+      "test_images": 9,
+      "info": {
+        "experiment_name": "ablation_no_stages_streaks_v3",
+        "dataset": "Streaks",
+        "model_path": "output/ablation_no_stages_streaks_v3",
+        "checkpoint_iteration": "10000"
+      }
+    }
+  ],
+  "total_train_images": 326,
+  "total_test_images": 50
+}

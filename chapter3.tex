@@ -16,33 +16,35 @@
 
 \textbf{深度监督层。}水下场景往往缺乏结构光或激光测距等主动深度传感器，多视角几何约束在水体散射干扰下也易出现退化。本系统利用Depth Anything V2\upcite{yang2024depthv2}预生成单目逆深度图，对渲染深度施加软约束，引导几何收敛至合理形状。
 
-整体处理流程如下：采集多视角水下图像序列后，首先利用COLMAP进行运动恢复结构（SfM）获得稀疏点云与相机位姿；随后以稀疏点云初始化4D高斯点集，并进入本文设计的分阶段训练流程；最终系统可在任意时刻以任意视角渲染新视图。图\ref{fig:overall_pipeline}给出了系统从数据预处理、动态高斯初始化到水下物理建模与深度监督联合优化的整体流程。
+整体处理流程如下：采集多视角水下图像序列后，首先利用COLMAP进行运动恢复结构（SfM）获得稀疏点云与相机位姿；随后以稀疏点云初始化4D高斯点集，并进入本文设计的分阶段训练流程；最终系统可在任意时刻以任意视角渲染新视图。
 
-\begin{figure}[htbp]
-  \centering
-  \resizebox{\textwidth}{!}{\input{figures/fig3-1-overall-flow.tex}}
-  \caption{本文方法整体流程。多视角水下图像首先经COLMAP获得相机位姿与稀疏点云，同时离线生成单目逆深度先验；训练阶段以4D高斯表示为骨架，在精细阶段引入水下物理模型与深度监督；最终输出任意视角、任意时刻的水下渲染结果、去水外观及中间物理量。}
-  \label{fig:overall_pipeline}
-\end{figure}
+\subsection{符号约定}
+\label{subsec:notation}
+
+为避免符号混淆，本章及后续章节统一以下记号：图像级张量以粗体表示，包括观测图像$\mathbf{I}\in\mathbb{R}^{H\times W\times 3}$、干净场景颜色图$\mathbf{J}\in\mathbb{R}^{H\times W\times 3}$、深度图$\mathbf{Z}\in\mathbb{R}^{H\times W}$、衰减图$\mathbf{A}(\mathbf{Z})$与后向散射图$\mathbf{B}(\mathbf{Z})$；对应的逐通道、逐像素分量以非粗体下标形式$I_c$、$J_c$、$A_c$、$B_c$表示，其中$c\in\{r,g,b\}$；单点深度（标量）记为$Z$，第$i$个高斯基元的深度记为$z_i$；像素坐标记为$\mathbf{p}$。在物理建模公式中默认采用逐像素、逐通道形式（如$I_c=J_c\cdot\exp(-\beta_c^D Z)+\dots$），在工程实现描述中默认采用张量形式（如$\mathbf{I}=\mathbf{J}\odot\mathbf{A}(\mathbf{Z})+\mathbf{B}(\mathbf{Z})$），二者通过逐元素运算等价。
 
 \subsection{系统架构}
 
-系统渲染管线由以下模块串联构成。
-
-
+系统渲染管线由以下模块串联构成，如图\ref{fig:system_architecture}所示。
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{figures/pipeline.png}
+  \caption{系统渲染管线。核心渲染流程以4D高斯点集为基础，经过变形网络调制后进行光栅化输出干净颜色图与深度图；水下成像模块基于渲染深度计算衰减与后向散射，并合成模拟观测图像；损失函数模块计算多项重建与物理先验损失，并将梯度回传至高斯参数和水下网络参数实现联合优化。}
+  \label{fig:system_architecture}
+\end{figure}
 
 \textbf{（1）4D高斯点集。}场景由$N$个三维高斯椭球体参数化，每个高斯体携带位置$\boldsymbol{\mu} \in \mathbb{R}^3$、协方差$\boldsymbol{\Sigma} \in \mathbb{R}^{3\times3}$、不透明度$\alpha \in (0,1)$、球谐系数$\mathbf{f}$以及时间戳$t$\upcite{kerbl2023gaussian,wu2024gaussian}。
 
 \textbf{（2）变形网络。}对于给定时刻$t$，HexPlane特征平面与多层感知机（MLP）联合输出每个高斯体的位置增量$\Delta\boldsymbol{\mu}$、尺度增量$\Delta\mathbf{s}$和旋转增量$\Delta\mathbf{q}$，从而将规范空间中的高斯点云变形为当前帧的动态状态。
 
-\textbf{（3）高斯光栅化。}经变形后的高斯点云通过可微分的基于分块排序的光栅化算法投影至图像平面，输出干净场景颜色图$\mathbf{J} \in \mathbb{R}^{H \times W \times 3}$及深度图$\mathbf{Z} \in \mathbb{R}^{H \times W}$。$\mathbf{J}$代表在无水体介质干扰时的真实辐射度。
+\textbf{（3）高斯光栅化。}经变形后的高斯点云通过可微分的基于分块排序的光栅化算法投影至图像平面，输出干净场景颜色图$\mathbf{J}$及深度图$\mathbf{Z}$（符号约定见\ref{subsec:notation}节）。$\mathbf{J}$代表在无水体介质干扰时的真实辐射度。
 
-\textbf{（4）水下成像模型。}将$\mathbf{J}$和$\mathbf{Z}$输入水下物理模型，生成模拟观测图像$\mathbf{I}$：
+\textbf{（4）水下成像模型。}将$\mathbf{J}$和$\mathbf{Z}$输入水下物理模型，逐像素、逐通道地合成模拟观测图像$\mathbf{I}$：
 \begin{equation}
   I_c = J_c \cdot \exp\!\left(-\beta_c^D \cdot Z\right) + B_c^{\infty} \cdot \left(1 - \exp\!\left(-\beta_c^B \cdot Z\right)\right).
   \label{eq:uwmodel}
 \end{equation}
-其中，$c \in \{r,g,b\}$为颜色通道，$\beta_c^D$为直接透射衰减系数，$B_c^{\infty}$为无穷远处后向散射强度，$\beta_c^B$为后向散射衰减系数。上述参数均由水下物理网络预测。
+其中，$Z$为该像素处的深度（标量），$c \in \{r,g,b\}$为颜色通道，$\beta_c^D$为直接透射衰减系数，$B_c^{\infty}$为无穷远处后向散射强度，$\beta_c^B$为后向散射衰减系数。上述参数均由水下物理网络预测。
 
 \textbf{（5）联合优化。}将合成图像$\mathbf{I}$与真实观测图像$\mathbf{I}^{\mathrm{gt}}$进行对比，梯度同时回传至高斯参数和水下网络参数，实现联合优化。
 
@@ -62,19 +64,19 @@ SeaSplat\upcite{seasplat2025icra}基于原始3DGS静态框架实现，而4DGS\up
 
 \subsection{核心模块迁移}
 
-\textbf{后向散射网络（BackscatterNet）。}后向散射网络负责根据深度图预测逐像素的后向散射贡献。网络结构为两层轻量卷积（Conv2D），以归一化深度图为输入，输出后向散射颜色图$\mathbf{B}(\mathbf{Z})$：
+\textbf{后向散射网络（BackscatterNet）。}后向散射网络负责根据深度图预测逐像素的后向散射贡献。网络结构为两层轻量卷积（Conv2D），以归一化深度图为输入，按式\eqref{eq:backscatter_impl}逐元素地输出后向散射颜色图$\mathbf{B}(\mathbf{Z})$：
 \begin{equation}
-  B_c(\mathbf{Z}) = \sigma(B_c^{\infty}) \cdot \left(1 - \exp(-\beta_c^B \cdot \mathbf{Z})\right).
+  B_c(Z) = \sigma(B_c^{\infty}) \cdot \left(1 - \exp(-\beta_c^B \cdot Z)\right).
   \label{eq:backscatter_impl}
 \end{equation}
-网络参数量约1K，计算开销极小。该模块以独立子网络的形式集成至系统中，并作为单独参数组纳入优化器统一管理。
+其中$Z$为单点深度（标量），整张深度图$\mathbf{Z}$下逐元素套用即得$\mathbf{B}(\mathbf{Z})$。网络参数量约1K，计算开销极小。该模块以独立子网络的形式集成至系统中，并作为单独参数组纳入优化器统一管理。
 
-\textbf{直接透射衰减网络（AttenuateNet）。}衰减网络提供多种结构变体。经消融实验对比，本文选用结构最简且训练更稳定的逐通道标量版本：对每个颜色通道学习一个标量衰减系数$\beta_c^D$，衰减图计算如下：
+\textbf{直接透射衰减网络（AttenuateNet）。}衰减网络提供多种结构变体。经消融实验对比，本文选用结构最简且训练更稳定的逐通道标量版本：对每个颜色通道学习一个标量衰减系数$\beta_c^D$，衰减图按下式计算：
 \begin{equation}
-  A_c(\mathbf{Z}) = \exp\!\left(-\beta_c^D \cdot \mathbf{Z}\right).
+  A_c(Z) = \exp\!\left(-\beta_c^D \cdot Z\right).
   \label{eq:attenuation_impl}
 \end{equation}
-参数初始化以较小正值为起点，使系统初始阶段接近无衰减状态，便于粗训练阶段高斯几何的稳定收敛。
+其中$Z$为单点深度（标量），整张图层面的衰减图记为$\mathbf{A}(\mathbf{Z})$。参数初始化以较小正值为起点，使系统初始阶段接近无衰减状态，便于粗训练阶段高斯几何的稳定收敛。
 
 \textbf{损失函数迁移。}水下专用损失函数包含以下四个组件：
 
@@ -87,18 +89,16 @@ SeaSplat\upcite{seasplat2025icra}基于原始3DGS静态框架实现，而4DGS\up
 
 \subsection{渲染流程}
 
-在原有4DGS光栅化输出干净颜色$\mathbf{J}$和深度$\mathbf{Z}$之后，额外执行以下步骤：
-
-
+在原有4DGS光栅化输出干净颜色$\mathbf{J}$和深度$\mathbf{Z}$之后，额外执行以下步骤。
 
 \textbf{步骤一：深度归一化。}将原始渲染深度归一化至$[0,1]$区间：
 \begin{equation}
-  \hat{\mathbf{Z}} = \frac{\mathbf{Z} - Z_{\min}}{Z_{\max} - Z_{\min} + \epsilon}.
+  \hat{\mathbf{Z}} = \frac{\mathbf{Z} - Z_{\min}}{Z_{\max} - Z_{\min} + \epsilon},
   \label{eq:depthnorm}
 \end{equation}
-归一化参数可按帧动态计算（帧级最大最小值）或使用全局统计量。在精细训练阶段采用帧级归一化以适应场景深度分布的动态变化。
+其中$Z_{\min}$、$Z_{\max}$为$\mathbf{Z}$中所有像素深度的最小值与最大值（标量），减法按逐元素方式广播。归一化参数可按帧动态计算（帧级最大最小值）或使用全局统计量；在精细训练阶段采用帧级归一化以适应场景深度分布的动态变化。
 
-\textbf{步骤二：水下网络前向传播。}将归一化深度$\hat{Z}$分别送入衰减网络与后向散射网络，得到衰减图$\mathbf{A}(\hat{Z})$和后向散射图$\mathbf{B}(\hat{Z})$。
+\textbf{步骤二：水下网络前向传播。}将归一化深度$\hat{\mathbf{Z}}$分别送入衰减网络与后向散射网络，得到衰减图$\mathbf{A}(\hat{\mathbf{Z}})$和后向散射图$\mathbf{B}(\hat{\mathbf{Z}})$。
 
 \textbf{步骤三：水下成像合成。}按照式\eqref{eq:uwmodel}合成模拟水下图像$\mathbf{I}$：
 \begin{equation}
@@ -119,9 +119,7 @@ SeaSplat\upcite{seasplat2025icra}基于原始3DGS静态框架实现，而4DGS\up
 
 （1）遍历数据集训练图像目录，对每张图像运行Depth Anything V2的前向推理，得到逆深度图（inverse depth map）；
 
-（2）将逆深度图归一化至$[0,255]$区间并保存为灰度图像；
-
-
+（2）将逆深度图归一化至$[0,255]$区间并保存为灰度图像。
 
 选用逆深度而非线性深度的原因有以下两点：首先，水下远距离目标因散射效应造成视觉模糊，线性深度分布下远处区域的深度估计方差较大，逆深度变换可使近处高精度区域和远处区域在数值域中分布更为均匀；其次，逆深度与视差（disparity）等价，在立体匹配和单目深度估计领域具有良好的物理解释性。
 

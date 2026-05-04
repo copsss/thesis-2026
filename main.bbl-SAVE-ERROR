@@ -19,134 +19,6 @@
 
 \refsection{0}
   \datalist[entry]{none/global//global/global/global}
-    \entry{张杰2020水下机器人}{article}{}{}
-      \name{author}{3}{}{%
-        {{hash=9e28e16dc078315dffce410da0740f3a}{%
-           family={张杰},
-           familyi={张\bibinitperiod}}}%
-        {{hash=804e309499c07ee978c3d948e0a9cfd5}{%
-           family={刘明},
-           familyi={刘\bibinitperiod}}}%
-        {{hash=0843cef43ff6aef08d141344b1c8e33b}{%
-           family={王伟},
-           familyi={王\bibinitperiod}}}%
-      }
-      \strng{namehash}{02abef5514202fe5d8ab33664b255427}
-      \strng{fullhash}{02abef5514202fe5d8ab33664b255427}
-      \strng{fullhashraw}{02abef5514202fe5d8ab33664b255427}
-      \strng{bibnamehash}{02abef5514202fe5d8ab33664b255427}
-      \strng{authorbibnamehash}{02abef5514202fe5d8ab33664b255427}
-      \strng{authornamehash}{02abef5514202fe5d8ab33664b255427}
-      \strng{authorfullhash}{02abef5514202fe5d8ab33664b255427}
-      \strng{authorfullhashraw}{02abef5514202fe5d8ab33664b255427}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{机器人}
-      \field{number}{6}
-      \field{title}{水下机器人视觉系统研究进展}
-      \field{userf}{zh}
-      \field{volume}{42}
-      \field{year}{2020}
-      \field{pages}{752\bibrangedash 768}
-      \range{pages}{17}
-    \endentry
-    \entry{李建平2019海洋}{article}{}{}
-      \name{author}{3}{}{%
-        {{hash=64eaa5f160903e346b05536560d9a58a}{%
-           family={李建平},
-           familyi={李\bibinitperiod}}}%
-        {{hash=047f9b42cd387b4ddd1a2795a750524c}{%
-           family={陈朝晖},
-           familyi={陈\bibinitperiod}}}%
-        {{hash=abcb6a75a2a18e37aa4a98f4ed817a78}{%
-           family={王凡},
-           familyi={王\bibinitperiod}}}%
-      }
-      \strng{namehash}{71ea98ee46e4c71836a8ee169149b211}
-      \strng{fullhash}{71ea98ee46e4c71836a8ee169149b211}
-      \strng{fullhashraw}{71ea98ee46e4c71836a8ee169149b211}
-      \strng{bibnamehash}{71ea98ee46e4c71836a8ee169149b211}
-      \strng{authorbibnamehash}{71ea98ee46e4c71836a8ee169149b211}
-      \strng{authornamehash}{71ea98ee46e4c71836a8ee169149b211}
-      \strng{authorfullhash}{71ea98ee46e4c71836a8ee169149b211}
-      \strng{authorfullhashraw}{71ea98ee46e4c71836a8ee169149b211}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{海洋学报}
-      \field{number}{10}
-      \field{title}{海洋探测技术发展现状与趋势}
-      \field{userf}{zh}
-      \field{volume}{41}
-      \field{year}{2019}
-      \field{pages}{1\bibrangedash 15}
-      \range{pages}{15}
-    \endentry
-    \entry{mobley1994light}{book}{}{}
-      \name{author}{1}{}{%
-        {{hash=b2bc1db2c0550160c5c679234f2f4f05}{%
-           family={Mobley},
-           familyi={M\bibinitperiod},
-           given={Curtis\bibnamedelima D},
-           giveni={C\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
-      }
-      \list{location}{1}{%
-        {San Diego}%
-      }
-      \list{publisher}{1}{%
-        {Academic Press}%
-      }
-      \strng{namehash}{b2bc1db2c0550160c5c679234f2f4f05}
-      \strng{fullhash}{b2bc1db2c0550160c5c679234f2f4f05}
-      \strng{fullhashraw}{b2bc1db2c0550160c5c679234f2f4f05}
-      \strng{bibnamehash}{b2bc1db2c0550160c5c679234f2f4f05}
-      \strng{authorbibnamehash}{b2bc1db2c0550160c5c679234f2f4f05}
-      \strng{authornamehash}{b2bc1db2c0550160c5c679234f2f4f05}
-      \strng{authorfullhash}{b2bc1db2c0550160c5c679234f2f4f05}
-      \strng{authorfullhashraw}{b2bc1db2c0550160c5c679234f2f4f05}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{Light and Water: Radiative Transfer in Natural Waters}
-      \field{year}{1994}
-    \endentry
-    \entry{赵大鹏2023水下}{article}{}{}
-      \name{author}{3}{}{%
-        {{hash=7196bb9c86cef495a04a31e66a53e6fc}{%
-           family={赵大鹏},
-           familyi={赵\bibinitperiod}}}%
-        {{hash=9ccc1f129737cf72f77505dfe0b8a1cc}{%
-           family={刘辰},
-           familyi={刘\bibinitperiod}}}%
-        {{hash=6944d9d6078e831516c34d85a309d191}{%
-           family={李阳},
-           familyi={李\bibinitperiod}}}%
-      }
-      \strng{namehash}{c72a6a18239fbeed567161b77ad5c1dd}
-      \strng{fullhash}{c72a6a18239fbeed567161b77ad5c1dd}
-      \strng{fullhashraw}{c72a6a18239fbeed567161b77ad5c1dd}
-      \strng{bibnamehash}{c72a6a18239fbeed567161b77ad5c1dd}
-      \strng{authorbibnamehash}{c72a6a18239fbeed567161b77ad5c1dd}
-      \strng{authornamehash}{c72a6a18239fbeed567161b77ad5c1dd}
-      \strng{authorfullhash}{c72a6a18239fbeed567161b77ad5c1dd}
-      \strng{authorfullhashraw}{c72a6a18239fbeed567161b77ad5c1dd}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{自动化学报}
-      \field{number}{4}
-      \field{title}{水下视觉感知技术研究进展}
-      \field{userf}{zh}
-      \field{volume}{49}
-      \field{year}{2023}
-      \field{pages}{715\bibrangedash 740}
-      \range{pages}{26}
-    \endentry
     \entry{mildenhall2020nerf}{inproceedings}{}{}
       \name{author}{6}{}{%
         {{hash=a3567364ab52973659adf74ee0c6e6f3}{%
@@ -180,9 +52,6 @@
            given={Ren},
            giveni={R\bibinitperiod}}}%
       }
-      \list{organization}{1}{%
-        {Springer}%
-      }
       \strng{namehash}{4d426255f49fbfdee4dcf85e64cc11d8}
       \strng{fullhash}{9bee638bba28fb3cd739399aa8dc9983}
       \strng{fullhashraw}{9bee638bba28fb3cd739399aa8dc9983}
@@ -191,15 +60,17 @@
       \strng{authornamehash}{4d426255f49fbfdee4dcf85e64cc11d8}
       \strng{authorfullhash}{9bee638bba28fb3cd739399aa8dc9983}
       \strng{authorfullhashraw}{9bee638bba28fb3cd739399aa8dc9983}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{European Conference on Computer Vision (ECCV)}
-      \field{title}{NeRF: Representing scenes as neural radiance fields for view synthesis}
-      \field{year}{2020}
-      \field{pages}{405\bibrangedash 421}
-      \range{pages}{17}
+      \field{journaltitle}{Communications of the ACM}
+      \field{number}{1}
+      \field{title}{Nerf: Representing scenes as neural radiance fields for view synthesis}
+      \field{volume}{65}
+      \field{year}{2021}
+      \field{pages}{99\bibrangedash 106}
+      \range{pages}{8}
     \endentry
     \entry{barron2021mipnerf}{inproceedings}{}{}
       \name{author}{6}{}{%
@@ -242,17 +113,17 @@
       \strng{authornamehash}{5acf5088ba74e2250adf1813c720e9cf}
       \strng{authorfullhash}{fdf6d74ac0d387a476895b4631458185}
       \strng{authorfullhashraw}{fdf6d74ac0d387a476895b4631458185}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{IEEE/CVF International Conference on Computer Vision (ICCV)}
-      \field{title}{Mip-NeRF: A multiscale representation for anti-aliasing neural radiance fields}
+      \field{booktitle}{Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)}
+      \field{title}{Mip-nerf: A multiscale representation for anti-aliasing neural radiance fields}
       \field{year}{2021}
       \field{pages}{5855\bibrangedash 5864}
       \range{pages}{10}
     \endentry
-    \entry{muller2022instantngp}{inproceedings}{}{}
+    \entry{muller2022instantngp}{article}{}{}
       \name{author}{4}{}{%
         {{hash=c2ad285eb682bccdfe2685694db2188f}{%
            family={Müller},
@@ -283,8 +154,8 @@
       \strng{authornamehash}{32756b879ec636cdc347fa11a4e1689e}
       \strng{authorfullhash}{5ee9a8053cd04c40f99a57f291d2c4a8}
       \strng{authorfullhashraw}{5ee9a8053cd04c40f99a57f291d2c4a8}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{ACM Transactions on Graphics (TOG)}
@@ -302,21 +173,21 @@
            familyi={R\bibinitperiod},
            given={Christian},
            giveni={C\bibinitperiod}}}%
-        {{hash=f2e556c93256e7d70895d67702e14f1a}{%
+        {{hash=ada12c974490aa3b95dba92c64848986}{%
            family={Szeliski},
            familyi={S\bibinitperiod},
-           given={Richard},
+           given={Rick},
            giveni={R\bibinitperiod}}}%
         {{hash=0d0af9b888707d306a6dab79b427493b}{%
            family={Verbin},
            familyi={V\bibinitperiod},
            given={Dor},
            giveni={D\bibinitperiod}}}%
-        {{hash=b503d22b8c86fb9dfd477d2f70a59650}{%
+        {{hash=b242ec0679ea710c942d518e17190a42}{%
            family={Srinivasan},
            familyi={S\bibinitperiod},
-           given={Pratul\bibnamedelima P},
-           giveni={P\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+           given={Pratul},
+           giveni={P\bibinitperiod}}}%
         {{hash=a3567364ab52973659adf74ee0c6e6f3}{%
            family={Mildenhall},
            familyi={M\bibinitperiod},
@@ -327,104 +198,40 @@
            familyi={G\bibinitperiod},
            given={Andreas},
            giveni={A\bibinitperiod}}}%
-        {{hash=562f3254a241932db4a6d44a97473ec5}{%
+        {{hash=24909ea900f1c8fd7349ac009bd4665a}{%
            family={Barron},
            familyi={B\bibinitperiod},
-           given={Jonathan\bibnamedelima T},
-           giveni={J\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+           given={Jon},
+           giveni={J\bibinitperiod}}}%
         {{hash=157d821a2f0829e6758eb6c188684a09}{%
            family={Hedman},
            familyi={H\bibinitperiod},
            given={Peter},
            giveni={P\bibinitperiod}}}%
       }
-      \strng{namehash}{4aac9b32a34ed8c225a126c28c13b068}
-      \strng{fullhash}{d2b2c4b2ee36f06bb5a465257bfc8f93}
-      \strng{fullhashraw}{d2b2c4b2ee36f06bb5a465257bfc8f93}
-      \strng{bibnamehash}{4aac9b32a34ed8c225a126c28c13b068}
-      \strng{authorbibnamehash}{4aac9b32a34ed8c225a126c28c13b068}
-      \strng{authornamehash}{4aac9b32a34ed8c225a126c28c13b068}
-      \strng{authorfullhash}{d2b2c4b2ee36f06bb5a465257bfc8f93}
-      \strng{authorfullhashraw}{d2b2c4b2ee36f06bb5a465257bfc8f93}
-      \field{sortinit}{8}
-      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \strng{namehash}{56c3fb3fd5c2daa4d0683e5ada3c4590}
+      \strng{fullhash}{53bcb4f0a10a4d5f3bd528ea9912e216}
+      \strng{fullhashraw}{53bcb4f0a10a4d5f3bd528ea9912e216}
+      \strng{bibnamehash}{56c3fb3fd5c2daa4d0683e5ada3c4590}
+      \strng{authorbibnamehash}{56c3fb3fd5c2daa4d0683e5ada3c4590}
+      \strng{authornamehash}{56c3fb3fd5c2daa4d0683e5ada3c4590}
+      \strng{authorfullhash}{53bcb4f0a10a4d5f3bd528ea9912e216}
+      \strng{authorfullhashraw}{53bcb4f0a10a4d5f3bd528ea9912e216}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{ACM Transactions on Graphics (TOG)}
       \field{number}{4}
-      \field{title}{MERF: Memory-efficient radiance fields for real-time view synthesis in unbounded scenes}
+      \field{title}{Merf: Memory-efficient radiance fields for real-time view synthesis in unbounded scenes}
       \field{volume}{42}
       \field{year}{2023}
       \field{pages}{1\bibrangedash 12}
       \range{pages}{12}
     \endentry
-    \entry{王晓军2023神经}{article}{}{}
-      \name{author}{3}{}{%
-        {{hash=fcf66a4b2a0f6c59dcc116e73c95794f}{%
-           family={王晓军},
-           familyi={王\bibinitperiod}}}%
-        {{hash=571e4cc7ea33235c1d6c2d6a5779070c}{%
-           family={张雷},
-           familyi={张\bibinitperiod}}}%
-        {{hash=e9d0a2167afd1d3ef5307cc2a6f21e92}{%
-           family={刘波},
-           familyi={刘\bibinitperiod}}}%
-      }
-      \strng{namehash}{e169d696784a0d63343309da0349842a}
-      \strng{fullhash}{e169d696784a0d63343309da0349842a}
-      \strng{fullhashraw}{e169d696784a0d63343309da0349842a}
-      \strng{bibnamehash}{e169d696784a0d63343309da0349842a}
-      \strng{authorbibnamehash}{e169d696784a0d63343309da0349842a}
-      \strng{authornamehash}{e169d696784a0d63343309da0349842a}
-      \strng{authorfullhash}{e169d696784a0d63343309da0349842a}
-      \strng{authorfullhashraw}{e169d696784a0d63343309da0349842a}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{中国图象图形学报}
-      \field{number}{10}
-      \field{title}{神经辐射场技术综述}
-      \field{userf}{zh}
-      \field{volume}{28}
-      \field{year}{2023}
-      \field{pages}{2951\bibrangedash 2975}
-      \range{pages}{25}
-    \endentry
-    \entry{杨帆2022三维}{article}{}{}
-      \name{author}{3}{}{%
-        {{hash=9ecf2556015c73226f8fccc172c3529f}{%
-           family={杨帆},
-           familyi={杨\bibinitperiod}}}%
-        {{hash=80a64e07831777e91b64460688bcda23}{%
-           family={王瑞},
-           familyi={王\bibinitperiod}}}%
-        {{hash=15095d14367f7f02655030d498a4ba03}{%
-           family={李明},
-           familyi={李\bibinitperiod}}}%
-      }
-      \strng{namehash}{d09facd5d50e7ea8d98f9e013c9034f8}
-      \strng{fullhash}{d09facd5d50e7ea8d98f9e013c9034f8}
-      \strng{fullhashraw}{d09facd5d50e7ea8d98f9e013c9034f8}
-      \strng{bibnamehash}{d09facd5d50e7ea8d98f9e013c9034f8}
-      \strng{authorbibnamehash}{d09facd5d50e7ea8d98f9e013c9034f8}
-      \strng{authornamehash}{d09facd5d50e7ea8d98f9e013c9034f8}
-      \strng{authorfullhash}{d09facd5d50e7ea8d98f9e013c9034f8}
-      \strng{authorfullhashraw}{d09facd5d50e7ea8d98f9e013c9034f8}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{计算机研究与发展}
-      \field{number}{5}
-      \field{title}{基于深度学习的三维场景重建方法综述}
-      \field{userf}{zh}
-      \field{volume}{59}
-      \field{year}{2022}
-      \field{pages}{1038\bibrangedash 1058}
-      \range{pages}{21}
-    \endentry
     \entry{kerbl2023gaussian}{inproceedings}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
       \name{author}{4}{}{%
         {{hash=c73d638ffd25328757379835747302ff}{%
            family={Kerbl},
@@ -448,46 +255,49 @@
            giveni={G\bibinitperiod}}}%
       }
       \strng{namehash}{8479b049e52b63ea21fe5e3437d87ed2}
-      \strng{fullhash}{36d84a8a291db8ba20b3f78b93a2eeee}
-      \strng{fullhashraw}{36d84a8a291db8ba20b3f78b93a2eeee}
+      \strng{fullhash}{cea645e09f739213dc97a307250d5fd6}
+      \strng{fullhashraw}{cea645e09f739213dc97a307250d5fd6}
       \strng{bibnamehash}{8479b049e52b63ea21fe5e3437d87ed2}
       \strng{authorbibnamehash}{8479b049e52b63ea21fe5e3437d87ed2}
       \strng{authornamehash}{8479b049e52b63ea21fe5e3437d87ed2}
-      \strng{authorfullhash}{36d84a8a291db8ba20b3f78b93a2eeee}
-      \strng{authorfullhashraw}{36d84a8a291db8ba20b3f78b93a2eeee}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \strng{authorfullhash}{cea645e09f739213dc97a307250d5fd6}
+      \strng{authorfullhashraw}{cea645e09f739213dc97a307250d5fd6}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{ACM Transactions on Graphics (TOG)}
+      \field{journaltitle}{ACM Trans. Graph.}
       \field{number}{4}
-      \field{title}{3D Gaussian splatting for real-time radiance field rendering}
+      \field{title}{3d gaussian splatting for real-time radiance field rendering.}
       \field{volume}{42}
       \field{year}{2023}
-      \field{pages}{1\bibrangedash 14}
-      \range{pages}{14}
+      \field{pages}{139\bibrangedash 1}
+      \range{pages}{-7}
     \endentry
     \entry{mcglamery1980underwater}{article}{}{}
       \name{author}{1}{}{%
-        {{hash=931ae777cb6abd13dc482349de501d0d}{%
+        {{hash=724d1e25bbcd9cc392abb87d6a1f8713}{%
            family={McGlamery},
            familyi={M\bibinitperiod},
-           given={Ben\bibnamedelima L},
-           giveni={B\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+           given={BL},
+           giveni={B\bibinitperiod}}}%
       }
-      \strng{namehash}{931ae777cb6abd13dc482349de501d0d}
-      \strng{fullhash}{931ae777cb6abd13dc482349de501d0d}
-      \strng{fullhashraw}{931ae777cb6abd13dc482349de501d0d}
-      \strng{bibnamehash}{931ae777cb6abd13dc482349de501d0d}
-      \strng{authorbibnamehash}{931ae777cb6abd13dc482349de501d0d}
-      \strng{authornamehash}{931ae777cb6abd13dc482349de501d0d}
-      \strng{authorfullhash}{931ae777cb6abd13dc482349de501d0d}
-      \strng{authorfullhashraw}{931ae777cb6abd13dc482349de501d0d}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \list{organization}{1}{%
+        {SPIE}%
+      }
+      \strng{namehash}{724d1e25bbcd9cc392abb87d6a1f8713}
+      \strng{fullhash}{724d1e25bbcd9cc392abb87d6a1f8713}
+      \strng{fullhashraw}{724d1e25bbcd9cc392abb87d6a1f8713}
+      \strng{bibnamehash}{724d1e25bbcd9cc392abb87d6a1f8713}
+      \strng{authorbibnamehash}{724d1e25bbcd9cc392abb87d6a1f8713}
+      \strng{authornamehash}{724d1e25bbcd9cc392abb87d6a1f8713}
+      \strng{authorfullhash}{724d1e25bbcd9cc392abb87d6a1f8713}
+      \strng{authorfullhashraw}{724d1e25bbcd9cc392abb87d6a1f8713}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{Proceedings of SPIE}
+      \field{booktitle}{Ocean optics VI}
       \field{title}{A computer model for underwater camera systems}
       \field{volume}{208}
       \field{year}{1980}
@@ -502,6 +312,9 @@
            given={Jules\bibnamedelima S},
            giveni={J\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
       }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
       \strng{namehash}{6f4816e59e5499c35c029cfc82bc1d1a}
       \strng{fullhash}{6f4816e59e5499c35c029cfc82bc1d1a}
       \strng{fullhashraw}{6f4816e59e5499c35c029cfc82bc1d1a}
@@ -510,15 +323,15 @@
       \strng{authornamehash}{6f4816e59e5499c35c029cfc82bc1d1a}
       \strng{authorfullhash}{6f4816e59e5499c35c029cfc82bc1d1a}
       \strng{authorfullhashraw}{6f4816e59e5499c35c029cfc82bc1d1a}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{IEEE Journal of Oceanic Engineering}
       \field{number}{2}
       \field{title}{Computer modeling and the design of optimal underwater imaging systems}
       \field{volume}{15}
-      \field{year}{1990}
+      \field{year}{2002}
       \field{pages}{101\bibrangedash 111}
       \range{pages}{11}
     \endentry
@@ -540,6 +353,9 @@
            given={Xiaoou},
            giveni={X\bibinitperiod}}}%
       }
+      \list{publisher}{1}{%
+        {Ieee}%
+      }
       \strng{namehash}{01813d8e3e7083ced7930a4911fb06bb}
       \strng{fullhash}{01813d8e3e7083ced7930a4911fb06bb}
       \strng{fullhashraw}{01813d8e3e7083ced7930a4911fb06bb}
@@ -548,15 +364,15 @@
       \strng{authornamehash}{01813d8e3e7083ced7930a4911fb06bb}
       \strng{authorfullhash}{01813d8e3e7083ced7930a4911fb06bb}
       \strng{authorfullhashraw}{01813d8e3e7083ced7930a4911fb06bb}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{IEEE Transactions on Pattern Analysis and Machine Intelligence}
       \field{number}{12}
       \field{title}{Single image haze removal using dark channel prior}
       \field{volume}{33}
-      \field{year}{2011}
+      \field{year}{2010}
       \field{pages}{2341\bibrangedash 2353}
       \range{pages}{13}
     \endentry
@@ -573,9 +389,6 @@
            given={Tali},
            giveni={T\bibinitperiod}}}%
       }
-      \list{publisher}{1}{%
-        {IEEE}%
-      }
       \strng{namehash}{a60641951c0a2b8492c78a5075a59a0f}
       \strng{fullhash}{a60641951c0a2b8492c78a5075a59a0f}
       \strng{fullhashraw}{a60641951c0a2b8492c78a5075a59a0f}
@@ -585,18 +398,15 @@
       \strng{authorfullhash}{a60641951c0a2b8492c78a5075a59a0f}
       \strng{authorfullhashraw}{a60641951c0a2b8492c78a5075a59a0f}
       \field{extraname}{1}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
+      \field{booktitle}{Proceedings of the 2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
       \field{title}{A revised underwater image formation model}
       \field{year}{2018}
       \field{pages}{6723\bibrangedash 6732}
       \range{pages}{10}
-      \verb{doi}
-      \verb 10.1109/CVPR.2018.00703
-      \endverb
     \endentry
     \entry{akkaynak2019sea}{article}{}{}
       \name{author}{2}{}{%
@@ -668,9 +478,6 @@
            given={Tali},
            giveni={T\bibinitperiod}}}%
       }
-      \list{publisher}{1}{%
-        {IEEE}%
-      }
       \strng{namehash}{3645893eee67ce0e4521f02627da05a3}
       \strng{fullhash}{7d60b794806a3a737b854f8bdcace97a}
       \strng{fullhashraw}{7d60b794806a3a737b854f8bdcace97a}
@@ -683,14 +490,11 @@
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
-      \field{title}{SeaThru-NeRF: Neural radiance fields in scattering media}
+      \field{booktitle}{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
+      \field{title}{Seathru-nerf: Neural radiance fields in scattering media}
       \field{year}{2023}
       \field{pages}{56\bibrangedash 65}
       \range{pages}{10}
-      \verb{doi}
-      \verb 10.1109/CVPR52729.2023.00014
-      \endverb
     \endentry
     \entry{seasplat2025icra}{inproceedings}{}{}
       \name{author}{3}{}{%
@@ -702,13 +506,16 @@
         {{hash=6c960232ba2aefe8f363bbf79b4c03b7}{%
            family={Leonard},
            familyi={L\bibinitperiod},
-           given={John\bibnamedelima J.},
+           given={John\bibnamedelima J},
            giveni={J\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
         {{hash=ccf6a3aad5c9a0f2e65c6d0e7bc2d5de}{%
            family={Girdhar},
            familyi={G\bibinitperiod},
            given={Yogesh},
            giveni={Y\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {IEEE}%
       }
       \strng{namehash}{c0601dc659b985914b008352bde91189}
       \strng{fullhash}{c0601dc659b985914b008352bde91189}
@@ -723,233 +530,360 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{2025 IEEE International Conference on Robotics and Automation (ICRA)}
-      \field{title}{SeaSplat: Representing underwater scenes with 3D Gaussian splatting and a physically grounded image formation model}
+      \field{title}{Seasplat: Representing underwater scenes with 3d gaussian splatting and a physically grounded image formation model}
       \field{year}{2025}
       \field{pages}{7632\bibrangedash 7638}
       \range{pages}{7}
-      \verb{doi}
-      \verb 10.1109/ICRA55743.2025.11128502
-      \endverb
     \endentry
     \entry{zhang2024watersplatting}{inproceedings}{}{}
-      \name{author}{2}{}{%
-        {{hash=8aa8790036ee13bbb4a752761d527ef2}{%
-           family={Zhang},
-           familyi={Z\bibinitperiod},
+      \name{author}{5}{}{%
+        {{hash=ca693f7e057bf95f94efac3a068a499e}{%
+           family={Li},
+           familyi={L\bibinitperiod},
            given={Huapeng},
            giveni={H\bibinitperiod}}}%
-        {{hash=57f3d65edf65578d5be03190d6170c56}{%
-           family={Sattar},
+        {{hash=dd246d86bb3e421049b3c343f13300d6}{%
+           family={Song},
            familyi={S\bibinitperiod},
-           given={Junaed},
+           given={Wenxuan},
+           giveni={W\bibinitperiod}}}%
+        {{hash=24d0dcd99baafa2254c14f99dfa4db7c}{%
+           family={Xu},
+           familyi={X\bibinitperiod},
+           given={Tianao},
+           giveni={T\bibinitperiod}}}%
+        {{hash=77c36ecf913cec1ce9d719bdab223b9b}{%
+           family={Elsig},
+           familyi={E\bibinitperiod},
+           given={Alexandre},
+           giveni={A\bibinitperiod}}}%
+        {{hash=a2675375508108d51b45b1025e1b0a55}{%
+           family={Kulhanek},
+           familyi={K\bibinitperiod},
+           given={Jonas},
            giveni={J\bibinitperiod}}}%
       }
-      \strng{namehash}{0985507f3e2fb75721a36dda563700b7}
-      \strng{fullhash}{0985507f3e2fb75721a36dda563700b7}
-      \strng{fullhashraw}{0985507f3e2fb75721a36dda563700b7}
-      \strng{bibnamehash}{0985507f3e2fb75721a36dda563700b7}
-      \strng{authorbibnamehash}{0985507f3e2fb75721a36dda563700b7}
-      \strng{authornamehash}{0985507f3e2fb75721a36dda563700b7}
-      \strng{authorfullhash}{0985507f3e2fb75721a36dda563700b7}
-      \strng{authorfullhashraw}{0985507f3e2fb75721a36dda563700b7}
+      \strng{namehash}{b5b229f29362a057ba78a1eceee5f1c3}
+      \strng{fullhash}{c8f9d8291117c07fbb4bacd402478b24}
+      \strng{fullhashraw}{c8f9d8291117c07fbb4bacd402478b24}
+      \strng{bibnamehash}{b5b229f29362a057ba78a1eceee5f1c3}
+      \strng{authorbibnamehash}{b5b229f29362a057ba78a1eceee5f1c3}
+      \strng{authornamehash}{b5b229f29362a057ba78a1eceee5f1c3}
+      \strng{authorfullhash}{c8f9d8291117c07fbb4bacd402478b24}
+      \strng{authorfullhashraw}{c8f9d8291117c07fbb4bacd402478b24}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{arXiv preprint arXiv:2408.08206}
-      \field{title}{WaterSplatting: Fast underwater 3D scene reconstruction using Gaussian splatting}
-      \field{year}{2024}
+      \field{booktitle}{2025 International Conference on 3D Vision (3DV)}
+      \field{title}{Watersplatting: Fast underwater 3d scene reconstruction using gaussian splatting}
+      \field{year}{2025}
+      \field{pages}{969\bibrangedash 978}
+      \range{pages}{10}
     \endentry
     \entry{wang2024uwgs}{inproceedings}{}{}
-      \true{moreauthor}
-      \true{morelabelname}
-      \name{author}{1}{}{%
+      \name{author}{4}{}{%
         {{hash=4ecbdeaec835537d95d1ebf3f676fb38}{%
            family={Wang},
            familyi={W\bibinitperiod},
            given={Haoran},
            giveni={H\bibinitperiod}}}%
+        {{hash=36cfe2d59d07633b3d1b23eae6f5008c}{%
+           family={Anantrasirichai},
+           familyi={A\bibinitperiod},
+           given={Nantheera},
+           giveni={N\bibinitperiod}}}%
+        {{hash=ae021641a8f85fd2607152ab99ed115b}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Fan},
+           giveni={F\bibinitperiod}}}%
+        {{hash=5c984f085c58a64685dac1286190b8c5}{%
+           family={Bull},
+           familyi={B\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
       }
-      \strng{namehash}{4d21a3489366f503f9b29de271bcf0ee}
-      \strng{fullhash}{4d21a3489366f503f9b29de271bcf0ee}
-      \strng{fullhashraw}{4d21a3489366f503f9b29de271bcf0ee}
-      \strng{bibnamehash}{4d21a3489366f503f9b29de271bcf0ee}
-      \strng{authorbibnamehash}{4d21a3489366f503f9b29de271bcf0ee}
-      \strng{authornamehash}{4d21a3489366f503f9b29de271bcf0ee}
-      \strng{authorfullhash}{4d21a3489366f503f9b29de271bcf0ee}
-      \strng{authorfullhashraw}{4d21a3489366f503f9b29de271bcf0ee}
-      \field{extraname}{1}
+      \list{organization}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{2728946e38bee60dcc033b5e403f5a4b}
+      \strng{fullhash}{71bb14dd26f0b52561dd64f7fe5ed096}
+      \strng{fullhashraw}{71bb14dd26f0b52561dd64f7fe5ed096}
+      \strng{bibnamehash}{2728946e38bee60dcc033b5e403f5a4b}
+      \strng{authorbibnamehash}{2728946e38bee60dcc033b5e403f5a4b}
+      \strng{authornamehash}{2728946e38bee60dcc033b5e403f5a4b}
+      \strng{authorfullhash}{71bb14dd26f0b52561dd64f7fe5ed096}
+      \strng{authorfullhashraw}{71bb14dd26f0b52561dd64f7fe5ed096}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{arXiv preprint arXiv:2410.01517}
-      \field{title}{UW-GS: Distractor-aware 3D Gaussian splatting for enhanced underwater scene reconstruction}
-      \field{year}{2024}
+      \field{booktitle}{2025 IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)}
+      \field{title}{UW-GS: Distractor-aware 3d gaussian splatting for enhanced underwater scene reconstruction}
+      \field{year}{2025}
+      \field{pages}{3280\bibrangedash 3289}
+      \range{pages}{10}
     \endentry
     \entry{li2024seafreegs}{inproceedings}{}{}
-      \true{moreauthor}
-      \true{morelabelname}
-      \name{author}{1}{}{%
-        {{hash=50e1884edfdda9686c94ab712a7f4e10}{%
-           family={Li},
+      \name{author}{5}{}{%
+        {{hash=3a43e14cd417b4c8f5b2d269276960bb}{%
+           family={Liu},
            familyi={L\bibinitperiod},
-           given={Qiankun},
-           giveni={Q\bibinitperiod}}}%
-      }
-      \strng{namehash}{1daf2a23876f2d681eec90b0b9c12920}
-      \strng{fullhash}{1daf2a23876f2d681eec90b0b9c12920}
-      \strng{fullhashraw}{1daf2a23876f2d681eec90b0b9c12920}
-      \strng{bibnamehash}{1daf2a23876f2d681eec90b0b9c12920}
-      \strng{authorbibnamehash}{1daf2a23876f2d681eec90b0b9c12920}
-      \strng{authornamehash}{1daf2a23876f2d681eec90b0b9c12920}
-      \strng{authorfullhash}{1daf2a23876f2d681eec90b0b9c12920}
-      \strng{authorfullhashraw}{1daf2a23876f2d681eec90b0b9c12920}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{arXiv preprint}
-      \field{title}{SeaFree-GS: Reconstructing underwater 3D scenes with true appearances}
-      \field{year}{2024}
-    \endentry
-    \entry{sun2024recgs}{inproceedings}{}{}
-      \true{moreauthor}
-      \true{morelabelname}
-      \name{author}{1}{}{%
-        {{hash=bed5b52151dea40da32c6515a918598b}{%
-           family={Sun},
-           familyi={S\bibinitperiod},
-           given={Tianyi},
-           giveni={T\bibinitperiod}}}%
-      }
-      \strng{namehash}{1b783e75b610f0558b23b1fba569f6fb}
-      \strng{fullhash}{1b783e75b610f0558b23b1fba569f6fb}
-      \strng{fullhashraw}{1b783e75b610f0558b23b1fba569f6fb}
-      \strng{bibnamehash}{1b783e75b610f0558b23b1fba569f6fb}
-      \strng{authorbibnamehash}{1b783e75b610f0558b23b1fba569f6fb}
-      \strng{authornamehash}{1b783e75b610f0558b23b1fba569f6fb}
-      \strng{authorfullhash}{1b783e75b610f0558b23b1fba569f6fb}
-      \strng{authorfullhashraw}{1b783e75b610f0558b23b1fba569f6fb}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{arXiv preprint arXiv:2407.10318}
-      \field{title}{RecGS: Removing water caustic with recurrent Gaussian splatting}
-      \field{year}{2024}
-    \endentry
-    \entry{chen20243duir}{inproceedings}{}{}
-      \true{moreauthor}
-      \true{morelabelname}
-      \name{author}{1}{}{%
-        {{hash=215c7d91e47bc648dac2d6096241a0e5}{%
-           family={Chen},
-           familyi={C\bibinitperiod},
-           given={Chi},
-           giveni={C\bibinitperiod}}}%
-      }
-      \strng{namehash}{30eb585be005f6c0f9cb5fa9932b5294}
-      \strng{fullhash}{30eb585be005f6c0f9cb5fa9932b5294}
-      \strng{fullhashraw}{30eb585be005f6c0f9cb5fa9932b5294}
-      \strng{bibnamehash}{30eb585be005f6c0f9cb5fa9932b5294}
-      \strng{authorbibnamehash}{30eb585be005f6c0f9cb5fa9932b5294}
-      \strng{authornamehash}{30eb585be005f6c0f9cb5fa9932b5294}
-      \strng{authorfullhash}{30eb585be005f6c0f9cb5fa9932b5294}
-      \strng{authorfullhashraw}{30eb585be005f6c0f9cb5fa9932b5294}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{arXiv preprint}
-      \field{title}{3D-UIR: 3D Gaussian for underwater 3D scene reconstruction via physics-based appearance-medium decoupling}
-      \field{year}{2024}
-    \endentry
-    \entry{wang2024dualphysgs}{inproceedings}{}{}
-      \true{moreauthor}
-      \true{morelabelname}
-      \name{author}{1}{}{%
-        {{hash=c26cc02bbb5db725a2c79cb200894d76}{%
-           family={Wang},
-           familyi={W\bibinitperiod},
-           given={Peng},
-           giveni={P\bibinitperiod}}}%
-      }
-      \strng{namehash}{1945ae4f24598c69c95ba36c072b63da}
-      \strng{fullhash}{1945ae4f24598c69c95ba36c072b63da}
-      \strng{fullhashraw}{1945ae4f24598c69c95ba36c072b63da}
-      \strng{bibnamehash}{1945ae4f24598c69c95ba36c072b63da}
-      \strng{authorbibnamehash}{1945ae4f24598c69c95ba36c072b63da}
-      \strng{authornamehash}{1945ae4f24598c69c95ba36c072b63da}
-      \strng{authorfullhash}{1945ae4f24598c69c95ba36c072b63da}
-      \strng{authorfullhashraw}{1945ae4f24598c69c95ba36c072b63da}
-      \field{extraname}{2}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{arXiv preprint}
-      \field{title}{DualPhys-GS: Dual physically-guided 3D Gaussian splatting for underwater scene reconstruction}
-      \field{year}{2024}
-    \endentry
-    \entry{zhang2024aquaticgs}{inproceedings}{}{}
-      \true{moreauthor}
-      \true{morelabelname}
-      \name{author}{1}{}{%
-        {{hash=ec44eedac068b80195c2d8242e35f30a}{%
-           family={Zhang},
-           familyi={Z\bibinitperiod},
            given={Shaohua},
            giveni={S\bibinitperiod}}}%
+        {{hash=c1aac5f776fbb412a2431f0761b4c2ea}{%
+           family={Gao},
+           familyi={G\bibinitperiod},
+           given={Ning},
+           giveni={N\bibinitperiod}}}%
+        {{hash=b9183f8b9558a40813cbebe3cd434477}{%
+           family={Fu},
+           familyi={F\bibinitperiod},
+           given={Shaowen},
+           giveni={S\bibinitperiod}}}%
+        {{hash=3b762eafb982b0df4cb895869181fdf2}{%
+           family={Zhong},
+           familyi={Z\bibinitperiod},
+           given={Xiaoqing},
+           giveni={X\bibinitperiod}}}%
+        {{hash=3d6ef5438a0932cece43debf4d9fc14f}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Hongjue},
+           giveni={H\bibinitperiod}}}%
       }
-      \strng{namehash}{4e125aae6f51c6bc880d87a45eb12c2b}
-      \strng{fullhash}{4e125aae6f51c6bc880d87a45eb12c2b}
-      \strng{fullhashraw}{4e125aae6f51c6bc880d87a45eb12c2b}
-      \strng{bibnamehash}{4e125aae6f51c6bc880d87a45eb12c2b}
-      \strng{authorbibnamehash}{4e125aae6f51c6bc880d87a45eb12c2b}
-      \strng{authornamehash}{4e125aae6f51c6bc880d87a45eb12c2b}
-      \strng{authorfullhash}{4e125aae6f51c6bc880d87a45eb12c2b}
-      \strng{authorfullhashraw}{4e125aae6f51c6bc880d87a45eb12c2b}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{b1050bb2acd9dd60f0ed8243e3391c81}
+      \strng{fullhash}{bd9f41622d71c4460a58e6a565ef6caa}
+      \strng{fullhashraw}{bd9f41622d71c4460a58e6a565ef6caa}
+      \strng{bibnamehash}{b1050bb2acd9dd60f0ed8243e3391c81}
+      \strng{authorbibnamehash}{b1050bb2acd9dd60f0ed8243e3391c81}
+      \strng{authornamehash}{b1050bb2acd9dd60f0ed8243e3391c81}
+      \strng{authorfullhash}{bd9f41622d71c4460a58e6a565ef6caa}
+      \strng{authorfullhashraw}{bd9f41622d71c4460a58e6a565ef6caa}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{arXiv preprint}
-      \field{title}{Aquatic-GS: A hybrid 3D representation for underwater scenes}
-      \field{year}{2024}
+      \field{journaltitle}{IEEE Signal Processing Letters}
+      \field{title}{SeaFree-GS: Reconstructing underwater 3D scenes with true appearances}
+      \field{year}{2025}
     \endentry
-    \entry{周鑫2021水下}{article}{}{}
-      \name{author}{3}{}{%
-        {{hash=f98b5a608d50b196b1810c64e7fd7445}{%
-           family={周鑫},
-           familyi={周\bibinitperiod}}}%
-        {{hash=305be7965375e114a6965c245e1ffc9e}{%
-           family={张伟},
-           familyi={张\bibinitperiod}}}%
-        {{hash=0dc6c9d510dab2c680c4d6e0dbf748ab}{%
-           family={陆军},
-           familyi={陆\bibinitperiod}}}%
+    \entry{sun2024recgs}{inproceedings}{}{}
+      \name{author}{8}{}{%
+        {{hash=733e3732b7e3ce5cf2b04cf5e9bd9cf1}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Tianyi},
+           giveni={T\bibinitperiod}}}%
+        {{hash=d4e8e91900d2bf7034ef60a537a03367}{%
+           family={Zhi},
+           familyi={Z\bibinitperiod},
+           given={Weiming},
+           giveni={W\bibinitperiod}}}%
+        {{hash=586b69a099b89583a7c9655986ac15a1}{%
+           family={Meyers},
+           familyi={M\bibinitperiod},
+           given={Braden},
+           giveni={B\bibinitperiod}}}%
+        {{hash=79a5e72aa51fb36c7045440a129c7e43}{%
+           family={Durrant},
+           familyi={D\bibinitperiod},
+           given={Nelson},
+           giveni={N\bibinitperiod}}}%
+        {{hash=9e47d1695562c14f27f2e5b4bf0ffe6f}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Kaining},
+           giveni={K\bibinitperiod}}}%
+        {{hash=4568d1cdef206647efc4cd7c24605f0f}{%
+           family={Mangelson},
+           familyi={M\bibinitperiod},
+           given={Joshua},
+           giveni={J\bibinitperiod}}}%
+        {{hash=34f517c63f1dc9e96cb3a57b34361b7c}{%
+           family={Barbalata},
+           familyi={B\bibinitperiod},
+           given={Corina},
+           giveni={C\bibinitperiod}}}%
+        {{hash=63713f5bbea5a73d94cc640d3c05cc5a}{%
+           family={Johnson-Roberson},
+           familyi={J\bibinithyphendelim R\bibinitperiod},
+           given={Matthew},
+           giveni={M\bibinitperiod}}}%
       }
-      \strng{namehash}{4275f9085e920194df9ec87b7ff44c53}
-      \strng{fullhash}{4275f9085e920194df9ec87b7ff44c53}
-      \strng{fullhashraw}{4275f9085e920194df9ec87b7ff44c53}
-      \strng{bibnamehash}{4275f9085e920194df9ec87b7ff44c53}
-      \strng{authorbibnamehash}{4275f9085e920194df9ec87b7ff44c53}
-      \strng{authornamehash}{4275f9085e920194df9ec87b7ff44c53}
-      \strng{authorfullhash}{4275f9085e920194df9ec87b7ff44c53}
-      \strng{authorfullhashraw}{4275f9085e920194df9ec87b7ff44c53}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{ce371f1252c9df752169d5920159a74f}
+      \strng{fullhash}{2c4609f1855fa61f4372a738ce5c6640}
+      \strng{fullhashraw}{2c4609f1855fa61f4372a738ce5c6640}
+      \strng{bibnamehash}{ce371f1252c9df752169d5920159a74f}
+      \strng{authorbibnamehash}{ce371f1252c9df752169d5920159a74f}
+      \strng{authornamehash}{ce371f1252c9df752169d5920159a74f}
+      \strng{authorfullhash}{2c4609f1855fa61f4372a738ce5c6640}
+      \strng{authorfullhashraw}{2c4609f1855fa61f4372a738ce5c6640}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{计算机学报}
-      \field{number}{3}
-      \field{title}{水下图像增强与复原方法综述}
-      \field{userf}{zh}
-      \field{volume}{44}
-      \field{year}{2021}
-      \field{pages}{534\bibrangedash 568}
-      \range{pages}{35}
+      \field{journaltitle}{IEEE Robotics and Automation Letters}
+      \field{number}{1}
+      \field{title}{Recgs: Removing water caustic with recurrent gaussian splatting}
+      \field{volume}{10}
+      \field{year}{2024}
+      \field{pages}{668\bibrangedash 675}
+      \range{pages}{8}
+    \endentry
+    \entry{chen20243duir}{inproceedings}{}{}
+      \name{author}{7}{}{%
+        {{hash=9e7ec207dcd2cae7486f1ab739e474c2}{%
+           family={Yuan},
+           familyi={Y\bibinitperiod},
+           given={Jieyu},
+           giveni={J\bibinitperiod}}}%
+        {{hash=03f04d1309fec3b5ce07e6c1e5df77ed}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Yujun},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=033a69a6053b2f2236eee3a7727779e0}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Yuanlin},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=90395059372f58900e06024011c03a66}{%
+           family={Guo},
+           familyi={G\bibinitperiod},
+           given={Chunle},
+           giveni={C\bibinitperiod}}}%
+        {{hash=8ce912fbd6ce280fd56c60908864d8b1}{%
+           family={Tang},
+           familyi={T\bibinitperiod},
+           given={Xiongxin},
+           giveni={X\bibinitperiod}}}%
+        {{hash=b69b6910f522b8320bdd4dcb3661f54f}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Ruixing},
+           giveni={R\bibinitperiod}}}%
+        {{hash=dee42d8c2aeae4d87b0ffb9f10b9ab19}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Chongyi},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{58d4b6662f365b7cfa0b3bdb67ef14aa}
+      \strng{fullhash}{7a288a260ab5e3ba66400cc069ffe7db}
+      \strng{fullhashraw}{7a288a260ab5e3ba66400cc069ffe7db}
+      \strng{bibnamehash}{58d4b6662f365b7cfa0b3bdb67ef14aa}
+      \strng{authorbibnamehash}{58d4b6662f365b7cfa0b3bdb67ef14aa}
+      \strng{authornamehash}{58d4b6662f365b7cfa0b3bdb67ef14aa}
+      \strng{authorfullhash}{7a288a260ab5e3ba66400cc069ffe7db}
+      \strng{authorfullhashraw}{7a288a260ab5e3ba66400cc069ffe7db}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2505.21238}
+      \field{title}{3D-UIR: 3D Gaussian for underwater 3D scene reconstruction via physics based appearance-medium decoupling}
+      \field{year}{2025}
+    \endentry
+    \entry{wang2024dualphysgs}{inproceedings}{}{}
+      \name{author}{5}{}{%
+        {{hash=cb6e33df9e0c50ee3266a6758f7871a2}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Jiachen},
+           giveni={J\bibinitperiod}}}%
+        {{hash=92e16c5ebd4deb9d9d196d92e4554666}{%
+           family={Han},
+           familyi={H\bibinitperiod},
+           given={Guangzhi},
+           giveni={G\bibinitperiod}}}%
+        {{hash=b9d000ea6787cf9dc909dc1b4a3e564d}{%
+           family={Wan},
+           familyi={W\bibinitperiod},
+           given={Jin},
+           giveni={J\bibinitperiod}}}%
+        {{hash=a85dcf731e772b177341998a236d587a}{%
+           family={Gao},
+           familyi={G\bibinitperiod},
+           given={Yuan},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=47f48f905dc96a918e985fdc25ebaec1}{%
+           family={Han},
+           familyi={H\bibinitperiod},
+           given={Delong},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{85ff1933dc60b779268cb268506e0960}
+      \strng{fullhash}{d28cfd1a3902bcbea7682ab21d8c7dd8}
+      \strng{fullhashraw}{d28cfd1a3902bcbea7682ab21d8c7dd8}
+      \strng{bibnamehash}{85ff1933dc60b779268cb268506e0960}
+      \strng{authorbibnamehash}{85ff1933dc60b779268cb268506e0960}
+      \strng{authornamehash}{85ff1933dc60b779268cb268506e0960}
+      \strng{authorfullhash}{d28cfd1a3902bcbea7682ab21d8c7dd8}
+      \strng{authorfullhashraw}{d28cfd1a3902bcbea7682ab21d8c7dd8}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Computers \& Graphics}
+      \field{title}{DualPhys-GS: Dual physically-guided 3D Gaussian splatting for underwater scene reconstruction}
+      \field{year}{2025}
+      \field{pages}{104405}
+      \range{pages}{1}
+    \endentry
+    \entry{zhang2024aquaticgs}{inproceedings}{}{}
+      \name{author}{5}{}{%
+        {{hash=3a43e14cd417b4c8f5b2d269276960bb}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Shaohua},
+           giveni={S\bibinitperiod}}}%
+        {{hash=5d33ff66f967e7c03269d7bd0147c4ec}{%
+           family={Lu},
+           familyi={L\bibinitperiod},
+           given={Junzhe},
+           giveni={J\bibinitperiod}}}%
+        {{hash=24a69003108e55f13933fa65d6e7c37d}{%
+           family={Gu},
+           familyi={G\bibinitperiod},
+           given={Zuoya},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=9958ccb241e8eac42694f3fcb9e4c43d}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Jiajun},
+           giveni={J\bibinitperiod}}}%
+        {{hash=ec5b7fd92345dc07570d3626b3cf329e}{%
+           family={Deng},
+           familyi={D\bibinitperiod},
+           given={Yue},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{f8418935d826a253cebdd920fc8fcb04}
+      \strng{fullhash}{7915c50712958411dd74bf5891b31530}
+      \strng{fullhashraw}{7915c50712958411dd74bf5891b31530}
+      \strng{bibnamehash}{f8418935d826a253cebdd920fc8fcb04}
+      \strng{authorbibnamehash}{f8418935d826a253cebdd920fc8fcb04}
+      \strng{authornamehash}{f8418935d826a253cebdd920fc8fcb04}
+      \strng{authorfullhash}{7915c50712958411dd74bf5891b31530}
+      \strng{authorfullhashraw}{7915c50712958411dd74bf5891b31530}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2411.00239}
+      \field{title}{Aquatic-gs: A hybrid 3d representation for underwater scenes}
+      \field{year}{2024}
     \endentry
     \entry{park2021nerfies}{inproceedings}{}{}
       \name{author}{7}{}{%
@@ -1001,7 +935,7 @@
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{IEEE/CVF International Conference on Computer Vision (ICCV)}
+      \field{booktitle}{Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)}
       \field{title}{Nerfies: Deformable neural radiance fields}
       \field{year}{2021}
       \field{pages}{5865\bibrangedash 5874}
@@ -1042,8 +976,8 @@
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
-      \field{title}{D-NeRF: Neural radiance fields for dynamic scenes}
+      \field{booktitle}{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
+      \field{title}{D-nerf: Neural radiance fields for dynamic scenes}
       \field{year}{2021}
       \field{pages}{10318\bibrangedash 10327}
       \range{pages}{10}
@@ -1071,7 +1005,7 @@
            given={Deva},
            giveni={D\bibinitperiod}}}%
       }
-      \list{publisher}{1}{%
+      \list{organization}{1}{%
         {IEEE}%
       }
       \strng{namehash}{7bc3f94be849af3eb3d0f4accad5e302}
@@ -1087,13 +1021,10 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{2024 International Conference on 3D Vision (3DV)}
-      \field{title}{Dynamic 3D Gaussians: Tracking by persistent dynamic view synthesis}
+      \field{title}{Dynamic 3d gaussians: Tracking by persistent dynamic view synthesis}
       \field{year}{2024}
       \field{pages}{800\bibrangedash 809}
       \range{pages}{10}
-      \verb{doi}
-      \verb 10.1109/3dv62453.2024.00044
-      \endverb
     \endentry
     \entry{wu2024gaussian}{inproceedings}{}{}
       \name{author}{9}{}{%
@@ -1155,8 +1086,8 @@
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
-      \field{title}{4D Gaussian splatting for real-time dynamic scene rendering}
+      \field{booktitle}{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
+      \field{title}{4d gaussian splatting for real-time dynamic scene rendering}
       \field{year}{2024}
       \field{pages}{20310\bibrangedash 20320}
       \range{pages}{11}
@@ -1197,19 +1128,17 @@
       \strng{authornamehash}{efd25bda2ba54e26d91d51eb5baaa7b0}
       \strng{authorfullhash}{759db143cf3eeefbebcc51cdeccf6f10}
       \strng{authorfullhashraw}{759db143cf3eeefbebcc51cdeccf6f10}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{issn}{2073-8994}
       \field{journaltitle}{Symmetry}
       \field{number}{8}
-      \field{title}{UDR-GS: Enhancing underwater dynamic scene reconstruction with depth regularization}
+      \field{title}{Udr-gs: Enhancing underwater dynamic scene reconstruction with depth regularization}
       \field{volume}{16}
       \field{year}{2024}
-      \verb{doi}
-      \verb 10.3390/sym16081010
-      \endverb
+      \field{pages}{1010}
+      \range{pages}{1}
     \endentry
     \entry{yang2024depthanything}{article}{}{}
       \name{author}{6}{}{%
@@ -1253,13 +1182,15 @@
       \strng{authorfullhash}{b747e9da8f05ff81e8ffd026c30db1d0}
       \strng{authorfullhashraw}{b747e9da8f05ff81e8ffd026c30db1d0}
       \field{extraname}{1}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{arXiv preprint arXiv:2401.10891}
+      \field{booktitle}{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
       \field{title}{Depth anything: Unleashing the power of large-scale unlabeled data}
       \field{year}{2024}
+      \field{pages}{10371\bibrangedash 10381}
+      \range{pages}{11}
     \endentry
     \entry{yang2024depthv2}{article}{}{}
       \name{author}{7}{}{%
@@ -1308,13 +1239,16 @@
       \strng{authorfullhash}{6430ca374a67896a00bdac35d13834e2}
       \strng{authorfullhashraw}{6430ca374a67896a00bdac35d13834e2}
       \field{extraname}{2}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{arXiv preprint arXiv:2406.09414}
-      \field{title}{Depth anything V2}
+      \field{journaltitle}{Advances in Neural Information Processing Systems}
+      \field{title}{Depth anything v2}
+      \field{volume}{37}
       \field{year}{2024}
+      \field{pages}{21875\bibrangedash 21911}
+      \range{pages}{37}
     \endentry
     \entry{wang2004ssim}{article}{}{}
       \name{author}{4}{}{%
@@ -1347,8 +1281,8 @@
       \strng{authornamehash}{e568872838feb3749ae0528cce82d45c}
       \strng{authorfullhash}{678422238c76e65638062cadc184ea94}
       \strng{authorfullhashraw}{678422238c76e65638062cadc184ea94}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{IEEE Transactions on Image Processing}
@@ -1395,11 +1329,11 @@
       \strng{authornamehash}{636e6ae4822477e755423a7db71f9e17}
       \strng{authorfullhash}{b4812124f82ca96d3c1cb10ee3db7804}
       \strng{authorfullhashraw}{b4812124f82ca96d3c1cb10ee3db7804}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
+      \field{booktitle}{Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}
       \field{title}{The unreasonable effectiveness of deep features as a perceptual metric}
       \field{year}{2018}
       \field{pages}{586\bibrangedash 595}
@@ -1426,12 +1360,12 @@
       \strng{authornamehash}{ab9cac560481ba1bc7bf2e078651637d}
       \strng{authorfullhash}{ab9cac560481ba1bc7bf2e078651637d}
       \strng{authorfullhashraw}{ab9cac560481ba1bc7bf2e078651637d}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
-      \field{title}{HexPlane: A fast representation for dynamic scenes}
+      \field{booktitle}{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
+      \field{title}{Hexplane: A fast representation for dynamic scenes}
       \field{year}{2023}
       \field{pages}{130\bibrangedash 141}
       \range{pages}{12}

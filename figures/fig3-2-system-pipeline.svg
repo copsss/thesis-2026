@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <style>
+      .title { font-family: "Microsoft YaHei", "SimHei", Arial, sans-serif; font-size: 34px; font-weight: 700; fill: #17212b; }
+      .region-title { font-family: "Microsoft YaHei", "SimHei", Arial, sans-serif; font-size: 24px; font-weight: 700; fill: #21313f; }
+      .label { font-family: "Microsoft YaHei", "SimHei", Arial, sans-serif; font-size: 21px; font-weight: 700; fill: #1d2a35; }
+      .small { font-family: "Microsoft YaHei", "SimHei", Arial, sans-serif; font-size: 17px; fill: #344452; }
+      .tiny { font-family: "Microsoft YaHei", "SimHei", Arial, sans-serif; font-size: 15px; fill: #465765; }
+      .math { font-family: "Times New Roman", "Microsoft YaHei", serif; font-size: 19px; fill: #1c2a35; }
+      .chip { font-family: "Microsoft YaHei", "SimHei", Arial, sans-serif; font-size: 18px; font-weight: 700; fill: #263747; }
+      .panel { fill: #ffffff; stroke-width: 3; rx: 18; ry: 18; }
+      .region { fill-opacity: 0.34; stroke-width: 3.2; stroke-dasharray: 12 8; rx: 22; ry: 22; }
+      .arrow { fill: none; stroke: #2b3b45; stroke-width: 4; marker-end: url(#arrow-dark); }
+      .green-arrow { fill: none; stroke: #3d8b55; stroke-width: 4.5; marker-end: url(#arrow-green); }
+      .blue-dash { fill: none; stroke: #2f87c8; stroke-width: 4; stroke-dasharray: 10 8; marker-end: url(#arrow-blue); }
+      .red-dash { fill: none; stroke: #c84a4a; stroke-width: 4; stroke-dasharray: 10 8; marker-end: url(#arrow-red); }
+    </style>
+
+    <marker id="arrow-dark" markerWidth="13" markerHeight="13" refX="11" refY="6.5" orient="auto">
+      <path d="M1,1 L12,6.5 L1,12 Z" fill="#2b3b45"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="13" markerHeight="13" refX="11" refY="6.5" orient="auto">
+      <path d="M1,1 L12,6.5 L1,12 Z" fill="#3d8b55"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="13" markerHeight="13" refX="11" refY="6.5" orient="auto">
+      <path d="M1,1 L12,6.5 L1,12 Z" fill="#2f87c8"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="13" markerHeight="13" refX="11" refY="6.5" orient="auto">
+      <path d="M1,1 L12,6.5 L1,12 Z" fill="#c84a4a"/>
+    </marker>
+
+    <linearGradient id="alpha-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.25"/>
+      <stop offset="52%" stop-color="#7f8b93" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#1f2930" stop-opacity="0.22"/>
+    </linearGradient>
+
+    <clipPath id="clip-gauss"><rect x="62" y="150" width="198" height="182" rx="13" ry="13"/></clipPath>
+    <clipPath id="clip-j"><rect x="916" y="171" width="142" height="82" rx="10" ry="10"/></clipPath>
+    <clipPath id="clip-z"><rect x="916" y="287" width="142" height="82" rx="10" ry="10"/></clipPath>
+    <clipPath id="clip-alpha"><rect x="916" y="403" width="142" height="82" rx="10" ry="10"/></clipPath>
+    <clipPath id="clip-a"><rect x="1304" y="178" width="164" height="92" rx="10" ry="10"/></clipPath>
+    <clipPath id="clip-b"><rect x="1304" y="333" width="164" height="92" rx="10" ry="10"/></clipPath>
+    <clipPath id="clip-i"><rect x="1690" y="258" width="150" height="110" rx="12" ry="12"/></clipPath>
+    <clipPath id="clip-igt"><rect x="115" y="771" width="180" height="116" rx="12" ry="12"/></clipPath>
+    <clipPath id="clip-mono"><rect x="424" y="771" width="180" height="116" rx="12" ry="12"/></clipPath>
+  </defs>
+
+  <rect width="1920" height="1080" fill="#ffffff"/>
+  <text x="960" y="54" text-anchor="middle" class="title">图3-2 系统渲染管线</text>
+
+  <!-- Region A -->
+  <rect x="38" y="92" width="250" height="540" class="region" fill="#e8f5ec" stroke="#63a86f"/>
+  <text x="163" y="128" text-anchor="middle" class="region-title">动态高斯表示</text>
+
+  <rect x="55" y="142" width="212" height="234" class="panel" fill="#f7fcf8" stroke="#63a86f"/>
+  <text x="161" y="172" text-anchor="middle" class="label">4D 高斯点集</text>
+  <image href="dewater/robot_ours_J.png" x="62" y="184" width="198" height="118" preserveAspectRatio="xMidYMid slice" clip-path="url(#clip-gauss)" opacity="0.55"/>
+  <g clip-path="url(#clip-gauss)">
+    <circle cx="90" cy="235" r="7" fill="#45a6ff" opacity="0.85"/>
+    <circle cx="128" cy="213" r="8" fill="#f7c948" opacity="0.85"/>
+    <circle cx="166" cy="250" r="6" fill="#54c285" opacity="0.9"/>
+    <ellipse cx="205" cy="222" rx="22" ry="10" fill="#d96c75" opacity="0.55" transform="rotate(-18 205 222)"/>
+    <ellipse cx="130" cy="270" rx="24" ry="11" fill="#69b3ff" opacity="0.5" transform="rotate(20 130 270)"/>
+    <ellipse cx="228" cy="272" rx="18" ry="9" fill="#9bd36a" opacity="0.55" transform="rotate(-32 228 272)"/>
+  </g>
+  <text x="161" y="350" text-anchor="middle" class="math">μ, Σ, α, f</text>
+
+  <rect x="70" y="418" width="182" height="142" class="panel" fill="#f7fcf8" stroke="#63a86f"/>
+  <text x="161" y="450" text-anchor="middle" class="label">相机 / 时间</text>
+  <g transform="translate(104,472)" stroke="#38506a" stroke-width="3" fill="none">
+    <path d="M16,32 L58,12 L58,52 Z"/>
+    <rect x="0" y="24" width="16" height="16" fill="#eaf3fb"/>
+    <path d="M70,50 C92,34 113,32 136,42" stroke="#63a86f"/>
+    <circle cx="78" cy="49" r="3" fill="#63a86f"/>
+    <circle cx="104" cy="36" r="3" fill="#63a86f"/>
+    <circle cx="132" cy="42" r="3" fill="#63a86f"/>
+  </g>
+  <text x="161" y="540" text-anchor="middle" class="math">P_v, t</text>
+
+  <!-- Region B -->
+  <rect x="315" y="92" width="360" height="540" class="region" fill="#e8f5ec" stroke="#63a86f"/>
+  <text x="495" y="128" text-anchor="middle" class="region-title">时序变形</text>
+
+  <rect x="336" y="150" width="156" height="332" class="panel" fill="#fbfff8" stroke="#74b67b"/>
+  <text x="414" y="181" text-anchor="middle" class="label">HexPlane</text>
+  <g transform="translate(356,204)" stroke-width="3">
+    <g fill="#fff3c6" stroke="#c99919"><rect x="0" y="0" width="48" height="42"/><path d="M16,0V42M32,0V42M0,14H48M0,28H48"/></g>
+    <g transform="translate(70,0)" fill="#e5f4d5" stroke="#8ebd6a"><rect x="0" y="0" width="48" height="42"/><path d="M16,0V42M32,0V42M0,14H48M0,28H48"/></g>
+    <g transform="translate(0,70)" fill="#dfefff" stroke="#78aee3"><rect x="0" y="0" width="48" height="42"/><path d="M16,0V42M32,0V42M0,14H48M0,28H48"/></g>
+    <g transform="translate(70,70)" fill="#ffe5cb" stroke="#e5a167"><rect x="0" y="0" width="48" height="42"/><path d="M16,0V42M32,0V42M0,14H48M0,28H48"/></g>
+    <g transform="translate(0,140)" fill="#f0e5ff" stroke="#a98bd6"><rect x="0" y="0" width="48" height="42"/><path d="M16,0V42M32,0V42M0,14H48M0,28H48"/></g>
+    <g transform="translate(70,140)" fill="#e8eef2" stroke="#94a3ad"><rect x="0" y="0" width="48" height="42"/><path d="M16,0V42M32,0V42M0,14H48M0,28H48"/></g>
+  </g>
+  <text x="381" y="443" text-anchor="middle" class="tiny">xy/xz/yz</text>
+  <text x="447" y="443" text-anchor="middle" class="tiny">xt/yt/zt</text>
+
+  <rect x="520" y="198" width="82" height="174" rx="16" ry="16" fill="#fff7ec" stroke="#db8b37" stroke-width="3"/>
+  <text x="561" y="230" text-anchor="middle" class="label">变形</text>
+  <text x="561" y="254" text-anchor="middle" class="label">网络</text>
+  <g transform="translate(543,276)">
+    <rect x="0" y="0" width="10" height="66" rx="5" fill="#e67f36"/>
+    <rect x="18" y="-8" width="10" height="82" rx="5" fill="#e67f36"/>
+    <rect x="36" y="4" width="10" height="58" rx="5" fill="#e67f36"/>
+  </g>
+
+  <rect x="608" y="232" width="52" height="110" rx="14" ry="14" fill="#f8fff8" stroke="#63a86f" stroke-width="3"/>
+  <text x="634" y="277" text-anchor="middle" class="small">动态</text>
+  <text x="634" y="303" text-anchor="middle" class="math">G_t</text>
+  <text x="552" y="420" text-anchor="middle" class="math">Δμ, Δr, Δs</text>
+
+  <!-- Region C -->
+  <rect x="700" y="92" width="380" height="540" class="region" fill="#fff4ea" stroke="#d77a4d"/>
+  <text x="890" y="128" text-anchor="middle" class="region-title">高斯光栅化</text>
+
+  <rect x="724" y="170" width="160" height="250" class="panel" fill="#fffaf4" stroke="#d77a4d"/>
+  <text x="804" y="202" text-anchor="middle" class="label">投影混合</text>
+  <g transform="translate(750,225)">
+    <ellipse cx="28" cy="34" rx="28" ry="13" fill="#79b7ff" opacity="0.6" transform="rotate(-20 28 34)"/>
+    <ellipse cx="68" cy="58" rx="30" ry="14" fill="#f2c14e" opacity="0.55" transform="rotate(18 68 58)"/>
+    <ellipse cx="99" cy="30" rx="24" ry="11" fill="#da6c75" opacity="0.55" transform="rotate(-8 99 30)"/>
+    <path d="M18,118 C48,92 95,88 126,114" fill="none" stroke="#678" stroke-width="3"/>
+    <rect x="18" y="132" width="116" height="48" rx="8" fill="#eaf0f4" stroke="#789" stroke-width="3"/>
+    <circle cx="52" cy="156" r="12" fill="#79b7ff" opacity="0.72"/>
+    <circle cx="86" cy="156" r="12" fill="#f2c14e" opacity="0.72"/>
+    <circle cx="116" cy="156" r="10" fill="#da6c75" opacity="0.72"/>
+  </g>
+
+  <rect x="902" y="150" width="168" height="365" class="panel" fill="#fffafa" stroke="#c96755"/>
+  <text x="986" y="181" text-anchor="middle" class="label">渲染输出</text>
+  <image href="dewater/robot_ours_J.png" x="916" y="201" width="142" height="82" preserveAspectRatio="xMidYMid slice" clip-path="url(#clip-j)"/>
+  <text x="927" y="223" class="label" fill="#ffffff">J</text>
+  <image href="intermediate/robot_depth.png" x="916" y="317" width="142" height="82" preserveAspectRatio="xMidYMid slice" clip-path="url(#clip-z)"/>
+  <text x="927" y="339" class="label" fill="#ffffff">Z</text>
+  <rect x="916" y="433" width="142" height="82" rx="10" ry="10" fill="#d7dde1" clip-path="url(#clip-alpha)"/>
+  <g clip-path="url(#clip-alpha)" opacity="0.75">
+    <circle cx="950" cy="475" r="36" fill="#f4f4f4"/>
+    <circle cx="1010" cy="467" r="42" fill="#aeb8bf"/>
+    <rect x="916" y="433" width="142" height="82" fill="url(#alpha-grad)"/>
+  </g>
+  <text x="927" y="455" class="label" fill="#344452">α</text>
+
+  <!-- Region D -->
+  <rect x="1112" y="92" width="768" height="540" class="region" fill="#e9f9fb" stroke="#5bb7c8"/>
+  <text x="1496" y="128" text-anchor="middle" class="region-title">水下成像</text>
+
+  <rect x="1140" y="252" width="140" height="88" class="panel" fill="#f3fcfe" stroke="#5bb7c8"/>
+  <text x="1210" y="287" text-anchor="middle" class="label">深度归一</text>
+  <text x="1210" y="316" text-anchor="middle" class="math">Ẑ</text>
+
+  <rect x="1294" y="154" width="186" height="154" class="panel" fill="#f3fcfe" stroke="#5bb7c8"/>
+  <text x="1387" y="184" text-anchor="middle" class="label">衰减 A(z)</text>
+  <image href="intermediate/robot_atten.png" x="1304" y="198" width="164" height="72" preserveAspectRatio="xMidYMid slice" clip-path="url(#clip-a)"/>
+  <text x="1387" y="294" text-anchor="middle" class="math">A_c=exp(-β_c^D z)</text>
+
+  <rect x="1294" y="326" width="186" height="154" class="panel" fill="#f3fcfe" stroke="#5bb7c8"/>
+  <text x="1387" y="356" text-anchor="middle" class="label">后向散射 B(z)</text>
+  <image href="intermediate/robot_bs.png" x="1304" y="370" width="164" height="72" preserveAspectRatio="xMidYMid slice" clip-path="url(#clip-b)"/>
+  <text x="1387" y="466" text-anchor="middle" class="math">B_c=B∞(1-exp(-β_c^B z))</text>
+
+  <rect x="1520" y="254" width="130" height="94" class="panel" fill="#ffffff" stroke="#5bb7c8"/>
+  <text x="1585" y="289" text-anchor="middle" class="label">物理合成</text>
+  <text x="1585" y="320" text-anchor="middle" class="math">I = J · A + B</text>
+
+  <rect x="1676" y="218" width="178" height="200" class="panel" fill="#fff6ef" stroke="#e08b54"/>
+  <text x="1765" y="250" text-anchor="middle" class="label">合成观测 I</text>
+  <image href="dewater/robot_ours_I.png" x="1690" y="272" width="150" height="110" preserveAspectRatio="xMidYMid slice" clip-path="url(#clip-i)"/>
+
+  <!-- Main arrows -->
+  <path class="green-arrow" d="M267,260 C288,260 296,260 315,260"/>
+  <path class="green-arrow" d="M252,490 C285,490 294,330 315,330"/>
+  <path class="green-arrow" d="M492,286 L520,286"/>
+  <path class="green-arrow" d="M602,286 L608,286"/>
+  <path class="green-arrow" d="M660,286 C682,286 696,286 724,286"/>
+  <path class="arrow" d="M884,292 L902,292"/>
+  <path class="arrow" d="M1070,358 C1100,358 1110,296 1140,296"/>
+  <path class="arrow" d="M1280,296 C1300,246 1286,231 1294,231"/>
+  <path class="arrow" d="M1280,306 C1300,380 1286,403 1294,403"/>
+  <path class="arrow" d="M1058,242 C1220,80 1445,140 1520,278"/>
+  <path class="arrow" d="M1480,231 C1503,231 1503,286 1520,286"/>
+  <path class="arrow" d="M1480,403 C1503,403 1503,316 1520,316"/>
+  <path class="arrow" d="M1650,302 L1676,302"/>
+
+  <!-- Bottom optimization region -->
+  <rect x="42" y="684" width="1836" height="332" class="region" fill="#f3f5f7" stroke="#9aa6af"/>
+  <text x="960" y="725" text-anchor="middle" class="region-title">联合监督</text>
+
+  <rect x="92" y="748" width="226" height="180" class="panel" fill="#ffffff" stroke="#9aa6af"/>
+  <text x="205" y="779" text-anchor="middle" class="label">真实图像 I_gt</text>
+  <image href="dewater/robot_ours_I.png" x="115" y="805" width="180" height="96" preserveAspectRatio="xMidYMid slice" clip-path="url(#clip-igt)"/>
+
+  <rect x="400" y="748" width="226" height="180" class="panel" fill="#ffffff" stroke="#9aa6af"/>
+  <text x="513" y="779" text-anchor="middle" class="label">单目先验 d_mono</text>
+  <image href="intermediate/robot_depth.png" x="424" y="805" width="180" height="96" preserveAspectRatio="xMidYMid slice" clip-path="url(#clip-mono)"/>
+
+  <rect x="760" y="760" width="400" height="190" class="panel" fill="#ffffff" stroke="#8f9aa3"/>
+  <text x="960" y="798" text-anchor="middle" class="label">损失函数</text>
+  <g>
+    <rect x="795" y="830" width="128" height="40" rx="18" fill="#edf2f7" stroke="#9aa6af" stroke-width="2"/>
+    <text x="859" y="856" text-anchor="middle" class="chip">L1/SSIM</text>
+    <rect x="940" y="830" width="154" height="40" rx="18" fill="#edf2f7" stroke="#9aa6af" stroke-width="2"/>
+    <text x="1017" y="856" text-anchor="middle" class="chip">DCP/GW/SAT</text>
+    <rect x="795" y="890" width="128" height="40" rx="18" fill="#edf2f7" stroke="#9aa6af" stroke-width="2"/>
+    <text x="859" y="916" text-anchor="middle" class="chip">α背景</text>
+    <rect x="940" y="890" width="154" height="40" rx="18" fill="#eaf4ff" stroke="#70aee0" stroke-width="2"/>
+    <text x="1017" y="916" text-anchor="middle" class="chip">深度监督</text>
+  </g>
+
+  <path class="arrow" d="M1765,418 C1765,650 1138,742 1085,760"/>
+  <path class="arrow" d="M318,838 L760,838"/>
+  <path class="blue-dash" d="M626,838 C720,838 840,900 940,910"/>
+  <path class="blue-dash" d="M985,515 C985,635 1010,760 1017,890"/>
+  <path class="red-dash" d="M812,950 C540,1040 180,1010 150,560"/>
+  <path class="red-dash" d="M960,950 C835,1025 475,965 495,482"/>
+  <path class="red-dash" d="M1105,890 C1375,1010 1535,635 1440,480"/>
+</svg>
