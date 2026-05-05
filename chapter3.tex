@@ -21,7 +21,7 @@
 \subsection{符号约定}
 \label{subsec:notation}
 
-为避免符号混淆，本章及后续章节统一以下记号：图像级张量以粗体表示，包括观测图像$\mathbf{I}\in\mathbb{R}^{H\times W\times 3}$、干净场景颜色图$\mathbf{J}\in\mathbb{R}^{H\times W\times 3}$、深度图$\mathbf{Z}\in\mathbb{R}^{H\times W}$、衰减图$\mathbf{A}(\mathbf{Z})$与后向散射图$\mathbf{B}(\mathbf{Z})$；对应的逐通道、逐像素分量以非粗体下标形式$I_c$、$J_c$、$A_c$、$B_c$表示，其中$c\in\{r,g,b\}$；单点深度（标量）记为$Z$，第$i$个高斯基元的深度记为$z_i$；像素坐标记为$\mathbf{p}$。在物理建模公式中默认采用逐像素、逐通道形式（如$I_c=J_c\cdot\exp(-\beta_c^D Z)+\dots$），在工程实现描述中默认采用张量形式（如$\mathbf{I}=\mathbf{J}\odot\mathbf{A}(\mathbf{Z})+\mathbf{B}(\mathbf{Z})$），二者通过逐元素运算等价。
+为避免混淆，全文采用如下约定：图像级张量用粗体表示（如观测图像$\mathbf{I}$、干净颜色图$\mathbf{J}$、深度图$\mathbf{Z}$）；对应的逐通道分量用下标$c\in\{r,g,b\}$，深度的标量值记为$Z$。物理建模公式以分量形式书写（如$I_c=J_c\exp(-\beta_c^D Z)+B_c^\infty(1-\exp(-\beta_c^B Z))$），张量实现按逐元素运算自然推广。
 
 \subsection{系统架构}
 
@@ -39,12 +39,12 @@
 
 \textbf{（3）高斯光栅化。}经变形后的高斯点云通过可微分的基于分块排序的光栅化算法投影至图像平面，输出干净场景颜色图$\mathbf{J}$及深度图$\mathbf{Z}$（符号约定见\ref{subsec:notation}节）。$\mathbf{J}$代表在无水体介质干扰时的真实辐射度。
 
-\textbf{（4）水下成像模型。}将$\mathbf{J}$和$\mathbf{Z}$输入水下物理模型，逐像素、逐通道地合成模拟观测图像$\mathbf{I}$：
+\textbf{（4）水下成像模型。}将$\mathbf{J}$和$\mathbf{Z}$输入水下物理模型合成观测图像$\mathbf{I}$，逐通道形式为：
 \begin{equation}
-  I_c = J_c \cdot \exp\!\left(-\beta_c^D \cdot Z\right) + B_c^{\infty} \cdot \left(1 - \exp\!\left(-\beta_c^B \cdot Z\right)\right).
+  I_c = J_c \cdot \exp\!\left(-\beta_c^D Z\right) + B_c^{\infty}\left(1 - \exp\!\left(-\beta_c^B Z\right)\right).
   \label{eq:uwmodel}
 \end{equation}
-其中，$Z$为该像素处的深度（标量），$c \in \{r,g,b\}$为颜色通道，$\beta_c^D$为直接透射衰减系数，$B_c^{\infty}$为无穷远处后向散射强度，$\beta_c^B$为后向散射衰减系数。上述参数均由水下物理网络预测。
+其中，$\beta_c^D$为直接透射衰减系数，$B_c^{\infty}$为无穷远后向散射强度，$\beta_c^B$为后向散射衰减系数，均由水下网络预测。
 
 \textbf{（5）联合优化。}将合成图像$\mathbf{I}$与真实观测图像$\mathbf{I}^{\mathrm{gt}}$进行对比，梯度同时回传至高斯参数和水下网络参数，实现联合优化。
 
@@ -64,19 +64,19 @@ SeaSplat\upcite{seasplat2025icra}基于原始3DGS静态框架实现，而4DGS\up
 
 \subsection{核心模块迁移}
 
-\textbf{后向散射网络（BackscatterNet）。}后向散射网络负责根据深度图预测逐像素的后向散射贡献。网络结构为两层轻量卷积（Conv2D），以归一化深度图为输入，按式\eqref{eq:backscatter_impl}逐元素地输出后向散射颜色图$\mathbf{B}(\mathbf{Z})$：
+\textbf{后向散射网络（BackscatterNet）。}后向散射网络以归一化深度为输入，逐通道输出后向散射强度：
 \begin{equation}
-  B_c(Z) = \sigma(B_c^{\infty}) \cdot \left(1 - \exp(-\beta_c^B \cdot Z)\right).
+  B_c(Z) = \sigma(B_c^{\infty}) \cdot \left(1 - \exp(-\beta_c^B Z)\right).
   \label{eq:backscatter_impl}
 \end{equation}
-其中$Z$为单点深度（标量），整张深度图$\mathbf{Z}$下逐元素套用即得$\mathbf{B}(\mathbf{Z})$。网络参数量约1K，计算开销极小。该模块以独立子网络的形式集成至系统中，并作为单独参数组纳入优化器统一管理。
+网络结构为两层轻量卷积，参数量约1K，作为单独参数组纳入优化器。
 
-\textbf{直接透射衰减网络（AttenuateNet）。}衰减网络提供多种结构变体。经消融实验对比，本文选用结构最简且训练更稳定的逐通道标量版本：对每个颜色通道学习一个标量衰减系数$\beta_c^D$，衰减图按下式计算：
+\textbf{直接透射衰减网络（AttenuateNet）。}经消融对比，本文选用结构最简、训练更稳定的逐通道标量版本——每个通道学习一个标量衰减系数$\beta_c^D$：
 \begin{equation}
-  A_c(Z) = \exp\!\left(-\beta_c^D \cdot Z\right).
+  A_c(Z) = \exp\!\left(-\beta_c^D Z\right).
   \label{eq:attenuation_impl}
 \end{equation}
-其中$Z$为单点深度（标量），整张图层面的衰减图记为$\mathbf{A}(\mathbf{Z})$。参数初始化以较小正值为起点，使系统初始阶段接近无衰减状态，便于粗训练阶段高斯几何的稳定收敛。
+参数以较小正值初始化，使系统初始阶段接近无衰减状态，便于粗训练阶段高斯几何稳定收敛。
 
 \textbf{损失函数迁移。}水下专用损失函数包含以下四个组件：
 
@@ -96,9 +96,9 @@ SeaSplat\upcite{seasplat2025icra}基于原始3DGS静态框架实现，而4DGS\up
   \hat{\mathbf{Z}} = \frac{\mathbf{Z} - Z_{\min}}{Z_{\max} - Z_{\min} + \epsilon},
   \label{eq:depthnorm}
 \end{equation}
-其中$Z_{\min}$、$Z_{\max}$为$\mathbf{Z}$中所有像素深度的最小值与最大值（标量），减法按逐元素方式广播。归一化参数可按帧动态计算（帧级最大最小值）或使用全局统计量；在精细训练阶段采用帧级归一化以适应场景深度分布的动态变化。
+其中$Z_{\min}$、$Z_{\max}$为$\mathbf{Z}$的最小值与最大值。归一化可按帧动态计算或使用全局统计量；精细训练阶段采用帧级归一化以适应场景深度分布的动态变化。
 
-\textbf{步骤二：水下网络前向传播。}将归一化深度$\hat{\mathbf{Z}}$分别送入衰减网络与后向散射网络，得到衰减图$\mathbf{A}(\hat{\mathbf{Z}})$和后向散射图$\mathbf{B}(\hat{\mathbf{Z}})$。
+\textbf{步骤二：水下网络前向传播。}将$\hat{\mathbf{Z}}$分别送入衰减与后向散射网络，按式\eqref{eq:attenuation_impl}与式\eqref{eq:backscatter_impl}逐元素得到衰减图$\mathbf{A}(\hat{\mathbf{Z}})$和后向散射图$\mathbf{B}(\hat{\mathbf{Z}})$。
 
 \textbf{步骤三：水下成像合成。}按照式\eqref{eq:uwmodel}合成模拟水下图像$\mathbf{I}$：
 \begin{equation}
