@@ -2,13 +2,11 @@
 % ========== 神经渲染相关文献 ==========
 
 @inproceedings{mildenhall2020nerf,
- title={Nerf: Representing scenes as neural radiance fields for view synthesis},
-  author={Mildenhall, Ben and Srinivasan, Pratul P and Tancik, Matthew and Barron, Jonathan T and Ramamoorthi, Ravi and Ng, Ren},
-  journal={Communications of the ACM},
-  volume={65},
-  number={1},
-  pages={99--106},
-  year={2021}
+  author = {Mildenhall, Ben and Srinivasan, Pratul P. and Tancik, Matthew and Barron, Jonathan T. and Ramamoorthi, Ravi and Ng, Ren},
+  title = {NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis},booktitle = {Computer Vision – ECCV 2020: 16th European Conference, Glasgow, UK, August 23–28, 2020, Proceedings, Part I},
+  numpages = {17},
+  pages={405--421},
+  year={2020}
 }
 
 @inproceedings{barron2021mipnerf,
@@ -37,10 +35,10 @@
   year={2023}
 }
 
-@article{muller2022instantngp,
+@inproceedings{muller2022instantngp,
   title={Instant neural graphics primitives with a multiresolution hash encoding},
   author={M{\"u}ller, Thomas and Evans, Alex and Schied, Christoph and Keller, Alexander},
-  journal={ACM Transactions on Graphics (TOG)},
+  booktitle={ACM Transactions on Graphics (TOG)},
   volume={41},
   number={4},
   pages={1--15},
@@ -52,7 +50,7 @@
 @inproceedings{kerbl2023gaussian,
   title={3d gaussian splatting for real-time radiance field rendering.},
   author={Kerbl, Bernhard and Kopanas, Georgios and Leimk{\"u}hler, Thomas and Drettakis, George and others},
-  journal={ACM Trans. Graph.},
+  booktitle={ACM Trans. Graph.},
   volume={42},
   number={4},
   pages={139--1},
@@ -70,7 +68,7 @@
 @inproceedings{fan2023lightgaussian,
   title={Lightgaussian: Unbounded 3d gaussian compression with 15x reduction and 200+ fps},
   author={Fan, Zhiwen and Wang, Kevin and Wen, Kairun and Zhu, Zehao and Xu, Dejia and Wang, Zhangyang},
-  journal={Advances in Neural Information Processing Systems (NeurIPS)},
+  booktitle={Advances in Neural Information Processing Systems (NeurIPS)},
   volume={37},
   pages={140138--140158},
   year={2024}
@@ -132,7 +130,7 @@
 @article{akkaynak2019sea,
   title={Sea-thru: A method for removing water from underwater images},
   author={Akkaynak, Derya and Treibitz, Tali},
-  journal={IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  booktitle={IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
   pages={1682--1691},
   year={2019}
 }
@@ -157,7 +155,7 @@
 @Article{udrgs2024symmetry,
   title={Udr-gs: Enhancing underwater dynamic scene reconstruction with depth regularization},
   author={Du, Yu and Zhang, Zhisheng and Zhang, Peng and Sun, Fuchun and Lv, Xiao},
-  journal={Symmetry},
+  booktitle={Symmetry},
   volume={16},
   number={8},
   pages={1010},
@@ -182,45 +180,52 @@
 }
 
 @inproceedings{li2024seafreegs,
-  title={SeaFree-GS: Reconstructing underwater 3D scenes with true appearances},
-  author={Liu, Shaohua and Gao, Ning and Fu, Shaowen and Zhong, Xiaoqing and Li, Hongjue},
-  journal={IEEE Signal Processing Letters},
+   author={Liu, Shaohua and Gao, Ning and Fu, Shaowen and Zhong, Xiaoqing and Li, Hongjue},
+  booktitle={IEEE Signal Processing Letters}, 
+  title={SeaFree-GS: Reconstructing Underwater 3D Scenes With True Appearances}, 
+  volume={32},
+  number={},
+  pages={2114-2118},
   year={2025},
   publisher={IEEE}
 }
 
 @inproceedings{sun2024recgs,
-  title={Recgs: Removing water caustic with recurrent gaussian splatting},
   author={Zhang, Tianyi and Zhi, Weiming and Meyers, Braden and Durrant, Nelson and Huang, Kaining and Mangelson, Joshua and Barbalata, Corina and Johnson-Roberson, Matthew},
-  journal={IEEE Robotics and Automation Letters},
+  booktitle={IEEE Robotics and Automation Letters}, 
+  title={RecGS: Removing Water Caustic With Recurrent Gaussian Splatting}, 
+  year={2025},
   volume={10},
   number={1},
-  pages={668--675},
-  year={2024},
-  publisher={IEEE}
+  pages={668-675},
 }
 
 @inproceedings{chen20243duir,
-  title={3D-UIR: 3D Gaussian for underwater 3D scene reconstruction via physics based appearance-medium decoupling},
-  author={Yuan, Jieyu and Li, Yujun and Zhang, Yuanlin and Guo, Chunle and Tang, Xiongxin and Wang, Ruixing and Li, Chongyi},
-  journal={arXiv preprint arXiv:2505.21238},
-  year={2025}
+      title={3D-UIR: 3D Gaussian for Underwater 3D Scene Reconstruction via Physics Based Appearance-Medium Decoupling}, 
+      author={Jieyu Yuan and Yujun Li and Yuanlin Zhang and Chunle Guo and Xiongxin Tang and Ruixing Wang and Chongyi Li},
+      year={2025},
+      eprint={2505.21238},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+
 }
 
 @inproceedings{wang2024dualphysgs,
   title={DualPhys-GS: Dual physically-guided 3D Gaussian splatting for underwater scene reconstruction},
   author={Li, Jiachen and Han, Guangzhi and Wan, Jin and Gao, Yuan and Han, Delong},
-  journal={Computers \& Graphics},
-  pages={104405},
-  year={2025},
-  publisher={Elsevier}
+booktitle = {Computers & Graphics},
+volume = {133},
+pages = {104405},
+year = {2025},
+issn = {0097-8493},
 }
 
 @inproceedings{zhang2024aquaticgs,
-  title={Aquatic-gs: A hybrid 3d representation for underwater scenes},
-  author={Liu, Shaohua and Lu, Junzhe and Gu, Zuoya and Li, Jiajun and Deng, Yue},
-  journal={arXiv preprint arXiv:2411.00239},
-  year={2024}
+      title={Aquatic-GS: A Hybrid 3D Representation for Underwater Scenes}, 
+      author={Shaohua Liu and Junzhe Lu and Zuoya Gu and Jiajun Li and Yue Deng},
+      year={2025},
+      eprint={2411.00239},
+      archivePrefix={arXiv},
 }
 
 % ========== 深度估计 ==========
@@ -236,7 +241,7 @@
 @article{yang2024depthv2,
  title={Depth anything v2},
   author={Yang, Lihe and Kang, Bingyi and Huang, Zilong and Zhao, Zhen and Xu, Xiaogang and Feng, Jiashi and Zhao, Hengshuang},
-  journal={Advances in Neural Information Processing Systems},
+  booktitle={Advances in Neural Information Processing Systems},
   volume={37},
   pages={21875--21911},
   year={2024}
@@ -247,7 +252,7 @@
 @article{ancuti2018color,
   title={Color balance and fusion for underwater image enhancement},
   author={Ancuti, Codruta O and Ancuti, Cosmin and De Vleeschouwer, Christophe and Bekaert, Philippe},
-  journal={IEEE Transactions on image processing},
+  booktitle={IEEE Transactions on image processing},
   volume={27},
   number={1},
   pages={379--393},
@@ -258,7 +263,7 @@
 @article{li2016underwater,
   title={An underwater image enhancement algorithm for environment recognition and robot navigation},
   author={Xie, Kun and Pan, Wei and Xu, Suxia},
-  journal={Robotics},
+  booktitle={Robotics},
   volume={7},
   number={1},
   pages={14},
@@ -269,7 +274,7 @@
 @article{he2011dcp,
   title={Single image haze removal using dark channel prior},
   author={He, Kaiming and Sun, Jian and Tang, Xiaoou},
-  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  booktitle={IEEE Transactions on Pattern Analysis and Machine Intelligence},
   volume={33},
   number={12},
   pages={2341--2353},
@@ -327,7 +332,7 @@
 @article{jaffe1990computer,
   title={Computer modeling and the design of optimal underwater imaging systems},
   author={Jaffe, Jules S},
-  journal={IEEE Journal of Oceanic Engineering},
+  booktitle={IEEE booktitle of Oceanic Engineering},
   volume={15},
   number={2},
   pages={101--111},
@@ -348,7 +353,7 @@
 @article{wang2004ssim,
   title={Image quality assessment: from error visibility to structural similarity},
   author={Wang, Zhou and Bovik, Alan C and Sheikh, Hamid R and Simoncelli, Eero P},
-  journal={IEEE Transactions on Image Processing},
+  booktitle={IEEE Transactions on Image Processing},
   volume={13},
   number={4},
   pages={600--612},

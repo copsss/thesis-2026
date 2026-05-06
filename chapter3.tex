@@ -1,35 +1,33 @@
 \chapter{系统设计与实现}
 
-本章详细阐述面向扰动水下环境的新视角合成系统的完整设计与实现方案。系统以4D Gaussian Splatting\upcite{wu2024gaussian}为动态场景表示骨架，将SeaSplat\upcite{seasplat2025icra}的水下物理成像模型嵌入其渲染流程，并引入Depth Anything V2\upcite{yang2024depthv2}提供单目深度先验监督，形成三位一体的联合优化框架。
+本章阐述本文所设计的面向扰动水下环境新视角合成系统。本文以4D Gaussian Splatting\upcite{wu2024gaussian}为动态场景表示骨架，将SeaSplat\upcite{seasplat2025icra}中验证有效的水下物理成像模型迁移至其渲染流程；同时借鉴UDR-GS\upcite{udrgs2024symmetry}将单目深度先验融入水下动态重建的思路，由于UDR-GS未开源，本文以Depth Anything V2\upcite{yang2024depthv2}为深度先验来源对该深度监督机制进行独立实现，并将其与水下物理模块组合，形成水下物理模型、动态高斯表示与深度监督相统一的框架。本章主要工作包括：（1）确定全文符号约定并给出整体管线（pipeline）的执行流程概述；（2）将SeaSplat的后向散射、衰减子网络与水下专用损失迁移至4DGS渲染流程中，并解决两套框架在接口、参数管理和动态深度上的差异；（3）以Depth Anything V2为深度源对UDR-GS的单目深度监督思路进行独立复现，并对尺度不确定性进行处理；（4）针对多组件联合优化的不稳定性，在4DGS自身的粗精两段训练之上，进一步在精细阶段内部细分出"水下网络预热，高斯颜色调整，联合优化"的子阶段流程，这是本文针对水下动态重建提出的分阶段训练策略。
+
+\section{符号约定}
+\label{sec:notation}
+
+为便于全文统一书写，本节先给出符号约定。图像级张量用粗体表示：观测图像记为$\mathbf{I}$，与之对应的真实观测图像记为$\mathbf{I}^{\mathrm{gt}}$，物理分解后的干净颜色图记为$\mathbf{J}$，渲染深度图记为$\mathbf{Z}$。逐通道分量用下标$c\in\{r,g,b\}$表示，单点深度的标量值记为$Z$。水下物理成像模型中，$\beta_c^D$表示直接透射衰减系数，$\beta_c^B$表示后向散射衰减系数，$B_c^{\infty}$表示无穷远后向散射强度。高斯基元的可学习属性包括位置$\boldsymbol{\mu}\in\mathbb{R}^3$、协方差$\boldsymbol{\Sigma}\in\mathbb{R}^{3\times3}$、不透明度$\alpha\in(0,1)$、球谐系数$\mathbf{f}$以及时间戳$t$。物理建模公式以分量形式书写（如$I_c=J_c\exp(-\beta_c^D Z)+B_c^\infty(1-\exp(-\beta_c^B Z))$），张量实现按逐元素运算自然推广，本章后续公式均沿用上述记号。
 
 \section{总体框架设计}
 
 \subsection{设计思路}
 
-本系统的核心目标是在统一框架下同时解决三个相互耦合的难题：（1）水下光学退化对颜色与对比度的干扰；（2）水流、生物游动等因素引起的动态场景变化；（3）水下场景几何重建的深度歧义性。
+本文所设计的系统需要在统一框架下同时解决三个相互耦合的难题：（1）水下光学退化对颜色与对比度的干扰；（2）水流、生物游动等因素引起的动态场景变化；（3）水下场景几何重建的深度歧义性。围绕上述目标，本文采用物理解耦、动态建模与深度监督三层递进的设计思路。
 
-针对上述挑战，系统采用"物理解耦—动态建模—深度监督"三层递进的设计思路。
+\textbf{物理解耦层。}水下成像过程遵循修正的水下图像成像模型\upcite{akkaynak2018revised}，该模型将观测图像分解为干净场景辐射度与水体介质效应的叠加。本文在渲染阶段引入可学习的衰减网络（AttenuateNet）与后向散射网络（BackscatterNet）显式建模光的衰减与后向散射，使高斯点云只需学习物体本身的真实颜色，而非被水体介质叠加后的表观颜色。
 
-\textbf{物理解耦层。}水下成像过程遵循修正的水下图像成像模型\upcite{akkaynak2018revised}，该模型将观测图像分解为干净场景辐射度与水体介质效应的叠加。系统引入可学习的衰减网络（AttenuateNet）和后向散射网络（BackscatterNet），在渲染阶段显式建模光的衰减与后向散射，使高斯点云只需学习物体本身的真实颜色，而非被水体介质污染后的表观颜色。
+\textbf{动态建模层。}4DGS通过时间条件化的变形网络（Deformation Network）对高斯点云的位置、旋转与尺度进行时序调制，结合HexPlane多分辨率特征平面表达动态场景。本文继承该机制以应对水下扰动引入的非刚性运动。
 
-\textbf{动态建模层。}4DGS通过时间条件化的变形网络（Deformation Network）对高斯点云的位置、旋转与尺度进行时序调制，结合HexPlane多分辨率特征平面高效表达动态场景。本系统继承该机制以应对水下扰动引入的非刚性运动。
+\textbf{深度监督层。}水下场景往往缺乏结构光或激光测距等主动深度传感器，多视角几何约束在水体散射干扰下也易出现退化。UDR-GS\upcite{udrgs2024symmetry}已表明在4DGS框架中引入单目深度先验有助于缓解几何歧义性，本文沿用该思路；由于UDR-GS未开源，本文以Depth Anything V2\upcite{yang2024depthv2}预生成的单目逆深度图为先验，对渲染深度施加约束，引导几何收敛至合理形状，从而与水下物理建模在同一动态重建框架下协同生效。
 
-\textbf{深度监督层。}水下场景往往缺乏结构光或激光测距等主动深度传感器，多视角几何约束在水体散射干扰下也易出现退化。本系统利用Depth Anything V2\upcite{yang2024depthv2}预生成单目逆深度图，对渲染深度施加软约束，引导几何收敛至合理形状。
-
-整体处理流程如下：采集多视角水下图像序列后，首先利用COLMAP进行运动恢复结构（SfM）获得稀疏点云与相机位姿；随后以稀疏点云初始化4D高斯点集，并进入本文设计的分阶段训练流程；最终系统可在任意时刻以任意视角渲染新视图。
-
-\subsection{符号约定}
-\label{subsec:notation}
-
-为避免混淆，全文采用如下约定：图像级张量用粗体表示（如观测图像$\mathbf{I}$、干净颜色图$\mathbf{J}$、深度图$\mathbf{Z}$）；对应的逐通道分量用下标$c\in\{r,g,b\}$，深度的标量值记为$Z$。物理建模公式以分量形式书写（如$I_c=J_c\exp(-\beta_c^D Z)+B_c^\infty(1-\exp(-\beta_c^B Z))$），张量实现按逐元素运算自然推广。
+整体处理流程为：采集多视角水下图像序列后，首先利用COLMAP进行运动恢复结构（SfM）获得稀疏点云与相机位姿；随后以稀疏点云初始化4D高斯点集，并进入本文设计的分阶段训练流程；最终系统可在任意时刻以任意视角渲染新视图。
 
 \subsection{系统架构}
 
-系统渲染管线由以下模块串联构成，如图\ref{fig:system_architecture}所示。
+在进入各模块的具体实现之前，本节先给出整体管线的执行流程概述。在每一次训练或推理迭代中，系统首先以当前帧时刻$t$与规范空间中的高斯点集为输入，由变形网络预测各高斯基元在$t$时刻的位置、尺度与旋转偏移；随后对变形后的高斯点集执行可微分光栅化，得到干净场景颜色图$\mathbf{J}$与深度图$\mathbf{Z}$；接着，水下成像模块以$\mathbf{Z}$为输入，由后向散射网络与衰减网络分别预测后向散射图与衰减图，并结合$\mathbf{J}$按逐通道形式合成模拟观测图像$\mathbf{I}$；最后，损失函数模块在$\mathbf{I}$、$\mathbf{J}$、$\mathbf{Z}$以及单目逆深度先验之间计算重建损失、水下物理先验损失与深度一致性损失，并将梯度同时回传至高斯参数与水下网络参数。整个管线如图\ref{fig:system_architecture}所示，其中四个核心模块与上述执行流程一一对应，下面分别说明。
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=\textwidth]{figures/pipeline.png}
-  \caption{系统渲染管线。核心渲染流程以4D高斯点集为基础，经过变形网络调制后进行光栅化输出干净颜色图与深度图；水下成像模块基于渲染深度计算衰减与后向散射，并合成模拟观测图像；损失函数模块计算多项重建与物理先验损失，并将梯度回传至高斯参数和水下网络参数实现联合优化。}
+  \includegraphics[width=\textwidth]{figures/pipeline.pdf}
+  \caption{系统渲染管线。核心渲染流程以3D高斯点集为基础，经过变形网络调制后进行光栅化输出干净颜色图与深度图；水下成像模块基于渲染深度计算衰减与后向散射，并合成模拟观测图像；损失函数模块计算多项重建与物理先验损失，并将梯度回传至高斯参数和水下网络参数实现联合优化。}
   \label{fig:system_architecture}
 \end{figure}
 
@@ -37,7 +35,7 @@
 
 \textbf{（2）变形网络。}对于给定时刻$t$，HexPlane特征平面与多层感知机（MLP）联合输出每个高斯体的位置增量$\Delta\boldsymbol{\mu}$、尺度增量$\Delta\mathbf{s}$和旋转增量$\Delta\mathbf{q}$，从而将规范空间中的高斯点云变形为当前帧的动态状态。
 
-\textbf{（3）高斯光栅化。}经变形后的高斯点云通过可微分的基于分块排序的光栅化算法投影至图像平面，输出干净场景颜色图$\mathbf{J}$及深度图$\mathbf{Z}$（符号约定见\ref{subsec:notation}节）。$\mathbf{J}$代表在无水体介质干扰时的真实辐射度。
+\textbf{（3）高斯光栅化。}经变形后的高斯点云通过可微分的基于分块排序的光栅化算法投影至图像平面，输出干净场景颜色图$\mathbf{J}$及深度图$\mathbf{Z}$（符号约定见\ref{sec:notation}节）。$\mathbf{J}$代表在无水体介质干扰时的真实辐射度。
 
 \textbf{（4）水下成像模型。}将$\mathbf{J}$和$\mathbf{Z}$输入水下物理模型合成观测图像$\mathbf{I}$，逐通道形式为：
 \begin{equation}
@@ -64,19 +62,19 @@ SeaSplat\upcite{seasplat2025icra}基于原始3DGS静态框架实现，而4DGS\up
 
 \subsection{核心模块迁移}
 
+本节给出本文从SeaSplat迁移并改写到4DGS渲染流程中的三个具体模块：后向散射网络（BackscatterNet）、直接透射衰减网络（AttenuateNet）以及四项水下专用损失函数。其中，参数初始化、参数组注册以及对4DGS动态深度输入的适配均为本文针对动态框架进行的改写工作。
+
 \textbf{后向散射网络（BackscatterNet）。}后向散射网络以归一化深度为输入，逐通道输出后向散射强度：
 \begin{equation}
   B_c(Z) = \sigma(B_c^{\infty}) \cdot \left(1 - \exp(-\beta_c^B Z)\right).
   \label{eq:backscatter_impl}
-\end{equation}
-网络结构为两层轻量卷积，参数量约1K，作为单独参数组纳入优化器。
+\end{equation}网络结构为两层轻量卷积，参数量约1K，作为单独参数组纳入优化器。
 
 \textbf{直接透射衰减网络（AttenuateNet）。}经消融对比，本文选用结构最简、训练更稳定的逐通道标量版本——每个通道学习一个标量衰减系数$\beta_c^D$：
 \begin{equation}
   A_c(Z) = \exp\!\left(-\beta_c^D Z\right).
   \label{eq:attenuation_impl}
-\end{equation}
-参数以较小正值初始化，使系统初始阶段接近无衰减状态，便于粗训练阶段高斯几何稳定收敛。
+\end{equation}参数以较小正值初始化，使系统初始阶段接近无衰减状态，便于粗训练阶段高斯几何稳定收敛。
 
 \textbf{损失函数迁移。}水下专用损失函数包含以下四个组件：
 
@@ -89,14 +87,13 @@ SeaSplat\upcite{seasplat2025icra}基于原始3DGS静态框架实现，而4DGS\up
 
 \subsection{渲染流程}
 
-在原有4DGS光栅化输出干净颜色$\mathbf{J}$和深度$\mathbf{Z}$之后，额外执行以下步骤。
+在原有4DGS光栅化输出干净颜色$\mathbf{J}$和深度$\mathbf{Z}$之后，额外执行以下步骤，可参考图\ref{fig:system_architecture}的水下成像部分。
 
 \textbf{步骤一：深度归一化。}将原始渲染深度归一化至$[0,1]$区间：
 \begin{equation}
   \hat{\mathbf{Z}} = \frac{\mathbf{Z} - Z_{\min}}{Z_{\max} - Z_{\min} + \epsilon},
   \label{eq:depthnorm}
-\end{equation}
-其中$Z_{\min}$、$Z_{\max}$为$\mathbf{Z}$的最小值与最大值。归一化可按帧动态计算或使用全局统计量；精细训练阶段采用帧级归一化以适应场景深度分布的动态变化。
+\end{equation}其中$Z_{\min}$、$Z_{\max}$为$\mathbf{Z}$的最小值与最大值。归一化可按帧动态计算或使用全局统计量；精细训练阶段采用帧级归一化以适应场景深度分布的动态变化。
 
 \textbf{步骤二：水下网络前向传播。}将$\hat{\mathbf{Z}}$分别送入衰减与后向散射网络，按式\eqref{eq:attenuation_impl}与式\eqref{eq:backscatter_impl}逐元素得到衰减图$\mathbf{A}(\hat{\mathbf{Z}})$和后向散射图$\mathbf{B}(\hat{\mathbf{Z}})$。
 
@@ -104,16 +101,15 @@ SeaSplat\upcite{seasplat2025icra}基于原始3DGS静态框架实现，而4DGS\up
 \begin{equation}
   \mathbf{I} = \mathbf{J} \odot \mathbf{A}(\hat{\mathbf{Z}}) + \mathbf{B}(\hat{\mathbf{Z}}).
   \label{eq:synthesis}
-\end{equation}
-其中$\odot$表示逐元素乘法。
+\end{equation}其中$\odot$表示逐元素乘法。
 
-上述过程在系统渲染器模块中实现，水下成像相关计算封装为独立的工具函数。整个合成路径完全可微，梯度可同时流向高斯点集参数和水下网络参数。
+上述过程整个合成路径完全可微，梯度可同时流向高斯点集参数和水下网络参数。
 
 \section{单目深度监督实现}
 
 \subsection{深度图生成流程}
 
-为缓解水下场景几何重建的深度歧义性，系统引入Depth Anything V2\upcite{yang2024depthv2}作为单目深度先验来源。Depth Anything V2是目前性能领先的单目深度估计模型，在多种室内外场景上展现出强泛化能力，其Large变体的单图推理时间约100毫秒，满足离线预处理的实用需求。
+在水下动态重建中引入单目深度监督的思路最早由UDR-GS\upcite{udrgs2024symmetry}提出，用于缓解水下几何重建的深度歧义性。由于UDR-GS未提供开源代码，本节以Depth Anything V2\upcite{yang2024depthv2}为深度先验来源对该机制进行独立实现，并与本文迁移得到的水下物理模块及第\ref{sec:training-stages}节中的分阶段训练策略相耦合。Depth Anything V2在多种室内外场景上具备较好的跨域泛化能力，其Large变体的单图推理时间在百毫秒量级，将其单目逆深度输出离线预处理后接入4DGS训练流程，能够满足实用需求。
 
 深度图生成采用离线批处理的方式完成，处理流程如下：
 
@@ -132,30 +128,40 @@ SeaSplat\upcite{seasplat2025icra}基于原始3DGS静态框架实现，而4DGS\up
 \end{equation}
 其中，$\mathbf{p}$为像素坐标，$z_i$为第$i$个高斯体在相机坐标系下的深度值，$w_i(\mathbf{p})$与颜色渲染的混合权重共享，避免引入额外计算。
 
-\textbf{尺度不确定性处理。}单目深度估计模型输出的深度图与真实度量深度之间存在未知的尺度与偏移不确定性。为消除该歧义，系统在计算损失前对渲染逆深度$d_{\mathrm{render}}$和单目逆深度$d_{\mathrm{mono}}$均进行基于均值和标准差的归一化处理：
+\textbf{尺度不确定性处理。}单目深度估计模型输出的深度图与真实度量深度之间存在未知的尺度与偏移不确定性。为消除该歧义，本文在计算损失前对渲染逆深度$d_{\mathrm{render}}$和单目逆深度$d_{\mathrm{mono}}$均进行基于均值$\mu_d$和标准差$\sigma_d$的归一化处理：
 \begin{equation}
   \tilde{d} = \frac{d - \mu_d}{\sigma_d + \epsilon}.
   \label{eq:depthnorm2}
-\end{equation}
-此归一化操作使损失对绝对尺度不敏感，仅约束深度图的相对结构（即深度梯度与相对远近关系）与单目先验保持一致。
+\end{equation}其中$\mu_d$表示深度图$d$在所有像素上的均值，$\sigma_d$表示对应的标准差，$\epsilon$为防止除零的小常数。此归一化操作使损失对绝对尺度不敏感，仅约束深度图的相对结构（即深度梯度与相对远近关系）与单目先验保持一致。
 
-\textbf{损失函数。}单目深度监督损失定义为归一化逆深度图之间的加权L1距离：
+\textbf{损失函数。}在获得归一化逆深度后，沿用UDR-GS的整体思路，本文不直接对原始深度值施加强约束，而是将单目深度作为描述场景相对几何结构的软监督信号。具体而言，单目深度监督损失定义为归一化逆深度图之间的加权L1距离：
 \begin{equation}
   \mathcal{L}_{\mathrm{mono}} =
   \frac{\sum_{\mathbf{p}} \alpha(\mathbf{p})
   \left|\tilde{d}_{\mathrm{render}}(\mathbf{p}) - \tilde{d}_{\mathrm{mono}}(\mathbf{p})\right|}
   {\sum_{\mathbf{p}} \alpha(\mathbf{p}) + \epsilon}.
   \label{eq:depthloss}
-\end{equation}
-其中，$\alpha(\mathbf{p}) \in [0,1]$为像素$\mathbf{p}$处的高斯累积透明度，对高斯覆盖良好的区域给予更高监督权重，对空白背景区域减少干扰。
+\end{equation}其中，$\alpha(\mathbf{p}) \in [0,1]$为像素$\mathbf{p}$处的高斯累积透明度，对高斯覆盖良好的区域给予更高监督权重，对空白背景区域减少干扰；分母中的$\sum_{\mathbf{p}}\alpha(\mathbf{p})+\epsilon$用于对有效监督区域进行归一化，使不同视角、不同前景覆盖面积下的损失幅值保持相对稳定。采用逆深度形式的原因在于，近景区域对新视角合成中的遮挡关系和局部几何误差更为敏感，逆深度能够在数值上增强近处结构的约束；同时，均值方差归一化消除了Depth Anything V2预测结果中的全局尺度和偏移不确定性，使该损失主要关注物体轮廓、深度层次和相对远近关系，而不强制渲染深度与单目估计在绝对尺度上一致。训练过程中，该损失与光度重建损失共同作用：光度项约束图像颜色一致性，单目深度项则抑制水下散射、低纹理区域和动态扰动造成的高斯漂浮与局部深度塌缩，从而提升高斯场景表示的几何稳定性。
 
 \textbf{配置参数。}实现中需要指定单目深度先验的存放目录，并声明预存文件为逆深度格式，同时启用单目深度监督开关。深度监督损失权重$\lambda_{\mathrm{mono}}$设定为0.1，并配合热启动调度策略在训练初期逐步引入。
 
 \section{分阶段训练策略}
+\label{sec:training-stages}
 
-分阶段训练策略用于降低多组件联合优化的不稳定性。当水下网络、变形网络与高斯点集同时从零开始优化时，颜色退化、几何误差和动态形变误差会在同一光度损失中相互耦合：水下网络若过早引入，可能把几何错位解释为后向散射或衰减；变形网络若在几何尚未稳定时充分更新，则容易把水体造成的颜色差异误当作运动信号。为此，本文不直接端到端联合启动全部模块，而是依据“先几何、再介质、后联合”的原则划分训练阶段。
+分阶段训练策略用于降低多组件联合优化的不稳定性。当水下网络、变形网络与高斯点集同时从零开始优化时，颜色退化、几何误差和动态形变误差会在同一光度损失中相互干扰：水下网络若过早引入，可能把几何错位解释为后向散射或衰减；变形网络若在几何尚未稳定时充分更新，则容易把水体造成的颜色差异误当作运动信号。为此，本文不直接端到端联合启动全部模块，而是先优化几何结构，再优化介质损失，最后联合交替优化，并依次划分训练阶段。
 
-具体而言，阶段划分对应三类优化对象的启停边界：高斯几何与密度控制首先建立可渲染的基础结构；水下参数随后在固定几何上估计衰减和后向散射的量级；高斯颜色再在相对稳定的水下参数下校准到干净外观空间；最后进入全参数联合优化。该策略本质上是训练稳定性设计，消融实验主要验证水下物理模型和深度监督两个组件的边际贡献，其结果不能单独证明每个训练阶段的必要性。因此，本文在实验分析中将其作为实现细节和稳定化策略讨论，而不把五个阶段都作为独立算法贡献。
+需要说明的是，本文的训练流程在最外层继承了4DGS\upcite{wu2024gaussian}原有的"粗训练—精细训练"二段框架：粗训练阶段在不开启水下物理模型的条件下与原始4DGS等价，用于建立基础几何结构；精细训练阶段则启用水下模块、深度监督等本文新增的组件。本文的设计工作集中于精细训练阶段内部，针对水下网络、动态高斯属性与深度监督之间的梯度耦合，将其进一步细分为"后向散射/衰减预热—高斯颜色调整—联合训练"三个子阶段，并在联合训练阶段引入间歇式（burst）专项更新策略以维持优化动态平衡。完整的阶段划分及各阶段中的可学习参数与损失项配置如图\ref{fig:training_stages}所示。
+
+阶段划分对应三类优化对象的启停边界：高斯几何与密度控制首先建立可渲染的基础结构；水下参数随后在固定几何上估计衰减和后向散射的量级；高斯颜色再在相对稳定的水下参数下校准到干净外观空间；最后进入全参数联合优化。
+
+该策略本质上是训练稳定性设计，消融实验单独证明每个训练阶段的必要性。
+
+\begin{figure}[htbp]
+  \centering
+  \input{figures/fig3-4-training-stages.tex}
+  \caption{分阶段训练策略流程图。最外层的粗训练与精细训练两段框架继承自4DGS（蓝色虚线框），本文在精细训练阶段内部进一步细分出后向散射/衰减预热、高斯颜色调整与联合训练三个子阶段（橙色虚线框），并在联合训练阶段引入间歇式专项更新。}
+  \label{fig:training_stages}
+\end{figure}
 
 \subsection{粗训练阶段}
 
@@ -193,13 +199,15 @@ SeaSplat\upcite{seasplat2025icra}基于原始3DGS静态框架实现，而4DGS\up
 
 完整损失函数在该阶段激活全部组件：
 \begin{equation}
-  \mathcal{L} = \mathcal{L}_1 + \lambda_{\mathrm{s}}\mathcal{L}_{\mathrm{D\text{-}SSIM}}
-              + \lambda_{\mathrm{smooth}}\mathcal{L}_{\mathrm{smooth}}
-              + \lambda_{\mathrm{dark}}\mathcal{L}_{\mathrm{dark}}
-              + \lambda_{\mathrm{gray}}\mathcal{L}_{\mathrm{gray}}
-              + \lambda_{\mathrm{sat}}\mathcal{L}_{\mathrm{sat}}
-              + \lambda_{\mathrm{bg}}\mathcal{L}_{\mathrm{bg}}
-              + \lambda_{\mathrm{mono}}\mathcal{L}_{\mathrm{mono}}.
+  \begin{aligned}
+    \mathcal{L} =\ & \mathcal{L}_1 + \lambda_{\mathrm{s}}\mathcal{L}_{\mathrm{D\text{-}SSIM}}
+                  + \lambda_{\mathrm{smooth}}\mathcal{L}_{\mathrm{smooth}}
+                  + \lambda_{\mathrm{dark}}\mathcal{L}_{\mathrm{dark}} \\
+                & + \lambda_{\mathrm{gray}}\mathcal{L}_{\mathrm{gray}}
+                  + \lambda_{\mathrm{sat}}\mathcal{L}_{\mathrm{sat}}
+                  + \lambda_{\mathrm{bg}}\mathcal{L}_{\mathrm{bg}}
+                  + \lambda_{\mathrm{mono}}\mathcal{L}_{\mathrm{mono}}.
+  \end{aligned}
   \label{eq:lossfull}
 \end{equation}
 各损失项含义如下：$\mathcal{L}_1$为像素级L1重建损失；$\mathcal{L}_{\mathrm{D\text{-}SSIM}}$为由结构相似性指数\upcite{wang2004ssim}构造的结构差异损失；$\mathcal{L}_{\mathrm{smooth}}$为深度平滑正则项，约束渲染深度图在空间上的平滑性；$\mathcal{L}_{\mathrm{dark}}$为暗通道先验损失\upcite{he2011dcp}；$\mathcal{L}_{\mathrm{gray}}$为灰世界先验损失；$\mathcal{L}_{\mathrm{sat}}$为RGB饱和度损失；$\mathcal{L}_{\mathrm{bg}}$为Alpha背景损失；$\mathcal{L}_{\mathrm{mono}}$为单目深度监督损失（式\eqref{eq:depthloss}）。
@@ -213,4 +221,4 @@ SeaSplat\upcite{seasplat2025icra}基于原始3DGS静态框架实现，而4DGS\up
 
 \section{本章小结}
 
-本章详细介绍了面向扰动水下环境的新视角合成系统的完整设计与实现。主要内容包括：（1）以4DGS为骨架、SeaSplat水下物理模型为外层包装、Depth Anything V2为深度先验的三层系统架构设计；（2）SeaSplat核心水下模块（后向散射网络、衰减网络及多项水下专用损失）向4DGS框架的迁移方案；（3）基于Depth Anything V2的单目深度先验生成流程及尺度不确定性处理机制；（4）用于缓解多组件梯度干扰的分阶段训练策略。
+本章详细介绍了面向扰动水下环境的新视角合成系统的完整设计与实现。主要内容包括：（1）以4DGS为骨架、SeaSplat水下物理模型为外层包装、Depth Anything V2为深度先验的三层系统架构设计；（2）SeaSplat核心水下模块（后向散射网络、衰减网络及多项水下专用损失）向4DGS框架的迁移方案；（3）借鉴UDR-GS将单目深度先验融入水下动态重建的思路，由于UDR-GS未开源，本文以Depth Anything V2为深度源对该机制进行了独立实现并处理了尺度不确定性；（4）在4DGS自身粗-精二段框架之上，针对精细阶段内部多组件梯度干扰所设计的子阶段训练策略。

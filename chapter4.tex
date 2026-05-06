@@ -49,11 +49,11 @@
 \begin{figure}[htbp]
   \centering
   \setlength{\tabcolsep}{2pt}
-  \begin{tabular}{cccc}
-    \includegraphics[width=0.23\textwidth]{figures/dataset_samples/robot_sample.jpg} &
-    \includegraphics[width=0.23\textwidth]{figures/dataset_samples/fish_sample.png} &
-    \includegraphics[width=0.23\textwidth]{figures/dataset_samples/coral_sample.png} &
-    \includegraphics[width=0.23\textwidth]{figures/dataset_samples/streaks_sample.png} \\
+  \begin{tabular}{@{}cccc@{}}
+    \includegraphics[height=0.095\textheight,keepaspectratio]{figures/dataset_samples/robot_sample.jpg} &
+    \includegraphics[height=0.095\textheight,keepaspectratio]{figures/dataset_samples/fish_sample.png} &
+    \includegraphics[height=0.095\textheight,keepaspectratio]{figures/dataset_samples/coral_sample.png} &
+    \includegraphics[height=0.095\textheight,keepaspectratio]{figures/dataset_samples/streaks_sample.png} \\
     (a) Robot & (b) Fish & (c) Coral & (d) Streaks \\
   \end{tabular}
   \caption{动态水下场景数据集示例图像。(a) Robot：水下机械臂操作场景；(b) Fish：鱼类游动场景；(c) Coral：珊瑚摆动场景；(d) Streaks：水下光纹场景。}
@@ -75,7 +75,14 @@
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=\textwidth]{figures/dataset_samples/static_seathru_samples.png}
+  \setlength{\tabcolsep}{2pt}
+  \begin{tabular}{@{}cccc@{}}
+    \includegraphics[height=0.095\textheight,keepaspectratio]{figures/dataset_samples/curasao_sample.png} &
+    \includegraphics[height=0.095\textheight,keepaspectratio]{figures/dataset_samples/iui3_redsea_sample.png} &
+    \includegraphics[height=0.095\textheight,keepaspectratio]{figures/dataset_samples/japanese_gardens_sample.png} &
+    \includegraphics[height=0.095\textheight,keepaspectratio]{figures/dataset_samples/panama_sample.png} \\
+    (a) Curasao & (b) IUI3-RedSea & \shortstack{(c) JapaneseGardens\\-RedSea} & (d) Panama \\
+  \end{tabular}
   \caption{SeaThru-NeRF静态水下场景数据集示例图像。四个子图依次对应Curasao、IUI3-RedSea、JapaneseGardens-RedSea与Panama场景。}
   \label{fig:static_dataset_samples}
 \end{figure}
@@ -89,7 +96,6 @@
 \textbf{（1）峰值信噪比（PSNR）}
 
 峰值信噪比（Peak Signal-to-Noise Ratio，PSNR）是衡量像素级重建精度的经典指标，其定义为：
-
 \begin{equation}
   \mathrm{PSNR} = 10 \cdot \log_{10} \left( \frac{L^2}{\mathrm{MSE}} \right).
   \label{eq:psnr}
@@ -121,54 +127,39 @@
 
 \subsection{定量实验分析}
 
-表\ref{tab:psnr_dynamic}给出了各方法在四个动态水下场景上的PSNR（单位：dB）定量对比结果。每列最优值以\textbf{粗体}标注。
+为统一对比口径，本文将所有方法在四个动态水下场景上的PSNR、SSIM与LPIPS三项指标合并到同一张表中，便于按行比较各方法的综合表现，结果如表\ref{tab:dynamic_all_metrics}所示。表中按场景分块，每个场景内部依次列出三项指标，方向箭头表示越高越好（$\uparrow$）或越低越好（$\downarrow$），各列最优值以\textbf{粗体}标注。
 
 \begin{table}[htbp]
   \centering
-  \tablecaption{各方法在动态水下场景上的PSNR对比（单位：dB，越高越好）}
-  \label{tab:psnr_dynamic}
-  \begin{tabular}{lccccc}
+  \tablecaption{各方法在动态水下场景上的多指标综合对比（PSNR$\uparrow$ / dB，SSIM$\uparrow$，LPIPS$\downarrow$）}
+  \label{tab:dynamic_all_metrics}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{l*{12}{c}}
     \hline
-    \textbf{方法} & \textbf{Robot} & \textbf{Fish} & \textbf{Coral} & \textbf{Streaks} & \textbf{平均值} \\
+    \multirow{2}{*}{\textbf{方法}}
+    & \multicolumn{3}{c}{Robot} & \multicolumn{3}{c}{Fish} & \multicolumn{3}{c}{Coral} & \multicolumn{3}{c}{Streaks} \\
+    \cline{2-4}\cline{5-7}\cline{8-10}\cline{11-13}
+    & PSNR & SSIM & LPIPS & PSNR & SSIM & LPIPS & PSNR & SSIM & LPIPS & PSNR & SSIM & LPIPS \\
     \hline
-    3DGS\upcite{kerbl2023gaussian}       & 28.59 & 24.66 & 26.78 & 26.47 & 26.63 \\
-    4DGS\upcite{wu2024gaussian}          & 29.49 & 29.09 & 31.14 & 28.81 & 29.63 \\
-    UDR-GS\upcite{udrgs2024symmetry}     & 29.62 & \textbf{29.24} & 32.43 & 28.91 & 30.05 \\
-    SeaSplat\upcite{seasplat2025icra}    & 28.21 & 23.30 & 26.58 & 26.16 & 26.06 \\
-    \textbf{本文方法}                    & \textbf{29.71} & 28.52 & \textbf{33.29} & \textbf{30.65} & \textbf{30.54} \\
+    3DGS\upcite{kerbl2023gaussian}    & 28.59 & 0.9305 & 0.1700 & 24.66 & 0.7736 & 0.1788 & 26.78 & 0.8980 & 0.1240 & 26.47 & 0.8559 & 0.1452 \\
+    4DGS\upcite{wu2024gaussian}       & 29.49 & 0.9306 & \textbf{0.0660} & 29.09 & 0.8213 & 0.1393 & 31.14 & 0.9266 & 0.0611 & 28.81 & 0.8617 & 0.0962 \\
+    SeaSplat\upcite{seasplat2025icra} & 28.21 & 0.9297 & 0.1661 & 23.30 & 0.7662 & 0.2321 & 26.58 & 0.8938 & 0.1271 & 26.16 & 0.8409 & 0.1325 \\
+    UDR-GS\upcite{udrgs2024symmetry}  & 29.62 & 0.9312 & \textbf{0.0840} & \textbf{29.24} & 0.8231 & 0.1514 & 32.43 & 0.9475 & \textbf{0.0479} & 28.91 & 0.8648 & 0.0883 \\
+    \textbf{本文方法}                 & \textbf{29.71} & \textbf{0.9387} & 0.1587 & 28.52 & 0.8218 & \textbf{0.1374} & \textbf{33.29} & \textbf{0.9640} & 0.0493 & \textbf{30.65} & \textbf{0.9349} & \textbf{0.0605} \\
     \hline
-  \end{tabular}
+  \end{tabular}%
+  }
 \end{table}
 
-由表\ref{tab:psnr_dynamic}可以得出以下结论：
+由表\ref{tab:dynamic_all_metrics}可以得出以下结论：
 
-\textbf{第一}，本文方法在四个动态场景中的三个（Robot、Coral、Streaks）均取得最优PSNR，平均PSNR为30.54 dB，相较于最接近的基线UDR-GS（30.05 dB）提升约1.6\%，相较于4DGS（29.63 dB）提升约3.1\%，展现出所提方法在动态水下场景上的综合优势。
+\textbf{第一}，本文方法在四个动态场景中的三个（Robot、Coral、Streaks）均取得最优PSNR，平均PSNR为30.54 dB，相较于最接近的基线UDR-GS（30.05 dB）提升约1.6\%，相较于4DGS（29.63 dB）提升约3.1\%。在SSIM上，本文方法在Robot、Coral与Streaks三个场景上同样取得最优，反映出结构层面的稳定改善。在LPIPS上，本文方法在Fish与Streaks场景上达到最优，其余场景上与UDR-GS互有胜负，整体处于同一水平。
 
-\textbf{第二}，在Fish场景中，本文方法（28.52 dB）略低于UDR-GS（29.24 dB），差距约为2.5\%。分析认为，Fish场景中鱼体运动速度快且无规律性，快速运动区域的颜色信息在多帧间变化剧烈，水下颜色恢复模块在此类场景中与动态建模模块存在一定程度的梯度干扰，导致两者联合优化时出现轻微的性能损失。UDR-GS专注于几何一致性建模，不引入颜色恢复的额外约束，因此在该场景上表现更为稳定。
+\textbf{第二}，在Fish场景中，本文方法的PSNR（28.52 dB）与SSIM（0.8218）略低于UDR-GS（29.24 dB / 0.8231），差距分别约为2.5\%与0.16\%，但LPIPS更低（0.1374 vs 0.1514），即感知质量更优。Fish场景中鱼体运动速度快且无规律性，快速运动区域的颜色信息在多帧间变化剧烈，水下颜色恢复模块在此类场景中与动态建模模块之间存在一定程度的梯度干扰，导致两者联合优化时出现轻微的像素级性能损失；UDR-GS不引入颜色恢复的额外约束，因此在该场景的像素级指标上更为稳定。
 
-\textbf{第三}，两种静态方法（3DGS与SeaSplat）在所有动态场景上均明显落后于动态方法，证明动态建模能力对于处理含运动元素的水下场景至关重要。
+\textbf{第三}，两种静态方法（3DGS与SeaSplat）在所有动态场景上均明显落后于动态方法，证明动态建模能力对于处理含运动元素的水下场景至关重要。SeaSplat虽然引入了水下物理建模，但因缺乏时序变形能力，在动态场景中产生的重影使其PSNR反而低于不带水下模型的3DGS。
 
-\textbf{多指标综合对比。}为进一步评估各方法的感知质量，表\ref{tab:multi_metric}给出了本文方法与基线UDR-GS在四个动态场景上的PSNR、SSIM与LPIPS三项指标的综合对比。
-
-\begin{table}[htbp]
-  \centering
-  \tablecaption{本文方法与UDR-GS在动态场景上的多指标综合对比}
-  \label{tab:multi_metric}
-  \begin{tabular}{lcccccc}
-    \hline
-    \multirow{2}{*}{\textbf{场景}} & \multicolumn{3}{c}{\textbf{本文方法}} & \multicolumn{3}{c}{\textbf{UDR-GS\upcite{udrgs2024symmetry}}} \\
-    \cline{2-7}
-    & PSNR$\uparrow$ & SSIM$\uparrow$ & LPIPS$\downarrow$ & PSNR$\uparrow$ & SSIM$\uparrow$ & LPIPS$\downarrow$ \\
-    \hline
-    Robot   & \textbf{29.71} & \textbf{0.9387} & 0.1587          & 29.62 & 0.9312 & \textbf{0.0840} \\
-    Fish    & 28.52          & 0.8218          & \textbf{0.1374} & \textbf{29.24} & \textbf{0.8231} & 0.1514 \\
-    Coral   & \textbf{33.29} & \textbf{0.9640} & 0.0493          & 32.43 & 0.9475 & \textbf{0.0479} \\
-    Streaks & \textbf{30.65} & \textbf{0.9349} & \textbf{0.0605} & 28.91 & 0.8648 & 0.0883 \\
-    \hline
-  \end{tabular}
-\end{table}
-
-综合三项指标可以观察到：在Robot与Coral场景中，本文方法在PSNR和SSIM上均优于UDR-GS，但LPIPS略高；在Streaks场景中，本文方法在全部三项指标上均明显优于UDR-GS，PSNR提升1.74 dB（+6.0\%），SSIM提升0.0701（+8.1\%），LPIPS降低0.0278（$-$31.5\%），提升幅度最为显著；在Fish场景中，本文方法LPIPS更低（0.1374 vs 0.1514），即感知质量更优，但PSNR与SSIM略逊。
+\textbf{第四}，在Streaks场景中本文方法相较UDR-GS提升最为显著，PSNR提升1.74 dB（+6.0\%），SSIM提升0.0701（+8.1\%），LPIPS降低0.0278（$-$31.5\%）。该场景中焦散光纹随时间快速变化，水下物理模型的引入使颜色与亮度变化能从场景几何中分离出来，因此带来明显的综合增益。
 
 \section{静态水下场景实验结果}
 
@@ -241,7 +232,7 @@
 
 \subsection{多模型综合对比分析}
 
-从模型能力角度看，SeaSplat\upcite{seasplat2025icra}、4DGS\upcite{wu2024gaussian}和UDR-GS\upcite{udrgs2024symmetry}分别代表三类不同基线：SeaSplat具备水下物理建模能力，但面向静态场景；4DGS具备动态建模能力，但缺少水下成像约束；UDR-GS同时考虑动态场景和水下退化，是最接近本文方法的动态水下重建基线。表\ref{tab:psnr_dynamic}与表\ref{tab:multi_metric}表明，本文方法的优势主要来自动态几何建模与水下物理建模的联合设计。
+从模型能力角度看，SeaSplat\upcite{seasplat2025icra}、4DGS\upcite{wu2024gaussian}和UDR-GS\upcite{udrgs2024symmetry}分别代表三类不同基线：SeaSplat具备水下物理建模能力，但面向静态场景；4DGS具备动态建模能力，但缺少水下成像约束；UDR-GS同时考虑动态场景和水下退化，是最接近本文方法的动态水下重建基线。表\ref{tab:dynamic_all_metrics}表明，本文方法的优势主要来自动态几何建模与水下物理建模的联合设计。
 
 与SeaSplat相比，本文方法在动态数据集上的平均PSNR由26.06 dB提升至30.54 dB。这一差距说明，仅引入水下色偏与散射建模不足以处理动态水下输入；当鱼体、珊瑚、机械臂或光纹随时间变化时，静态高斯表示会把多帧中不一致的观测融合到同一空间结构中，产生重影和模糊。本文方法通过时变形变场显式建模运动，使水下物理分支建立在相对一致的动态几何之上，因此能够同时改善渲染清晰度和物理分解稳定性。
 
@@ -272,7 +263,7 @@
   \label{fig:render_compare}
 \end{figure}
 
-由图\ref{fig:render_compare}可以观察到，在各个场景中，SeaSplat由于缺乏动态建模能力，在运动物体区域更容易出现重影与模糊；本文方法通过时变高斯形变场显式建模运动，使运动物体轮廓保持相对稳定。需要注意的是，图中深度结果主要用于辅助判断几何连续性，定量结论仍以表\ref{tab:psnr_dynamic}和表\ref{tab:multi_metric}为准。
+由图\ref{fig:render_compare}可以观察到，在各个场景中，SeaSplat由于缺乏动态建模能力，在运动物体区域更容易出现重影与模糊；本文方法通过时变高斯形变场显式建模运动，使运动物体轮廓保持相对稳定。需要注意的是，图中深度结果主要用于辅助判断几何连续性，定量结论仍以表\ref{tab:dynamic_all_metrics}为准。
 
 
 \subsection{水下图像分解}
@@ -290,11 +281,11 @@
     \rotatebox{90}{Fish}    & \includegraphics[width=0.17\textwidth]{figures/dewater/fish_gt.png}    & \includegraphics[width=0.17\textwidth]{figures/dewater/fish_sea_I.png}    & \includegraphics[width=0.17\textwidth]{figures/dewater/fish_sea_J.png}    & \includegraphics[width=0.17\textwidth]{figures/dewater/fish_ours_I.png}    & \includegraphics[width=0.17\textwidth]{figures/dewater/fish_ours_J.png}    \\
     \rotatebox{90}{Streaks} & \includegraphics[width=0.17\textwidth]{figures/dewater/streaks_gt.png} & \includegraphics[width=0.17\textwidth]{figures/dewater/streaks_sea_I.png} & \includegraphics[width=0.17\textwidth]{figures/dewater/streaks_sea_J.png} & \includegraphics[width=0.17\textwidth]{figures/dewater/streaks_ours_I.png} & \includegraphics[width=0.17\textwidth]{figures/dewater/streaks_ours_J.png} \\
   \end{tabular}
-  \caption{四个动态水下场景的物理分解结果。从左至右依次为：测试视角原始水下参考图像（GT）、SeaSplat渲染水下观测图像$\mathbf{I}$、SeaSplat反演干净外观$\mathbf{J}$、本文方法渲染水下观测图像$\mathbf{I}$、本文方法反演干净外观$\mathbf{J}$。}
+  \caption{四个动态水下场景的物理分解结果。从左至右依次为：测试视角原始水下参考图像（GT）、SeaSplat渲染水下观测图像$\mathbf{I}$、SeaSplat干净外观$\mathbf{J}$、本文方法渲染水下观测图像$\mathbf{I}$、本文方法干净外观$\mathbf{J}$。}
   \label{fig:dewater}
 \end{figure}
 
-对比图中，本文$\mathbf{I}$与本文$\mathbf{J}$在部分场景下差异并不剧烈，这可能与两个因素有关：一方面，训练目标直接约束的是与GT一致的水下观测图像$\mathbf{I}$，物理反演项$\mathbf{J}$主要用于约束高斯外观而非追求主观增强效果；另一方面，Robot和Fish等场景的有效可见距离较短，学习到的衰减和后向散射幅度有限，因此反演前后的视觉差异相对温和。
+对比图中部分场景，例如Coral数据集，本文$\mathbf{I}$与本文$\mathbf{J}$在部分场景下差异并不剧烈，这可能与两个因素有关：一方面，训练目标直接约束的是与GT一致的水下观测图像$\mathbf{I}$，物理反演项$\mathbf{J}$主要用于约束高斯外观而非追求主观增强效果；另一方面，Coral场景的有效可见距离较短，同时水质较为清澈，水下光学并不明显，学习到的衰减和后向散射幅度有限，因此视觉差异相对温和。
 
 \subsection{中间产物可视化}
 
@@ -374,7 +365,7 @@
 
 由表\ref{tab:ablation_psnr}与表\ref{tab:ablation_ssim_lpips}可观察到，完整模型并非在所有场景上均为最优。完整模型在Robot上以29.71 dB取得最优PSNR；在Fish场景上，基础4DGS配置（29.09 dB）以约0.57 dB领先完整模型（28.52 dB）；在Coral与Streaks场景上，完整模型（33.29、30.65 dB）相较基础4DGS配置（31.14、28.81 dB）分别提升+2.15 dB和+1.84 dB。以下分析均以两张消融表的数值差异和图\ref{fig:ablation_qualitative}的可视化结果为依据，不额外假设未观测的水体参数。综合四个场景可以看出，水下物理模型和深度监督的收益依赖场景条件，并不存在对所有场景都最优的固定配置。
 
-图\ref{fig:ablation_qualitative}以Robot场景为例，给出四种消融配置的渲染效果以及对应的深度图。图中(a)--(d)四列与表\ref{tab:ablation_psnr}中的四种配置一一对应，用于辅助观察不同组件对场景外观与几何重建的影响。
+图\ref{fig:ablation_qualitative}以Robot场景为例，给出四种消融配置的渲染效果以及对应的深度图。图中(a)--(d)四列与表\ref{tab:ablation_psnr}中的四种配置一一对应，用于辅助观察不同组件对场景外观与几何重建的影响。需要说明的是，本文为该消融图选取了机械臂运动幅度较大、深度变化较为明显的代表性视角；红框区域突出显示了不同配置在物体边缘清晰度与背景深度连续性上的差异，这些差异在RGB渲染上整体较温和，更明显地反映在右下方深度图的相对分布与边缘锐利度上。
 
 
 % 红框工具宏：在图像归一化坐标 (0.30,0.20)-(0.70,0.65) 区域绘制红色矩形以突出差异。
@@ -406,41 +397,34 @@
 \subsection{分阶段训练策略消融分析}
 
 为分析训练流程中各阶段的作用，本文比较了粗训练阶段（coarse）、预热阶段（warmup）和精细训练阶段（fine）等设置。完整流程首先在coarse阶段仅优化4D高斯表示，不启用SeaThru物理模型；随后进入fine阶段，并对后向散射网络和衰减网络（BackscatterNet and AttenuateNet, BS/AT）进行预热，再进行高斯颜色调整与交替联合优化。
-表~\ref{tab:ablation_training_config}给出了训练流程的主要消融配置。无warmup用于检验水下物理分支预热的必要性；短warmup用于观察预热长度对稳定性的影响；跳过coarse用于分析几何初始化的作用。
+表~\ref{tab:ablation_training}给出了训练流程消融配置及对应的PSNR结果。其中"无warmup"用于检验水下物理分支预热的必要性；"200次迭代warmup"和"500次迭代warmup"用于观察不同预热长度对稳定性的影响；"跳过coarse"用于分析粗训练几何初始化的重要性。
 
-\begin{table}[htbp]
+表\ref{tab:ablation_training}将训练流程消融配置与对应的PSNR结果合并展示，以避免单独表格独占页面、减少排版断点。表中"调整内容"一列描述各配置相对完整流程的差异，"分析目标"一列说明每种配置希望验证的设计要点，右侧四列给出各配置在四个动态场景上的PSNR数值。
+
+\begin{table}[!htb]
   \centering
-  \tablecaption{训练流程消融配置}
-  \label{tab:ablation_training_config}
+  \tablecaption{训练流程消融配置与PSNR结果（PSNR / dB）}
+  \label{tab:ablation_training}
   \small
-  \begin{tabular}{p{0.26\textwidth}p{0.30\textwidth}p{0.32\textwidth}}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{p{0.18\textwidth}p{0.22\textwidth}p{0.22\textwidth}cccc}
     \hline
-    \textbf{配置} & \textbf{调整内容} & \textbf{分析目标} \\
+    \textbf{配置} & \textbf{调整内容} & \textbf{分析目标} & \textbf{Robot} & \textbf{Fish} & \textbf{Coral} & \textbf{Streaks} \\
     \hline
-    无warmup & 同时优化高斯表示、BS/AT与深度监督 & 分析预热阶段对数值稳定性的作用 \\
-    200次迭代warmup & 移除coarse，仅保留极短预热 & 分析短预热是否足以形成稳定物理分支 \\
-    500次迭代warmup & 提前开启SeaThru物理分支 & 分析较短预热在不同场景上的适用边界 \\
-    跳过coarse & 保留完整warmup，移除初始几何优化 & 分析粗训练几何初始化的重要性 \\
+    无warmup            & 同时优化高斯表示、BS/AT与深度监督 & 分析预热阶段对数值稳定性的作用      & 14.62 & 13.30 & 10.75 & 13.57 \\
+    200次迭代warmup     & 移除coarse，仅保留极短预热       & 分析短预热是否足以形成稳定物理分支   & 25.98 & 26.68 & 13.82 & 20.58 \\
+    500次迭代warmup     & 提前开启SeaThru物理分支          & 分析较短预热在不同场景上的适用边界   & 26.35 & 26.63 & 19.24 & 19.75 \\
+    跳过coarse          & 保留完整warmup，移除初始几何优化  & 分析粗训练几何初始化的重要性        & 28.69 & 18.71 & 6.82 & 10.96 \\
     \hline
-  \end{tabular}
+  \end{tabular}%
+  }
 \end{table}
 
-表~\ref{tab:ablation_training_psnr}汇总了不同配置下的峰值信噪比（PSNR）结果。完全移除warmup时，四个场景PSNR均下降到10--15 dB区间，表明水下物理分支不宜与尚未成形的高斯几何从初始阶段强耦合优化。200次迭代warmup在Robot和Fish上可恢复到约26 dB，但Coral仅为13.82 dB，说明极短预热对复杂场景不足。500次迭代warmup可改善稳定性，但Coral和Streaks仍受限。跳过coarse时，Robot仍可达到28.69 dB，而Fish、Coral和Streaks明显退化，说明coarse主要为复杂动态场景提供几何基础。
+由表\ref{tab:ablation_training}可以观察到几个关键现象：
 
-\begin{table}[htbp]
-  \centering
-  \tablecaption{训练流程消融结果（PSNR / dB）}
-  \label{tab:ablation_training_psnr}
-  \small
-  \begin{tabular}{p{0.30\textwidth}cccc}
-    \hline
-    \textbf{训练配置} & \textbf{Robot} & \textbf{Fish} & \textbf{Coral} & \textbf{Streaks} \\
-    \hline
-    无warmup & 14.62 & 13.30 & 10.75 & 13.57 \\
-    200次迭代warmup，无coarse & 25.98 & 26.68 & 13.82 & 20.58 \\
-    500次迭代warmup & 26.35 & 26.63 & 19.24 & 19.75 \\
-    跳过coarse，保留完整warmup & 28.69 & 18.71 & 6.82 & 10.96 \\
-    \hline
-  \end{tabular}
-\end{table}
+\textbf{（1）无warmup导致训练崩溃}：完全移除warmup时，四个场景PSNR均下降到10--15 dB区间，渲染结果几乎不可用。这表明水下物理分支不宜与尚未成形的高斯几何从初始阶段强耦合优化，梯度冲突会导致训练不稳定。
+
+\textbf{（2）短warmup不足以恢复复杂场景}：200次迭代warmup在Robot和Fish上可恢复到约26 dB，但Coral仅为13.82 dB，说明极短预热对复杂场景不足，需要更长的预热迭代来建立稳定的水下模型初始化。
+
+\textbf{（3）coarse阶段对大型场景至关重要}：500次迭代warmup可改善稳定性，但Coral和Streaks仍受限。跳过coarse时，Robot仍可达到28.69 dB，而Fish、Coral和Streaks明显退化，说明coarse阶段主要为复杂动态场景提供几何基础，是后续精细优化的必要前提。
 

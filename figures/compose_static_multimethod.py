@@ -1,18 +1,19 @@
 from pathlib import Path
 
+import matplotlib.cm as cm
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageOps
-import matplotlib.cm as cm
 
 
 ROOT = Path(r"D:/All_Images_Collection/All_Images_Collection")
+DATA_ROOT = Path(r"D:/underwater/4DGaussians/data/SeaThru-NeRF/SeathruNeRF_dataset2")
+BASELINE_SEASPLAT = Path(r"D:/underwater/4DGaussians/output/baseline_seasplat")
 OUT_DIR = Path(r"D:/underwater/thesis-2026/figures/static_multimethod")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 CELL = (360, 270)
-LEFT_LABEL_W = 78
-HEADER_H = 48
-ROW_LABEL_H = 0
+LEFT_LABEL_W = 96
+HEADER_H = 62
 GAP = 8
 PAD = 10
 BG = (255, 255, 255)
@@ -24,28 +25,34 @@ MUTED = (110, 110, 110)
 SCENES = [
     {
         "key": "curacao",
-        "title": "Curacao",
+        "title": "Curasao",
         "dir": "Curasao",
         "stn_dir": "Curasao",
+        "baseline_sea_dir": "Curasao_seasplat_seathru1_fixopencv",
         "ours_depth": "Curacao",
-        "fname": "MTN_1288.png",
-        "idx": "00000.png",
+        "split": "train",
+        "fname": "MTN_1299.png",
+        "idx": "00009.png",
     },
     {
         "key": "iui3_redsea",
         "title": "IUI3-RedSea",
         "dir": "IUI3-RedSea",
         "stn_dir": "IUI3-RedSea",
+        "baseline_sea_dir": "IUI3-RedSea_seasplat_seathru1_fixopencv",
         "ours_depth": "IUI3",
-        "fname": "MTN_5894.png",
-        "idx": "00000.png",
+        "split": "train",
+        "fname": "MTN_5927.png",
+        "idx": "00020.png",
     },
     {
         "key": "japanese_gardens",
         "title": "JapaneseGardens-RedSea",
         "dir": "JapaneseGradens",
         "stn_dir": "JapaneseGradens-RedSea",
+        "baseline_sea_dir": None,
         "ours_depth": "JapaneseGardens",
+        "split": "test",
         "fname": "MTN_1090.png",
         "idx": "00000.png",
     },
@@ -54,7 +61,9 @@ SCENES = [
         "title": "Panama",
         "dir": "Panama",
         "stn_dir": "Panama",
+        "baseline_sea_dir": None,
         "ours_depth": "Panama",
+        "split": "test",
         "fname": "MTN_1529.png",
         "idx": "00000.png",
     },
@@ -63,28 +72,28 @@ SCENES = [
 
 METHODS = [
     {
-        "label": "Original",
-        "render": lambda s: Path(r"D:/underwater/4DGaussians/data/SeaThru-NeRF/SeathruNeRF_dataset2") / s["stn_dir"] / "images_wb" / s["fname"],
+        "label": "原图",
+        "render": lambda s: DATA_ROOT / s["stn_dir"] / "images_wb" / s["fname"],
         "depth": lambda s: "blank",
     },
     {
         "label": "STN",
-        "render": lambda s: find_named(ROOT / "seathru_renders" / s["stn_dir"], "rgb", s["fname"]),
-        "depth": lambda s: find_named(ROOT / "seathru_renders" / s["stn_dir"], "depth", s["fname"]),
+        "render": lambda s: find_named(ROOT / "seathru_renders" / s["stn_dir"], s["split"], "rgb", s["fname"]),
+        "depth": lambda s: find_named(ROOT / "seathru_renders" / s["stn_dir"], s["split"], "depth", s["fname"]),
     },
     {
         "label": "SeaSplat",
-        "render": lambda s: ROOT / "SeaSplat_Results" / s["dir"] / "test" / "with_water" / s["fname"],
-        "depth": lambda s: ROOT / "SeaSplat_Results" / s["dir"] / "test" / "depth" / s["fname"],
+        "render": lambda s: seasplat_path(s, "with_water"),
+        "depth": lambda s: seasplat_path(s, "depth"),
     },
     {
         "label": "4DGS",
-        "render": lambda s: ROOT / "4DGS_Baseline_Results" / s["dir"] / "test" / "ours_14000" / "renders" / s["idx"],
-        "depth": lambda s: ROOT / "4DGS_Baseline_Results" / s["dir"] / "test" / "ours_14000" / "depth" / s["idx"],
+        "render": lambda s: ROOT / "4DGS_Baseline_Results" / s["dir"] / s["split"] / "ours_14000" / "renders" / s["idx"],
+        "depth": lambda s: ROOT / "4DGS_Baseline_Results" / s["dir"] / s["split"] / "ours_14000" / "depth" / s["idx"],
     },
     {
         "label": "Ours",
-        "render": lambda s: ROOT / "Ours_Results" / s["dir"] / "test" / "with_water" / s["fname"],
+        "render": lambda s: ROOT / "Ours_Results" / s["dir"] / s["split"] / "with_water" / s["fname"],
         "depth": lambda s: Path(r"D:/underwater/thesis-2026/figures/best_checkpoints") / s["ours_depth"] / "test_depth_heatmap.png",
         "depth_mode": "image",
     },
@@ -93,9 +102,10 @@ METHODS = [
 
 def font(size, bold=False):
     candidates = [
+        r"C:/Windows/Fonts/msyhbd.ttc" if bold else r"C:/Windows/Fonts/msyh.ttc",
+        r"C:/Windows/Fonts/simhei.ttf" if bold else r"C:/Windows/Fonts/simsun.ttc",
         r"C:/Windows/Fonts/arialbd.ttf" if bold else r"C:/Windows/Fonts/arial.ttf",
         r"C:/Windows/Fonts/calibrib.ttf" if bold else r"C:/Windows/Fonts/calibri.ttf",
-        r"C:/Windows/Fonts/segoeuib.ttf" if bold else r"C:/Windows/Fonts/segoeui.ttf",
     ]
     for path in candidates:
         if Path(path).exists():
@@ -103,14 +113,26 @@ def font(size, bold=False):
     return ImageFont.load_default()
 
 
-FONT_TITLE = font(25, True)
-FONT_HEAD = font(22, True)
-FONT_ROW = font(21, True)
-FONT_NOTE = font(18, False)
+FONT_HEAD = font(30, True)
+FONT_ROW = font(29, True)
+FONT_NOTE = font(22, False)
 
 
-def find_named(base, subdir, fname):
-    for split in ("test", "train"):
+def baseline_wrong_dir():
+    for path in BASELINE_SEASPLAT.iterdir():
+        if path.is_dir() and (path / "Curasao_seasplat_seathru1_fixopencv").exists():
+            return path
+    raise FileNotFoundError(f"Cannot find static SeaSplat folder under {BASELINE_SEASPLAT}")
+
+
+def seasplat_path(scene, subdir):
+    if scene.get("baseline_sea_dir"):
+        return baseline_wrong_dir() / scene["baseline_sea_dir"] / scene["split"] / subdir / scene["fname"]
+    return ROOT / "SeaSplat_Results" / scene["dir"] / scene["split"] / subdir / scene["fname"]
+
+
+def find_named(base, preferred_split, subdir, fname):
+    for split in (preferred_split, "test", "train"):
         path = base / split / subdir / fname
         if path.exists():
             return path
@@ -159,7 +181,7 @@ def placeholder():
     draw = ImageDraw.Draw(im)
     draw.rectangle([0, 0, CELL[0] - 1, CELL[1] - 1], outline=BORDER, width=2)
     text = "N/A"
-    note = "no depth output"
+    note = "无深度输出"
     tw = draw.textbbox((0, 0), text, font=FONT_HEAD)
     nw = draw.textbbox((0, 0), note, font=FONT_NOTE)
     draw.text(((CELL[0] - (tw[2] - tw[0])) // 2, CELL[1] // 2 - 24), text, fill=MUTED, font=FONT_HEAD)
@@ -173,10 +195,6 @@ def center_text(draw, box, text, fnt, fill=TEXT):
     w = bbox[2] - bbox[0]
     h = bbox[3] - bbox[1]
     draw.text((x0 + (x1 - x0 - w) / 2, y0 + (y1 - y0 - h) / 2 - 1), text, fill=fill, font=fnt)
-
-
-def paste_cell(canvas, cell, x, y):
-    canvas.paste(cell, (x, y))
 
 
 def compose_scene(scene):
@@ -193,15 +211,15 @@ def compose_scene(scene):
 
     y_render = PAD + HEADER_H
     y_depth = y_render + CELL[1] + GAP
-    center_text(draw, (PAD, y_render, PAD + LEFT_LABEL_W - 8, y_render + CELL[1]), "Render", FONT_ROW)
-    center_text(draw, (PAD, y_depth, PAD + LEFT_LABEL_W - 8, y_depth + CELL[1]), "Depth", FONT_ROW)
+    center_text(draw, (PAD, y_render, PAD + LEFT_LABEL_W - 8, y_render + CELL[1]), "渲染", FONT_ROW)
+    center_text(draw, (PAD, y_depth, PAD + LEFT_LABEL_W - 8, y_depth + CELL[1]), "深度", FONT_ROW)
 
     for i, method in enumerate(METHODS):
         x = x0 + i * (CELL[0] + GAP)
         render_path = method["render"](scene)
         if not render_path or not Path(render_path).exists():
             raise FileNotFoundError(f"Missing render for {scene['key']} {method['label']}: {render_path}")
-        paste_cell(canvas, fit_image(render_path), x, y_render)
+        canvas.paste(fit_image(render_path), (x, y_render))
 
         depth_path = method["depth"](scene)
         if depth_path is None:
@@ -212,7 +230,7 @@ def compose_scene(scene):
             if not Path(depth_path).exists():
                 raise FileNotFoundError(f"Missing depth for {scene['key']} {method['label']}: {depth_path}")
             depth = fit_image(depth_path) if method.get("depth_mode") == "image" else depth_heatmap(depth_path)
-        paste_cell(canvas, depth, x, y_depth)
+        canvas.paste(depth, (x, y_depth))
 
     out = OUT_DIR / f"{scene['key']}_static_models_depth.png"
     canvas.save(out)

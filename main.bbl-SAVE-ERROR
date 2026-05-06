@@ -29,7 +29,7 @@
         {{hash=b503d22b8c86fb9dfd477d2f70a59650}{%
            family={Srinivasan},
            familyi={S\bibinitperiod},
-           given={Pratul\bibnamedelima P},
+           given={Pratul\bibnamedelima P.},
            giveni={P\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
         {{hash=9a18985a5c8b8be23d0ec9de0a3c87b9}{%
            family={Tancik},
@@ -39,7 +39,7 @@
         {{hash=562f3254a241932db4a6d44a97473ec5}{%
            family={Barron},
            familyi={B\bibinitperiod},
-           given={Jonathan\bibnamedelima T},
+           given={Jonathan\bibnamedelima T.},
            giveni={J\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
         {{hash=e7e274981ceb0dd123d44af35cc7bedf}{%
            family={Ramamoorthi},
@@ -64,13 +64,11 @@
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{Communications of the ACM}
-      \field{number}{1}
-      \field{title}{Nerf: Representing scenes as neural radiance fields for view synthesis}
-      \field{volume}{65}
-      \field{year}{2021}
-      \field{pages}{99\bibrangedash 106}
-      \range{pages}{8}
+      \field{booktitle}{Computer Vision – ECCV 2020: 16th European Conference, Glasgow, UK, August 23–28, 2020, Proceedings, Part I}
+      \field{title}{NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis}
+      \field{year}{2020}
+      \field{pages}{405\bibrangedash 421}
+      \range{pages}{17}
     \endentry
     \entry{barron2021mipnerf}{inproceedings}{}{}
       \name{author}{6}{}{%

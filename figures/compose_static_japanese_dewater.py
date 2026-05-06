@@ -10,8 +10,8 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 FNAME = "MTN_1090.png"
 CELL = (360, 270)
-HEADER_H = 46
-LEFT_LABEL_W = 72
+HEADER_H = 62
+LEFT_LABEL_W = 96
 PAD = 10
 GAP = 8
 BG = (255, 255, 255)
@@ -21,7 +21,7 @@ TEXT = (25, 25, 25)
 ORIGINAL = DATA_ROOT / "JapaneseGradens-RedSea" / "images_wb" / FNAME
 COLUMNS = [
     (
-        "Original",
+        "原图",
         ORIGINAL,
         ORIGINAL,
     ),
@@ -45,6 +45,8 @@ COLUMNS = [
 
 def font(size, bold=False):
     candidates = [
+        r"C:/Windows/Fonts/msyhbd.ttc" if bold else r"C:/Windows/Fonts/msyh.ttc",
+        r"C:/Windows/Fonts/simhei.ttf" if bold else r"C:/Windows/Fonts/simsun.ttc",
         r"C:/Windows/Fonts/arialbd.ttf" if bold else r"C:/Windows/Fonts/arial.ttf",
         r"C:/Windows/Fonts/calibrib.ttf" if bold else r"C:/Windows/Fonts/calibri.ttf",
         r"C:/Windows/Fonts/segoeuib.ttf" if bold else r"C:/Windows/Fonts/segoeui.ttf",
@@ -55,8 +57,8 @@ def font(size, bold=False):
     return ImageFont.load_default()
 
 
-FONT_HEAD = font(22, True)
-FONT_ROW = font(20, True)
+FONT_HEAD = font(30, True)
+FONT_ROW = font(29, True)
 
 
 def center_text(draw, box, text, fnt):
@@ -86,8 +88,8 @@ def main():
     x0 = PAD + LEFT_LABEL_W
     y_render = PAD + HEADER_H
     y_dewater = y_render + CELL[1] + GAP
-    center_text(draw, (PAD, y_render, PAD + LEFT_LABEL_W - 6, y_render + CELL[1]), "Render", FONT_ROW)
-    center_text(draw, (PAD, y_dewater, PAD + LEFT_LABEL_W - 6, y_dewater + CELL[1]), "Dewater", FONT_ROW)
+    center_text(draw, (PAD, y_render, PAD + LEFT_LABEL_W - 6, y_render + CELL[1]), "渲染", FONT_ROW)
+    center_text(draw, (PAD, y_dewater, PAD + LEFT_LABEL_W - 6, y_dewater + CELL[1]), "去水", FONT_ROW)
 
     for i, (label, render_path, dewater_path) in enumerate(COLUMNS):
         x = x0 + i * (CELL[0] + GAP)

@@ -16,8 +16,8 @@ TEXT = (25, 25, 25)
 
 
 SCENES = [
-    ("Curasao", "Curasao", "MTN_1288.png"),
-    ("IUI3-RedSea", "IUI3-RedSea", "MTN_5894.png"),
+    ("Curasao", "Curasao", "MTN_1299.png"),
+    ("IUI3-RedSea", "IUI3-RedSea", "MTN_5927.png"),
     ("JapaneseGardens-RedSea", "JapaneseGradens-RedSea", "MTN_1090.png"),
     ("Panama", "Panama", "MTN_1529.png"),
 ]
@@ -54,7 +54,22 @@ def fit_image(path):
     return canvas
 
 
+def export_single_samples():
+    names = {
+        "Curasao": "curasao_sample.png",
+        "IUI3-RedSea": "iui3_redsea_sample.png",
+        "JapaneseGardens-RedSea": "japanese_gardens_sample.png",
+        "Panama": "panama_sample.png",
+    }
+    for label, scene_dir, fname in SCENES:
+        image_path = DATA_ROOT / scene_dir / "images_wb" / fname
+        if not image_path.exists():
+            raise FileNotFoundError(image_path)
+        Image.open(image_path).convert("RGB").save(OUT_DIR / names[label])
+
+
 def main():
+    export_single_samples()
     width = PAD * 2 + len(SCENES) * CELL[0] + (len(SCENES) - 1) * GAP
     height = PAD * 2 + HEADER_H + CELL[1]
     canvas = Image.new("RGB", (width, height), BG)
