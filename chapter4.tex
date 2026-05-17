@@ -127,7 +127,7 @@
 
 \subsection{定量实验分析}
 
-为统一对比口径，本文将所有方法在四个动态水下场景上的PSNR、SSIM与LPIPS三项指标合并到同一张表中，便于按行比较各方法的综合表现，结果如表\ref{tab:dynamic_all_metrics}所示。表中按场景分块，每个场景内部依次列出三项指标，方向箭头表示越高越好（$\uparrow$）或越低越好（$\downarrow$），各列最优值以\textbf{粗体}标注。
+在四个动态水下场景上的PSNR、SSIM与LPIPS三项指标的结果如表\ref{tab:dynamic_all_metrics}所示。方向箭头表示越高越好（$\uparrow$）或越低越好（$\downarrow$），各列最优值以\textbf{粗体}标注。
 
 \begin{table}[htbp]
   \centering
@@ -144,7 +144,7 @@
     3DGS\upcite{kerbl2023gaussian}    & 28.59 & 0.9305 & 0.1700 & 24.66 & 0.7736 & 0.1788 & 26.78 & 0.8980 & 0.1240 & 26.47 & 0.8559 & 0.1452 \\
     4DGS\upcite{wu2024gaussian}       & 29.49 & 0.9306 & \textbf{0.0660} & 29.09 & 0.8213 & 0.1393 & 31.14 & 0.9266 & 0.0611 & 28.81 & 0.8617 & 0.0962 \\
     SeaSplat\upcite{seasplat2025icra} & 28.21 & 0.9297 & 0.1661 & 23.30 & 0.7662 & 0.2321 & 26.58 & 0.8938 & 0.1271 & 26.16 & 0.8409 & 0.1325 \\
-    UDR-GS\upcite{udrgs2024symmetry}  & 29.62 & 0.9312 & \textbf{0.0840} & \textbf{29.24} & 0.8231 & 0.1514 & 32.43 & 0.9475 & \textbf{0.0479} & 28.91 & 0.8648 & 0.0883 \\
+    UDR-GS\upcite{udrgs2024symmetry}  & 29.62 & 0.9312 &0.0840 & \textbf{29.24} &  \textbf{0.8231} & 0.1514 & 32.43 & 0.9475 & \textbf{0.0479} & 28.91 & 0.8648 & 0.0883 \\
     \textbf{本文方法}                 & \textbf{29.71} & \textbf{0.9387} & 0.1587 & 28.52 & 0.8218 & \textbf{0.1374} & \textbf{33.29} & \textbf{0.9640} & 0.0493 & \textbf{30.65} & \textbf{0.9349} & \textbf{0.0605} \\
     \hline
   \end{tabular}%
@@ -155,15 +155,15 @@
 
 \textbf{第一}，本文方法在四个动态场景中的三个（Robot、Coral、Streaks）均取得最优PSNR，平均PSNR为30.54 dB，相较于最接近的基线UDR-GS（30.05 dB）提升约1.6\%，相较于4DGS（29.63 dB）提升约3.1\%。在SSIM上，本文方法在Robot、Coral与Streaks三个场景上同样取得最优，反映出结构层面的稳定改善。在LPIPS上，本文方法在Fish与Streaks场景上达到最优，其余场景上与UDR-GS互有胜负，整体处于同一水平。
 
-\textbf{第二}，在Fish场景中，本文方法的PSNR（28.52 dB）与SSIM（0.8218）略低于UDR-GS（29.24 dB / 0.8231），差距分别约为2.5\%与0.16\%，但LPIPS更低（0.1374 vs 0.1514），即感知质量更优。Fish场景中鱼体运动速度快且无规律性，快速运动区域的颜色信息在多帧间变化剧烈，水下颜色恢复模块在此类场景中与动态建模模块之间存在一定程度的梯度干扰，导致两者联合优化时出现轻微的像素级性能损失；UDR-GS不引入颜色恢复的额外约束，因此在该场景的像素级指标上更为稳定。
+\textbf{第二}，在Fish场景中，本文方法的PSNR（28.52 dB）与SSIM（0.8218）略低于UDR-GS（PSNR为29.24 dB，SSIM为0.8231），差距分别约为2.5\%与0.16\%，但LPIPS更低（本文方法为0.1374，UDR-GS基线为0.1514），即感知质量更优。Fish场景中鱼体运动速度快且无规律性，快速运动区域的颜色信息在多帧间变化剧烈，水下颜色恢复模块在此类场景中与动态建模模块之间存在一定程度的梯度干扰，导致两者联合优化时出现轻微的像素级性能损失；UDR-GS不引入颜色恢复的额外约束，因此在该场景的像素级指标上更为稳定。
 
 \textbf{第三}，两种静态方法（3DGS与SeaSplat）在所有动态场景上均明显落后于动态方法，证明动态建模能力对于处理含运动元素的水下场景至关重要。SeaSplat虽然引入了水下物理建模，但因缺乏时序变形能力，在动态场景中产生的重影使其PSNR反而低于不带水下模型的3DGS。
 
-\textbf{第四}，在Streaks场景中本文方法相较UDR-GS提升最为显著，PSNR提升1.74 dB（+6.0\%），SSIM提升0.0701（+8.1\%），LPIPS降低0.0278（$-$31.5\%）。该场景中焦散光纹随时间快速变化，水下物理模型的引入使颜色与亮度变化能从场景几何中分离出来，因此带来明显的综合增益。
+\textbf{第四}，在Streaks场景中本文方法相较UDR-GS提升最为显著，PSNR提升1.74 dB（+6.0\%），SSIM提升0.0701（+8.1\%），LPIPS降低0.0278（$-$31.5\%）。
 
 \section{静态水下场景实验结果}
 
-为进一步评估本文方法在静态水下场景上的迁移能力，本文在SeaThru-NeRF\upcite{levy2023seathrunerf}数据集所提供的四个典型水下场景上进行实验，包括Curaçao、IUI3-RedSea、JapaneseGardens-RedSea与Panama。对比方法包括原始3DGS\upcite{kerbl2023gaussian}、SeaThru-NeRF\upcite{levy2023seathrunerf}（下表中简记为STN）、SeaSplat\upcite{seasplat2025icra}以及未引入水下物理模型的原始4DGS\upcite{wu2024gaussian}。其中3DGS、4DGS、STN与SeaSplat的指标取自SeaSplat论文公开报告。表\ref{tab:psnr_static}给出了PSNR/SSIM/LPIPS三项指标的综合对比，每行最优值以\textbf{粗体}标注。
+为进一步评估本文方法在静态水下场景上的迁移能力，本文在SeaThru-NeRF\upcite{levy2023seathrunerf}数据集所提供的四个典型水下场景上进行实验，包括Curasao、IUI3-RedSea、JapaneseGardens-RedSea与Panama。对比方法包括原始3DGS\upcite{kerbl2023gaussian}、SeaThru-NeRF\upcite{levy2023seathrunerf}（下表中简记为STN）、SeaSplat\upcite{seasplat2025icra}以及未引入水下物理模型的原始4DGS\upcite{wu2024gaussian}。表\ref{tab:psnr_static}给出了PSNR/SSIM/LPIPS三项指标的综合对比，每行最优值以\textbf{粗体}标注。
 
 \begin{table}[htbp]
   \centering
@@ -174,7 +174,7 @@
     \hline
     \textbf{场景} & \textbf{3DGS}\upcite{kerbl2023gaussian} & \textbf{STN}\upcite{levy2023seathrunerf} & \textbf{SeaSplat}\upcite{seasplat2025icra} & \textbf{4DGS}\upcite{wu2024gaussian} & \textbf{本文方法} \\
     \hline
-    Curaçao                & 28.01 / 0.88 / 0.21          & 30.08 / 0.87 / 0.27 & \textbf{30.30 / 0.90 / 0.19} & 28.05 / 0.75 / 0.40 & 28.82 / 0.77 / 0.26 \\
+    Curasao                & 28.01 / 0.88 / 0.21          & 30.08 / 0.87 / 0.27 & \textbf{30.30 / 0.90 / 0.19} & 28.05 / 0.75 / 0.40 & 28.82 / 0.77 / 0.26 \\
     IUI3-RedSea            & 21.11 / 0.81 / 0.29          & 26.01 / 0.79 / 0.32 & \textbf{26.67 / 0.87 / 0.21} & 24.43 / 0.68 / 0.41 & 25.27 / 0.72 / 0.34 \\
     JapaneseGardens-RedSea & 21.47 / 0.85 / 0.22          & 21.74 / 0.77 / 0.29 & 22.70 / \textbf{0.87 / 0.18} & 21.81 / 0.76 / 0.33 & \textbf{23.38} / 0.81 / 0.24 \\
     Panama                 & \textbf{29.64 / 0.90} / 0.17 & 27.69 / 0.83 / 0.28 & 28.76 / \textbf{0.90 / 0.15} & 25.63 / 0.75 / 0.37 & 26.86 / 0.80 / 0.33 \\
@@ -183,48 +183,78 @@
   }
 \end{table}
 
-为进一步从视觉层面对静态场景结果进行比较，图\ref{fig:static_multimethod_curacao}至图\ref{fig:static_multimethod_panama}给出了五种方法在四个SeaThru-NeRF场景上的代表性渲染结果及对应深度图。每幅图对应一个数据集，列方向依次为3DGS、SeaThru-NeRF（STN）、SeaSplat、4DGS与本文方法，上行为渲染结果，下行为深度图。
+为进一步从视觉层面对静态场景结果进行比较，图\ref{fig:static_multimethod_curacao}至图\ref{fig:static_multimethod_panama}给出了五种方法在四个SeaThru-NeRF场景上的代表性渲染结果及对应深度图。每幅图对应一个数据集，列方向依次为水下拍摄原图、SeaThru-NeRF（STN）、SeaSplat、4DGS与本文方法，除原图外，上行为渲染结果，下行为深度图。
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=\textwidth]{figures/static_multimethod/curacao_static_models_depth.png}
-  \caption{Curaçao场景五种方法渲染结果与深度图对比。}
+  \setlength{\tabcolsep}{2pt}
+  \renewcommand{\arraystretch}{0.6}
+  \begin{tabular}{@{}>{\centering\arraybackslash}m{1.2em}@{\hspace{2pt}}*{5}{>{\centering\arraybackslash}m{0.17\textwidth}}@{}}
+     & 原图 & STN & SeaSplat & 4DGS & 本文方法 \\
+    \rotatebox{90}{渲染} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/curacao/render_orig.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/curacao/render_stn.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/curacao/render_seasplat.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/curacao/render_fdgs.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/curacao/render_ours.png} \\
+    \rotatebox{90}{深度} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/curacao/depth_orig.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/curacao/depth_stn.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/curacao/depth_seasplat.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/curacao/depth_fdgs.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/curacao/depth_ours.png} \\
+  \end{tabular}
+  \caption{Curasao场景五种方法渲染结果与深度图对比。}
   \label{fig:static_multimethod_curacao}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=\textwidth]{figures/static_multimethod/iui3_redsea_static_models_depth.png}
+  \setlength{\tabcolsep}{2pt}
+  \renewcommand{\arraystretch}{0.6}
+  \begin{tabular}{@{}>{\centering\arraybackslash}m{1.2em}@{\hspace{2pt}}*{5}{>{\centering\arraybackslash}m{0.17\textwidth}}@{}}
+     & 原图 & STN & SeaSplat & 4DGS & 本文方法 \\
+    \rotatebox{90}{渲染} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/iui3_redsea/render_orig.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/iui3_redsea/render_stn.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/iui3_redsea/render_seasplat.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/iui3_redsea/render_fdgs.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/iui3_redsea/render_ours.png} \\
+    \rotatebox{90}{深度} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/iui3_redsea/depth_orig.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/iui3_redsea/depth_stn.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/iui3_redsea/depth_seasplat.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/iui3_redsea/depth_fdgs.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/iui3_redsea/depth_ours.png} \\
+  \end{tabular}
   \caption{IUI3-RedSea场景五种方法渲染结果与深度图对比。}
   \label{fig:static_multimethod_iui3}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=\textwidth]{figures/static_multimethod/japanese_gardens_static_models_depth.png}
+  \setlength{\tabcolsep}{2pt}
+  \renewcommand{\arraystretch}{0.6}
+  \begin{tabular}{@{}>{\centering\arraybackslash}m{1.2em}@{\hspace{2pt}}*{5}{>{\centering\arraybackslash}m{0.17\textwidth}}@{}}
+     & 原图 & STN & SeaSplat & 4DGS & 本文方法 \\
+    \rotatebox{90}{渲染} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/japanese_gardens/render_orig.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/japanese_gardens/render_stn.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/japanese_gardens/render_seasplat.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/japanese_gardens/render_fdgs.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/japanese_gardens/render_ours.png} \\
+    \rotatebox{90}{深度} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/japanese_gardens/depth_orig.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/japanese_gardens/depth_stn.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/japanese_gardens/depth_seasplat.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/japanese_gardens/depth_fdgs.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/japanese_gardens/depth_ours.png} \\
+  \end{tabular}
   \caption{JapaneseGardens-RedSea场景五种方法渲染结果与深度图对比。}
   \label{fig:static_multimethod_japanese}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=\textwidth]{figures/static_multimethod/panama_static_models_depth.png}
+  \setlength{\tabcolsep}{2pt}
+  \renewcommand{\arraystretch}{0.6}
+  \begin{tabular}{@{}>{\centering\arraybackslash}m{1.2em}@{\hspace{2pt}}*{5}{>{\centering\arraybackslash}m{0.17\textwidth}}@{}}
+     & 原图 & STN & SeaSplat & 4DGS & 本文方法 \\
+    \rotatebox{90}{渲染} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/panama/render_orig.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/panama/render_stn.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/panama/render_seasplat.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/panama/render_fdgs.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/panama/render_ours.png} \\
+    \rotatebox{90}{深度} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/panama/depth_orig.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/panama/depth_stn.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/panama/depth_seasplat.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/panama/depth_fdgs.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/panama/depth_ours.png} \\
+  \end{tabular}
   \caption{Panama场景五种方法渲染结果与深度图对比。}
   \label{fig:static_multimethod_panama}
 \end{figure}
 
 
 
-为进一步展示静态复杂珊瑚礁场景中的外观恢复效果，图\ref{fig:static_japanese_dewater}给出了JapaneseGardens-RedSea场景的原图、渲染结果与去水结果。图中列方向依次为原始水下图像、SeaThru-NeRF、SeaSplat与本文方法；行方向分别对应带水渲染结果与依据水下成像模型得到的去水结果。
+为进一步展示外观恢复效果，以静态复杂珊瑚礁场景JapaneseGardens-RedSea为例，图\ref{fig:static_japanese_dewater}给出了该场景的原图、渲染结果与去水结果。图中列方向依次为原始水下图像、SeaThru-NeRF、SeaSplat与本文方法；行方向分别对应带水渲染结果与依据水下成像模型得到的去水结果。
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=\textwidth]{figures/static_multimethod/japanese_dewater_render_compare.png}
+  \setlength{\tabcolsep}{2pt}
+  \renewcommand{\arraystretch}{0.6}
+  \begin{tabular}{@{}>{\centering\arraybackslash}m{1.2em}@{\hspace{2pt}}*{4}{>{\centering\arraybackslash}m{0.21\textwidth}}@{}}
+     & 原图 & STN & SeaSplat & 本文方法 \\
+    \rotatebox{90}{渲染} & \includegraphics[width=0.21\textwidth]{figures/static_multimethod/cells/japanese_dewater/render_orig.png} & \includegraphics[width=0.21\textwidth]{figures/static_multimethod/cells/japanese_dewater/render_stn.png} & \includegraphics[width=0.21\textwidth]{figures/static_multimethod/cells/japanese_dewater/render_seasplat.png} & \includegraphics[width=0.21\textwidth]{figures/static_multimethod/cells/japanese_dewater/render_ours.png} \\
+    \rotatebox{90}{去水} & \includegraphics[width=0.21\textwidth]{figures/static_multimethod/cells/japanese_dewater/dewater_orig.png} & \includegraphics[width=0.21\textwidth]{figures/static_multimethod/cells/japanese_dewater/dewater_stn.png} & \includegraphics[width=0.21\textwidth]{figures/static_multimethod/cells/japanese_dewater/dewater_seasplat.png} & \includegraphics[width=0.21\textwidth]{figures/static_multimethod/cells/japanese_dewater/dewater_ours.png} \\
+  \end{tabular}
   \caption{JapaneseGardens-RedSea场景原图、渲染结果与去水结果对比。上行为带水渲染结果，下行为去水结果；原图列在两行中重复显示作为参考。}
   \label{fig:static_japanese_dewater}
 \end{figure}
 
-由表\ref{tab:psnr_static}可观察到，本文方法在JapaneseGardens-RedSea场景上的PSNR（23.38 dB）超过所有基线，相较SeaSplat提升+0.68 dB，相较4DGS提升+1.57 dB，反映出当场景具有丰富细粒度纹理时，本文方法的水下物理模型与深度监督相结合所带来的联合约束依然能够提供增益；相较于不带水下物理模型的原始4DGS\upcite{wu2024gaussian}，本文方法在所有四个静态场景上的PSNR平均提升约1.05 dB，且SSIM与LPIPS同步改善，表明所引入的水下物理建模能够在动态主干基础上有效补偿静态场景的色偏与散射；本文方法在Curaçao、IUI3-RedSea、Panama上仍略逊于SeaSplat，原因在于SeaSplat专为静态场景优化，而本文方法在这些场景中保留的形变场参数构成不必要的自由度，引入了一定的优化噪声。
+由表\ref{tab:psnr_static}可观察到，本文方法在JapaneseGardens-RedSea场景上的PSNR（23.38 dB）超过所有基线，相较SeaSplat提升+0.68 dB，相较4DGS提升+1.57 dB，反映出当场景具有丰富细粒度纹理时，本文方法的水下物理模型与深度监督相结合所带来的联合约束依然能够提供增益；相较于不带水下物理模型的原始4DGS\upcite{wu2024gaussian}，本文方法在所有四个静态场景上的PSNR平均提升约1.05 dB，且SSIM与LPIPS同步改善，表明所引入的水下物理建模能够在动态主干基础上有效补偿静态场景的色偏与散射；本文方法在Curasao、IUI3-RedSea、Panama上仍略逊于SeaSplat，原因在于SeaSplat专为静态场景优化，而本文方法在这些场景中保留的形变场参数构成不必要的自由度，引入了一定的优化噪声。
 
 
 
@@ -268,7 +298,7 @@
 
 \subsection{水下图像分解}
 
-图\ref{fig:dewater}展示了本文方法在四个动态水下场景上的水下图像分解效果。每行对应一个场景，其中$\mathbf{I}$表示模型合成的水下观测图像，$\mathbf{J}$表示依据水下成像模型反演得到的干净外观图像，逐通道关系为$J_c=(I_c-B_c(Z))/A_c(Z)$。这里的"去水"不是额外的图像增强后处理，而是模型内部物理分解得到的外观项。
+图\ref{fig:dewater}展示了本文方法在四个动态水下场景上的水下图像分解效果。每行对应一个场景，其中$\mathbf{I}$表示模型合成的水下观测图像，$\mathbf{J}$表示依据水下成像模型反演得到的干净外观图像，逐通道关系为$J_c=(I_c-B_c(Z))/A_c(Z)$。
 
 \begin{figure}[htbp]
   \centering
@@ -306,7 +336,7 @@
   \label{fig:intermediate}
 \end{figure}
 
-从图\ref{fig:intermediate}可以看出，估计深度图在主体物体轮廓和背景层次上保持了较连续的相对远近关系，说明单目深度监督对几何结构具有约束作用。衰减图$\mathbf{A}(\mathbf{Z})$在远景区域整体更低，后向散射图$\mathbf{B}(\mathbf{Z})$在较远区域通常更高，这与水下成像模型中"直接透射随距离衰减、后向散射随距离累积"的趋势一致。由于本文没有真实水体光学参数作为监督，上述中间产物只能作为物理趋势和可解释性的辅助证据，不能单独视为参数估计精度的严格验证。
+从图\ref{fig:intermediate}可以看出，估计深度图在主体物体轮廓和背景层次上保持了较连续的相对远近关系，说明单目深度监督对几何结构具有约束作用。衰减图$\mathbf{A}(\mathbf{Z})$在远景区域整体更低，后向散射图$\mathbf{B}(\mathbf{Z})$在较远区域通常更高，这与水下成像模型中直接透射随距离衰减、后向散射随距离累积的趋势一致。由于本文没有真实水体光学参数作为监督，上述中间产物只能作为物理趋势和可解释性的辅助证据，不能单独视为参数估计精度的严格验证。
 
 \section{消融实验}
 
@@ -318,52 +348,39 @@
 
 \begin{itemize}
   \item \textbf{（a）}仅保留时空高斯溅射主干，关闭水下物理模型与单目深度监督。
-  \item \textbf{（b）}启用 SeaThru 物理模型（后向散射$\mathbf{B}(\mathbf{Z})$与衰减$\mathbf{A}(\mathbf{Z})$双子网络），但不引入深度监督。
+  \item \textbf{（b）}启用 水下物理模型（后向散射$\mathbf{B}(\mathbf{Z})$与衰减$\mathbf{A}(\mathbf{Z})$双子网络），但不引入深度监督。
   \item \textbf{（c）}仅启用基于 Depth Anything V2 的逆深度监督。
-  \item \textbf{（d）}同时启用 SeaThru 物理模型与深度监督，即本文完整方法。
+  \item \textbf{（d）}同时启用 水下物理模型与深度监督，即本文完整方法。
 \end{itemize}
 
 四种配置在 Robot、Fish、Coral、Streaks 四个动态场景上运行。
 
 \subsection{定量结果}
 
-表\ref{tab:ablation_psnr}给出了四种配置在四个场景上的 PSNR 定量结果。
+表\ref{tab:ablation_psnr}给出了四种配置在四个场景上的 PSNR、SSIM 与 LPIPS 定量结果。
 
 \begin{table}[htbp]
   \centering
-  \tablecaption{消融实验（PSNR / dB）}
+  \tablecaption{消融实验定量结果（PSNR$\uparrow$ / dB，SSIM$\uparrow$，LPIPS$\downarrow$）}
   \label{tab:ablation_psnr}
-  \begin{tabular}{lcccc}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{l*{12}{c}}
     \hline
-    \textbf{场景} & \textbf{a} & \textbf{b} & \textbf{c} & \textbf{d} \\
+    \multirow{2}{*}{\textbf{配置}}
+    & \multicolumn{3}{c}{Robot} & \multicolumn{3}{c}{Fish} & \multicolumn{3}{c}{Coral} & \multicolumn{3}{c}{Streaks} \\
+    \cline{2-4}\cline{5-7}\cline{8-10}\cline{11-13}
+    & PSNR & SSIM & LPIPS & PSNR & SSIM & LPIPS & PSNR & SSIM & LPIPS & PSNR & SSIM & LPIPS \\
     \hline
-    Robot   & 29.49               & 29.40                 & 29.24               & \textbf{29.71} \\
-    Fish    & \textbf{29.09}      & 27.92     & 28.54               & 28.52 \\
-    Coral   & 31.14               & 32.02     & \textbf{33.44}      & 33.29 \\
-    Streaks & 28.81               & 30.50                 & \textbf{30.78}      & 30.65 \\
+    (a) 仅4DGS主干           & 29.49          & 0.931          & \textbf{0.066} & \textbf{29.09} & 0.821          & 0.139          & 31.14          & 0.927          & 0.061          & 28.81          & 0.862          & 0.096 \\
+    (b) 增加水下物理模型     & 29.40          & 0.934          & 0.163          & 27.92          & 0.816          & 0.155          & 32.02          & 0.956          & 0.076          & 30.50          & 0.929          & 0.075 \\
+    (c) 增加深度监督            & 29.24          & 0.932          & 0.165          & 28.54          & \textbf{0.822} & \textbf{0.137} & \textbf{33.44} & \textbf{0.966} & \textbf{0.049} & \textbf{30.78} & \textbf{0.939} & \textbf{0.061} \\
+    (d) 完整方法             & \textbf{29.71} & \textbf{0.939} & 0.159          & 28.52          & \textbf{0.822} & \textbf{0.137} & 33.29          & 0.964          & \textbf{0.049} & 30.65          & 0.935          & \textbf{0.061} \\
     \hline
-  \end{tabular}
+  \end{tabular}%
+  }
 \end{table}
 
-表\ref{tab:ablation_ssim_lpips}进一步给出 SSIM 与 LPIPS 指标，便于多维度评估。
-
-\begin{table}[htbp]
-  \centering
-  \tablecaption{消融实验补充指标（SSIM$\uparrow$ / LPIPS$\downarrow$)}
-  \label{tab:ablation_ssim_lpips}
-  \begin{tabular}{lcccc}
-    \hline
-    \textbf{场景} & \textbf{a} & \textbf{b} & \textbf{c} & \textbf{d} \\
-    \hline
-    Robot   & 0.931 / \textbf{0.066} & 0.934 / 0.163 & 0.932 / 0.165 & \textbf{0.939} / 0.159 \\
-    Fish    & 0.821 / 0.139 & 0.816 / 0.155 & 0.822 / 0.137 & \textbf{0.822 / 0.137} \\
-    Coral   & 0.927 / 0.061 & 0.956 / 0.076 & \textbf{0.966} / 0.049 & 0.964 / \textbf{0.049} \\
-    Streaks & 0.862 / 0.096 & 0.929 / 0.075 & \textbf{0.939} / 0.061 & 0.935 / \textbf{0.061} \\
-    \hline
-  \end{tabular}
-\end{table}
-
-由表\ref{tab:ablation_psnr}与表\ref{tab:ablation_ssim_lpips}可观察到，完整模型并非在所有场景上均为最优。完整模型在Robot上以29.71 dB取得最优PSNR；在Fish场景上，基础4DGS配置（29.09 dB）以约0.57 dB领先完整模型（28.52 dB）；在Coral与Streaks场景上，完整模型（33.29、30.65 dB）相较基础4DGS配置（31.14、28.81 dB）分别提升+2.15 dB和+1.84 dB。以下分析均以两张消融表的数值差异和图\ref{fig:ablation_qualitative}的可视化结果为依据，不额外假设未观测的水体参数。综合四个场景可以看出，水下物理模型和深度监督的收益依赖场景条件，并不存在对所有场景都最优的固定配置。
+由表\ref{tab:ablation_psnr}可观察到，完整模型并非在所有场景上均为最优。完整模型在Robot上以29.71 dB取得最优PSNR；在Fish场景上，基础4DGS配置（29.09 dB）以约0.57 dB领先完整模型（28.52 dB）；在Coral与Streaks场景上，完整模型（33.29、30.65 dB）相较基础4DGS配置（31.14、28.81 dB）分别提升+2.15 dB和+1.84 dB。以下分析均以消融表的数值差异和图\ref{fig:ablation_qualitative}的可视化结果为依据，不额外假设未观测的水体参数。综合四个场景可以看出，水下物理模型和深度监督的收益依赖场景条件，并不存在对所有场景都最优的固定配置。
 
 图\ref{fig:ablation_qualitative}以Robot场景为例，给出四种消融配置的渲染效果以及对应的深度图。图中(a)--(d)四列与表\ref{tab:ablation_psnr}中的四种配置一一对应，用于辅助观察不同组件对场景外观与几何重建的影响。需要说明的是，本文为该消融图选取了机械臂运动幅度较大、深度变化较为明显的代表性视角；红框区域突出显示了不同配置在物体边缘清晰度与背景深度连续性上的差异，这些差异在RGB渲染上整体较温和，更明显地反映在右下方深度图的相对分布与边缘锐利度上。
 
@@ -389,17 +406,17 @@
     \rotatebox{90}{深度} & \hlimg{0.21\textwidth}{figures/ablation/a_plain_depth.png}   & \hlimg{0.21\textwidth}{figures/ablation/b_seathru_depth.png}   & \hlimg{0.21\textwidth}{figures/ablation/c_depthonly_depth.png}   & \hlimg{0.21\textwidth}{figures/ablation/d_full_depth.png}   \\
      & (a) & (b) & (c) & (d) \\
   \end{tabular}
-  \caption{消融实验定性结果（Robot场景），红框标出各配置间差异最显著的区域。各列对应不同消融配置：(a)仅保留时空高斯溅射主干；(b)在(a)之上启用SeaThru水下物理模型；(c)在(a)之上仅启用基于Depth Anything V2的逆深度监督；(d)同时启用SeaThru物理模型与深度监督，即本文完整方法。上行为渲染结果，下行为对应深度图。}
+  \caption{消融实验定性结果（Robot场景），红框标出各配置间差异最显著的区域。各列对应不同消融配置：(a)仅保留时空高斯溅射主干；(b)在(a)之上启用水下物理模型；(c)在(a)之上仅启用基于Depth Anything V2的逆深度监督；(d)同时启用水下物理模型与深度监督，即本文完整方法。上行为渲染结果，下行为对应深度图。}
   \label{fig:ablation_qualitative}
 \end{figure}
 
 此外，本文方法在SaltPond场景上的实验也作为额外的鲁棒性参考。在该场景上，仅使用深度监督而未启用水下优化的配置PSNR为26.11 dB（SSIM为0.6251）；启用完整水下优化后，本文方法PSNR提升至27.15 dB（SSIM为0.7036），相较SeaSplat论文报告的27.47 dB仅低0.32 dB。
 \subsection{分阶段训练策略消融分析}
 
-为分析训练流程中各阶段的作用，本文比较了粗训练阶段（coarse）、预热阶段（warmup）和精细训练阶段（fine）等设置。完整流程首先在coarse阶段仅优化4D高斯表示，不启用SeaThru物理模型；随后进入fine阶段，并对后向散射网络和衰减网络（BackscatterNet and AttenuateNet, BS/AT）进行预热，再进行高斯颜色调整与交替联合优化。
-表~\ref{tab:ablation_training}给出了训练流程消融配置及对应的PSNR结果。其中"无warmup"用于检验水下物理分支预热的必要性；"200次迭代warmup"和"500次迭代warmup"用于观察不同预热长度对稳定性的影响；"跳过coarse"用于分析粗训练几何初始化的重要性。
+为分析训练流程中各阶段的作用，本文比较了粗训练阶段（Coarse）和精细训练阶段（Fine，包含预热阶段）等设置。完整流程首先在粗训练阶段仅优化4D高斯表示，不启用水下物理模型；随后进入精细训练阶段，并对后向散射网络和衰减网络（BackscatterNet and AttenuateNet, BS/AT）进行预热，再进行高斯颜色调整与后向散射与前向衰减参数交替更新。
+表~\ref{tab:ablation_training}给出了训练流程消融配置及对应的PSNR结果。其中“无预热”用于检验水下物理分支预热的必要性；“200次迭代预热”和“500次迭代预热”用于观察不同预热长度对稳定性的影响；“跳过粗训练”用于分析粗训练几何初始化的重要性。
 
-表\ref{tab:ablation_training}将训练流程消融配置与对应的PSNR结果合并展示，以避免单独表格独占页面、减少排版断点。表中"调整内容"一列描述各配置相对完整流程的差异，"分析目标"一列说明每种配置希望验证的设计要点，右侧四列给出各配置在四个动态场景上的PSNR数值。
+表\ref{tab:ablation_training}将训练流程消融配置与对应的PSNR结果合并展示。表中“调整内容”一列描述各配置相对完整流程的差异，“分析目标”一列说明每种配置希望验证的设计要点，右侧四列给出各配置在四个动态场景上的PSNR数值。
 
 \begin{table}[!htb]
   \centering
@@ -411,10 +428,10 @@
     \hline
     \textbf{配置} & \textbf{调整内容} & \textbf{分析目标} & \textbf{Robot} & \textbf{Fish} & \textbf{Coral} & \textbf{Streaks} \\
     \hline
-    无warmup            & 同时优化高斯表示、BS/AT与深度监督 & 分析预热阶段对数值稳定性的作用      & 14.62 & 13.30 & 10.75 & 13.57 \\
-    200次迭代warmup     & 移除coarse，仅保留极短预热       & 分析短预热是否足以形成稳定物理分支   & 25.98 & 26.68 & 13.82 & 20.58 \\
-    500次迭代warmup     & 提前开启SeaThru物理分支          & 分析较短预热在不同场景上的适用边界   & 26.35 & 26.63 & 19.24 & 19.75 \\
-    跳过coarse          & 保留完整warmup，移除初始几何优化  & 分析粗训练几何初始化的重要性        & 28.69 & 18.71 & 6.82 & 10.96 \\
+    无预热              & 跳过BS/AT单独预热  & 分析预热阶段对数值稳定性的作用      & 14.62 & 13.30 & 10.75 & 13.57 \\
+    200次迭代预热       & 移除粗训练，仅保留极短预热       & 分析短预热是否足以形成稳定物理分支   & 25.98 & 26.68 & 13.82 & 20.58 \\
+    500次迭代预热       & 提前开启SeaThru物理分支          & 分析较短预热在不同场景上的适用边界   & 26.35 & 26.63 & 19.24 & 19.75 \\
+    跳过粗训练          & 保留完整预热，移除初始几何优化  & 分析粗训练几何初始化的重要性        & 28.69 & 18.71 & 6.82 & 10.96 \\
     \hline
   \end{tabular}%
   }
@@ -422,9 +439,9 @@
 
 由表\ref{tab:ablation_training}可以观察到几个关键现象：
 
-\textbf{（1）无warmup导致训练崩溃}：完全移除warmup时，四个场景PSNR均下降到10--15 dB区间，渲染结果几乎不可用。这表明水下物理分支不宜与尚未成形的高斯几何从初始阶段强耦合优化，梯度冲突会导致训练不稳定。
+\textbf{（1）无预热导致训练崩溃}：完全移除预热时，四个场景PSNR均下降到10至15 dB区间，渲染结果几乎不可用。这表明水下物理分支不宜在缺少单独预热的情况下直接与尚未成形的高斯几何共同参与训练，梯度冲突会导致训练不稳定。
 
-\textbf{（2）短warmup不足以恢复复杂场景}：200次迭代warmup在Robot和Fish上可恢复到约26 dB，但Coral仅为13.82 dB，说明极短预热对复杂场景不足，需要更长的预热迭代来建立稳定的水下模型初始化。
+\textbf{（2）短预热不足以恢复全部场景}：200次迭代预热在Robot和Fish上可恢复到约26 dB，但Coral仅为13.82 dB，说明极短预热对部分场景不足，需要更长的预热迭代来建立稳定的水下模型初始化。
 
-\textbf{（3）coarse阶段对大型场景至关重要}：500次迭代warmup可改善稳定性，但Coral和Streaks仍受限。跳过coarse时，Robot仍可达到28.69 dB，而Fish、Coral和Streaks明显退化，说明coarse阶段主要为复杂动态场景提供几何基础，是后续精细优化的必要前提。
+\textbf{（3）粗训练阶段对场景有重要作用}：500次迭代预热可改善稳定性，但Coral和Streaks仍受限。跳过粗训练时，Robot仍可达到28.69 dB，而Fish、Coral和Streaks明显退化，说明粗训练阶段主要为复杂动态场景提供几何基础，是后续精细优化的必要前提。
 

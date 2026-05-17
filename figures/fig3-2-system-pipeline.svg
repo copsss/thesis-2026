@@ -84,7 +84,7 @@
   <text x="495" y="128" text-anchor="middle" class="region-title">时序变形</text>
 
   <rect x="336" y="150" width="156" height="332" class="panel" fill="#fbfff8" stroke="#74b67b"/>
-  <text x="414" y="181" text-anchor="middle" class="label">HexPlane</text>
+  <text x="414" y="181" text-anchor="middle" class="label">多分辨率特征平面（HexPlane）</text>
   <g transform="translate(356,204)" stroke-width="3">
     <g fill="#fff3c6" stroke="#c99919"><rect x="0" y="0" width="48" height="42"/><path d="M16,0V42M32,0V42M0,14H48M0,28H48"/></g>
     <g transform="translate(70,0)" fill="#e5f4d5" stroke="#8ebd6a"><rect x="0" y="0" width="48" height="42"/><path d="M16,0V42M32,0V42M0,14H48M0,28H48"/></g>

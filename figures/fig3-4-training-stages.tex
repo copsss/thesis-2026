@@ -37,7 +37,7 @@
 \node[note, below=0.15cm of s1] {更新高斯几何与颜色\\水下模块未启用};
 \node[note, below=0.15cm of s2] {更新BS/AT\\冻结高斯几何与颜色};
 \node[note, below=0.15cm of s3] {仅更新高斯颜色\\冻结高斯几何与BS/AT};
-\node[note, below=0.15cm of s4] {全参数联合更新\\并间歇式专项更新 BS/AT };
+\node[note, below=0.15cm of s4] {联合更新\\交替更新高斯参数 与 BS/AT };
 
 % ===== Group framing =====
 \begin{scope}[on background layer]
@@ -46,6 +46,6 @@
 \end{scope}
 
 \node[note, text=cyan!55!black, above=0.05cm of g1.north]   {粗阶段};
-\node[note, text=orange!55!black, above=0.05cm of g2.north] {精细阶段子流程};
+\node[note, text=orange!55!black, above=0.05cm of g2.north] {精细阶段};
 
 \end{tikzpicture}

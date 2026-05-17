@@ -164,7 +164,7 @@
       \field{pages}{1\bibrangedash 15}
       \range{pages}{15}
     \endentry
-    \entry{reiser2023merf}{inproceedings}{}{}
+    \entry{reiser2023merf}{article}{}{}
       \name{author}{8}{}{%
         {{hash=50488dd57a60b048dd8a210bb6eb0974}{%
            family={Reiser},
@@ -219,7 +219,7 @@
       \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{ACM Transactions on Graphics (TOG)}
+      \field{journaltitle}{ACM Transactions on Graphics (TOG)}
       \field{number}{4}
       \field{title}{Merf: Memory-efficient radiance fields for real-time view synthesis in unbounded scenes}
       \field{volume}{42}
@@ -227,7 +227,7 @@
       \field{pages}{1\bibrangedash 12}
       \range{pages}{12}
     \endentry
-    \entry{kerbl2023gaussian}{inproceedings}{}{}
+    \entry{kerbl2023gaussian}{article}{}{}
       \true{moreauthor}
       \true{morelabelname}
       \name{author}{4}{}{%
@@ -272,7 +272,7 @@
       \field{pages}{139\bibrangedash 1}
       \range{pages}{-7}
     \endentry
-    \entry{mcglamery1980underwater}{article}{}{}
+    \entry{mcglamery1980underwater}{inproceedings}{}{}
       \name{author}{1}{}{%
         {{hash=724d1e25bbcd9cc392abb87d6a1f8713}{%
            family={McGlamery},
@@ -309,9 +309,6 @@
            familyi={J\bibinitperiod},
            given={Jules\bibnamedelima S},
            giveni={J\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {IEEE}%
       }
       \strng{namehash}{6f4816e59e5499c35c029cfc82bc1d1a}
       \strng{fullhash}{6f4816e59e5499c35c029cfc82bc1d1a}
@@ -350,9 +347,6 @@
            familyi={T\bibinitperiod},
            given={Xiaoou},
            giveni={X\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {Ieee}%
       }
       \strng{namehash}{01813d8e3e7083ced7930a4911fb06bb}
       \strng{fullhash}{01813d8e3e7083ced7930a4911fb06bb}
@@ -406,7 +400,7 @@
       \field{pages}{6723\bibrangedash 6732}
       \range{pages}{10}
     \endentry
-    \entry{akkaynak2019sea}{article}{}{}
+    \entry{akkaynak2019sea}{inproceedings}{}{}
       \name{author}{2}{}{%
         {{hash=d1fbfdeb589f52b75882b394c60f4008}{%
            family={Akkaynak},
@@ -432,7 +426,7 @@
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
+      \field{booktitle}{IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
       \field{title}{Sea-thru: A method for removing water from underwater images}
       \field{year}{2019}
       \field{pages}{1682\bibrangedash 1691}
@@ -623,7 +617,7 @@
       \field{pages}{3280\bibrangedash 3289}
       \range{pages}{10}
     \endentry
-    \entry{li2024seafreegs}{inproceedings}{}{}
+    \entry{li2024seafreegs}{article}{}{}
       \name{author}{5}{}{%
         {{hash=3a43e14cd417b4c8f5b2d269276960bb}{%
            family={Liu},
@@ -651,9 +645,6 @@
            given={Hongjue},
            giveni={H\bibinitperiod}}}%
       }
-      \list{publisher}{1}{%
-        {IEEE}%
-      }
       \strng{namehash}{b1050bb2acd9dd60f0ed8243e3391c81}
       \strng{fullhash}{bd9f41622d71c4460a58e6a565ef6caa}
       \strng{fullhashraw}{bd9f41622d71c4460a58e6a565ef6caa}
@@ -667,10 +658,13 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{IEEE Signal Processing Letters}
-      \field{title}{SeaFree-GS: Reconstructing underwater 3D scenes with true appearances}
+      \field{title}{SeaFree-GS: Reconstructing Underwater 3D Scenes With True Appearances}
+      \field{volume}{32}
       \field{year}{2025}
+      \field{pages}{2114\bibrangedash 2118}
+      \range{pages}{5}
     \endentry
-    \entry{sun2024recgs}{inproceedings}{}{}
+    \entry{sun2024recgs}{article}{}{}
       \name{author}{8}{}{%
         {{hash=733e3732b7e3ce5cf2b04cf5e9bd9cf1}{%
            family={Zhang},
@@ -713,9 +707,6 @@
            given={Matthew},
            giveni={M\bibinitperiod}}}%
       }
-      \list{publisher}{1}{%
-        {IEEE}%
-      }
       \strng{namehash}{ce371f1252c9df752169d5920159a74f}
       \strng{fullhash}{2c4609f1855fa61f4372a738ce5c6640}
       \strng{fullhashraw}{2c4609f1855fa61f4372a738ce5c6640}
@@ -730,13 +721,13 @@
       \field{labeltitlesource}{title}
       \field{journaltitle}{IEEE Robotics and Automation Letters}
       \field{number}{1}
-      \field{title}{Recgs: Removing water caustic with recurrent gaussian splatting}
+      \field{title}{RecGS: Removing Water Caustic With Recurrent Gaussian Splatting}
       \field{volume}{10}
-      \field{year}{2024}
+      \field{year}{2025}
       \field{pages}{668\bibrangedash 675}
       \range{pages}{8}
     \endentry
-    \entry{chen20243duir}{inproceedings}{}{}
+    \entry{chen20243duir}{misc}{}{}
       \name{author}{7}{}{%
         {{hash=9e7ec207dcd2cae7486f1ab739e474c2}{%
            family={Yuan},
@@ -786,11 +777,15 @@
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{arXiv preprint arXiv:2505.21238}
-      \field{title}{3D-UIR: 3D Gaussian for underwater 3D scene reconstruction via physics based appearance-medium decoupling}
+      \field{eprintclass}{cs.CV}
+      \field{eprinttype}{arXiv}
+      \field{title}{3D-UIR: 3D Gaussian for Underwater 3D Scene Reconstruction via Physics Based Appearance-Medium Decoupling}
       \field{year}{2025}
+      \verb{eprint}
+      \verb 2505.21238
+      \endverb
     \endentry
-    \entry{wang2024dualphysgs}{inproceedings}{}{}
+    \entry{wang2024dualphysgs}{article}{}{}
       \name{author}{5}{}{%
         {{hash=cb6e33df9e0c50ee3266a6758f7871a2}{%
            family={Li},
@@ -818,9 +813,6 @@
            given={Delong},
            giveni={D\bibinitperiod}}}%
       }
-      \list{publisher}{1}{%
-        {Elsevier}%
-      }
       \strng{namehash}{85ff1933dc60b779268cb268506e0960}
       \strng{fullhash}{d28cfd1a3902bcbea7682ab21d8c7dd8}
       \strng{fullhashraw}{d28cfd1a3902bcbea7682ab21d8c7dd8}
@@ -833,13 +825,15 @@
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
+      \field{issn}{0097-8493}
       \field{journaltitle}{Computers \& Graphics}
       \field{title}{DualPhys-GS: Dual physically-guided 3D Gaussian splatting for underwater scene reconstruction}
+      \field{volume}{133}
       \field{year}{2025}
       \field{pages}{104405}
       \range{pages}{1}
     \endentry
-    \entry{zhang2024aquaticgs}{inproceedings}{}{}
+    \entry{zhang2024aquaticgs}{misc}{}{}
       \name{author}{5}{}{%
         {{hash=3a43e14cd417b4c8f5b2d269276960bb}{%
            family={Liu},
@@ -879,9 +873,12 @@
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{arXiv preprint arXiv:2411.00239}
-      \field{title}{Aquatic-gs: A hybrid 3d representation for underwater scenes}
-      \field{year}{2024}
+      \field{eprinttype}{arXiv}
+      \field{title}{Aquatic-GS: A Hybrid 3D Representation for Underwater Scenes}
+      \field{year}{2025}
+      \verb{eprint}
+      \verb 2411.00239
+      \endverb
     \endentry
     \entry{park2021nerfies}{inproceedings}{}{}
       \name{author}{7}{}{%
@@ -1138,7 +1135,7 @@
       \field{pages}{1010}
       \range{pages}{1}
     \endentry
-    \entry{yang2024depthanything}{article}{}{}
+    \entry{yang2024depthanything}{inproceedings}{}{}
       \name{author}{6}{}{%
         {{hash=f1eeb2dd1fc5922091709e59023496f5}{%
            family={Yang},
@@ -1190,7 +1187,7 @@
       \field{pages}{10371\bibrangedash 10381}
       \range{pages}{11}
     \endentry
-    \entry{yang2024depthv2}{article}{}{}
+    \entry{yang2024depthv2}{inproceedings}{}{}
       \name{author}{7}{}{%
         {{hash=f1eeb2dd1fc5922091709e59023496f5}{%
            family={Yang},
@@ -1241,7 +1238,7 @@
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{Advances in Neural Information Processing Systems}
+      \field{booktitle}{Advances in Neural Information Processing Systems}
       \field{title}{Depth anything v2}
       \field{volume}{37}
       \field{year}{2024}
@@ -1279,8 +1276,8 @@
       \strng{authornamehash}{e568872838feb3749ae0528cce82d45c}
       \strng{authorfullhash}{678422238c76e65638062cadc184ea94}
       \strng{authorfullhashraw}{678422238c76e65638062cadc184ea94}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{IEEE Transactions on Image Processing}
@@ -1327,8 +1324,8 @@
       \strng{authornamehash}{636e6ae4822477e755423a7db71f9e17}
       \strng{authorfullhash}{b4812124f82ca96d3c1cb10ee3db7804}
       \strng{authorfullhashraw}{b4812124f82ca96d3c1cb10ee3db7804}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}
@@ -1358,8 +1355,8 @@
       \strng{authornamehash}{ab9cac560481ba1bc7bf2e078651637d}
       \strng{authorfullhash}{ab9cac560481ba1bc7bf2e078651637d}
       \strng{authorfullhashraw}{ab9cac560481ba1bc7bf2e078651637d}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}

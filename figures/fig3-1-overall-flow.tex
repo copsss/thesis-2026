@@ -26,12 +26,12 @@
   note/.style={font=\scriptsize, align=center, text=black!70}
 ]
 
-\node[box=cyan] (images) at (0, 2.5) {多视角水下\\图像序列\\$I_t^v$};
+\node[box=cyan] (images) at (0, 2.5) {多视角水下\\图像序列\\$\mathbf{I}_t^v$};
 \node[box=teal, right=of images] (colmap) {COLMAP SfM\\相机位姿 $P_v$\\稀疏点云 $X_0$};
-\node[box=green, right=of colmap] (init) {4D 高斯初始化\\$\{\mu,\Sigma,\alpha,f,t\}$};
+\node[box=green, right=of colmap] (init) {4D 高斯初始化\\$\{\boldsymbol{\mu},\boldsymbol{\Sigma},\alpha,\mathbf{f},t\}$};
 \node[box=orange, right=of init] (coarse) {粗训练\\原始 4DGS\\几何骨架与密度控制};
 \node[box=red, right=of coarse] (fine) {精细训练\\SeaSplat 物理模型\\单目深度监督};
-\node[box=purple, right=of fine] (output) {新视角合成\\$\hat I,\hat J,Z,A,B$\\任意视角/时刻};
+\node[box=purple, right=of fine] (output) {新视角合成\\$\hat{\mathbf{I}},\hat{\mathbf{J}},\mathbf{Z},\mathbf{A},\mathbf{B}$\\任意视角/时刻};
 
 \node[box=cyan, below=1.05cm of images] (depthany) {Depth Anything V2\\离线单目推理};
 \node[box=cyan, right=of depthany] (mono) {逆深度先验\\$d_{\mathrm{mono}}$\\与有效掩码};

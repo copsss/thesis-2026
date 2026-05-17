@@ -32,18 +32,18 @@
 \node[box=cyan] (gauss) at (0, 1.8) {4D 高斯点集\\位置/尺度/旋转\\不透明度/球谐颜色};
 \node[box=cyan, below=1.0cm of gauss] (camera) {相机与时间\\位姿 $P_v$\\时间戳 $t$};
 
-\node[box=green, right=1.2cm of gauss] (hex) {HexPlane\\多分辨率\\时空特征};
-\node[box=green, below=1.0cm of hex] (mlp) {Deformation MLP\\$\Delta\mu,\Delta r,\Delta s$};
+\node[box=green, right=1.2cm of gauss] (hex) {多分辨率特征平面（HexPlane）\\多分辨率\\时空特征};
+\node[box=green, below=1.0cm of hex] (mlp) {Deformation MLP\\$\Delta\boldsymbol{\mu},\Delta\mathbf{q},\Delta\mathbf{s}$};
 \node[box=orange, right=1.2cm of hex, yshift=-0.5cm] (deformed) {时刻 $t$ 的\\动态高斯状态\\$\mathcal{G}_t$};
 \node[box=orange, right=1.2cm of deformed] (raster) {可微高斯光栅化\\分块排序与\\$\alpha$ 混合};
 
 \node[smallbox=blue, right=1.15cm of raster, yshift=0.55cm] (j) {干净颜色\\$\mathbf{J}$};
 \node[smallbox=blue, right=1.15cm of raster, yshift=-0.55cm] (z) {渲染深度/透明度\\$\mathbf{Z},\boldsymbol{\alpha}$};
 
-\node[smallbox=teal, right=1.05cm of z] (norm) {深度归一化\\$\hat{\mathbf Z}$};
-\node[smallbox=red, right=1.05cm of j] (atten) {AttenuateNet\\$\mathbf{A}(\hat Z)$};
-\node[smallbox=red, right=1.05cm of norm] (bs) {BackscatterNet\\$\mathbf{B}(\hat Z)$};
-\node[box=purple, right=1.15cm of atten, yshift=-0.55cm] (synth) {水下成像合成\\$\hat{\mathbf I}=\mathbf J\odot\mathbf A+\mathbf B$};
+\node[smallbox=teal, right=1.05cm of z] (norm) {深度归一化\\$\hat{\mathbf{Z}}$};
+\node[smallbox=red, right=1.05cm of j] (atten) {AttenuateNet\\$\mathbf{A}(\hat{\mathbf{Z}})$};
+\node[smallbox=red, right=1.05cm of norm] (bs) {BackscatterNet\\$\mathbf{B}(\hat{\mathbf{Z}})$};
+\node[box=purple, right=1.15cm of atten, yshift=-0.55cm] (synth) {水下成像合成\\$\hat{\mathbf{I}}=\mathbf{J}\odot\mathbf{A}+\mathbf{B}$};
 
 \node[box=gray, below=1.0cm of synth] (loss) {联合损失\\L1/SSIM + DCP/GW/SAT\\深度平滑 + 单目深度};
 \node[smallbox=gray, below=1.0cm of z] (mono) {Depth Anything V2\\逆深度先验\\$d_{\mathrm{mono}}$};
