@@ -53,6 +53,7 @@
 %   根据需要选择 biblatex 宏包选项.
 %\usepackage[maxnames=3,minnames=3,sorting=none]{biblatex}
 \usepackage[maxnames=3,minnames=3,sorting=none,  style = nkthesis]{biblatex}
+\renewcommand{\bibrangedash}{-}
 % \usepackage{cite}
 \hypersetup{colorlinks=true,
             pdfborder=0 0 1,
@@ -101,6 +102,18 @@
 \definecolor{cred2}{HTML}{FF6666}
 \usetikzlibrary{patterns,arrows.meta,positioning,calc,fit,backgrounds,shapes.geometric}
 \addbibresource{nkthesis.bib}
+
+% 自动为不同类型文献添加 [J][C] 等标识
+\DeclareSourcemap{
+  \maps[datatype=bibtex]{
+    \map{\pertype{article}\step[fieldset=type, fieldvalue=J]}
+    \map{\pertype{inproceedings}\step[fieldset=type, fieldvalue=C]}
+    \map{\pertype{incollection}\step[fieldset=type, fieldvalue=C]}
+    \map{\pertype{book}\step[fieldset=type, fieldvalue=M]}
+    \map{\pertype{thesis}\step[fieldset=type, fieldvalue=D]}
+    \map{\pertype{patent}\step[fieldset=type, fieldvalue=P]}
+  }
+}
 \DeclareBibliographyCategory{cited}
 \AtEveryCitekey{\addtocategory{cited}{\thefield{entrykey}}}
 \newtheorem{Theorem}{\hskip 2em 定理}[chapter]

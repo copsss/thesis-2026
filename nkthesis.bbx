@@ -51,19 +51,19 @@
      \usebibmacro{name:hook}{#3#1}%
      \ifblank{#3}{}{%
        \ifcapital
-         {\mkbibnameprefix{\MakeCapital{#3}}\isdot}
-	 {\mkbibnameprefix{#3}\isdot}%
+         {\mkbibnameprefix{\MakeCapital{#3}}}
+	 {\mkbibnameprefix{#3}}%
        \ifpunctmark{'}{}{\bibnamedelimc}}%
-     \mkbibnamelast{#1}\isdot
-     \ifblank{#4}{}{\bibnamedelimd\mkbibnameaffix{#4}\isdot}%
-     \ifblank{#2}{}{\addcomma\bibnamedelimd\mkbibnamefirst{#2}\isdot}}
+     \mkbibnamelast{#1}
+     \ifblank{#4}{}{\bibnamedelimd\mkbibnameaffix{#4}}%
+     \ifblank{#2}{}{\addcomma\bibnamedelimd\mkbibnamefirst{#2}}}
     {\usebibmacro{name:delim}{#1}%
      \usebibmacro{name:hook}{#1}%
-     \mkbibnamelast{#1}\isdot
-     \ifblank{#4}{}{\bibnamedelimd\mkbibnameaffix{#4}\isdot}%
+     \mkbibnamelast{#1}
+     \ifblank{#4}{}{\bibnamedelimd\mkbibnameaffix{#4}}%
 %     \ifblank{#2#3}{}{\addcomma}%
-     \ifblank{#2}{}{\bibnamedelimd\mkbibnamefirst{#2}\isdot}%
-     \ifblank{#3}{}{\bibnamedelimd\mkbibnameprefix{#3}\isdot}}}
+     \ifblank{#2}{}{\bibnamedelimd\mkbibnamefirst{#2}}%
+     \ifblank{#3}{}{\bibnamedelimd\mkbibnameprefix{#3}}}}
 
 
 %\def\nk@addtomacro#1#2{\expandafter\gdef\expandafter#1\expandafter{#1#2}}
@@ -99,7 +99,7 @@
 	references = {\nkrefname}
 }
 
-\newbibmacro{cein:}{\printtext{\cegen{见}{In}\cecolon}}
+\newbibmacro{cein:}{}
 \newbibmacro{cebyauthor}{%
 	\ifnameundef{author}{}{%
 		\cegen%
@@ -139,7 +139,7 @@
 \providecommand{\cescolon}{\cegen{\cnscolon}{\addcolon\addspace}}
 \providecommand{\ceperiod}{\cegen{\cnperiod}{\addperiod\addspace}}
 \providecommand{\cespace}{\cegen{}{\addspace}}
-\renewcommand{\finentrypunct}{\cegen{\cnperiod}{.}}
+\renewcommand{\finentrypunct}{}
 \renewcommand{\multinamedelim}{\cecomma}
 \renewcommand{\finalnamedelim}{\cecomma}%{\cegen{\cncomma}{\addspace\bibstring{and}\space}}
 
@@ -158,7 +158,7 @@
 \DeclareFieldFormat*{urldate}{#1}
 
 \DeclareFieldFormat[inbook, inproceedings, incollection, article]%
-	{title}{#1}
+	{title}{\MakeSentenceCase*{#1}}
 \DeclareFieldFormat*{type}{\mkbibbrackets{\textsc{#1}}}
 \DeclareFieldFormat*{number}{\mkbibparens{#1}}
 \DeclareFieldFormat[patent]{number}{#1}
@@ -167,7 +167,8 @@
 \newbibmacro{number}{\iffieldundef{number}{}{\printfield{number}}}
 
 \let\bibinitperiod\relax
-%\let\bibinitdelim\relax 
+\renewcommand{\bibinitdelim}{\space}
+\renewcommand{\bibinithyphendelim}{\space}
  
 \newbibmacro{name:newformat}{%
    \textbf{\namepartfamily}  % #1->\namepartfamily, #2->\namepartfamilyi
@@ -181,11 +182,11 @@
   \usebibmacro{name:newformat}%
   \usebibmacro{name:andothers}%
 } 
-%\DeclareNameFormat{default}{%
-%    %\nameparts{#1}
-%	\usebibmacro{name:last-first}{#1}{#4}{#5}{#7}%
-%	\usebibmacro{name:andothers}%
-%}
+\DeclareNameFormat{default}{%
+	\nameparts{#1}%
+	\usebibmacro{name:last-first}{\namepartfamily}{\namepartgiveni}{\namepartprefix}{\namepartsuffix}%
+	\usebibmacro{name:andothers}%
+}
 
 
 
