@@ -18,7 +18,7 @@
 
 \subsection{神经辐射场与3D Gaussian Splatting}
 
-神经辐射场（Neural Radiance Field，NeRF）由Mildenhall等人\upcite{mildenhall2020nerf}于2020年提出，通过以三维坐标和观测方向为输入的多层感知机（MLP）隐式地表达场景的体积密度与辐射颜色，结合体渲染方程生成任意视角的新视图，在新视角合成任务上取得了里程碑式的成果。此后，研究者围绕NeRF的质量与效率展开了大量改进工作：Mip-NeRF\upcite{barron2021mipnerf}引入圆锥追踪与积分位置编码，有效缓解了多尺度场景中的走样问题；Instant-NGP\upcite{muller2022instantngp}采用多分辨率哈希编码，将训练时间从数小时压缩至数分钟；MERF\upcite{reiser2023merf}利用稀疏体素网格实现实时渲染。神经辐射场方法在国内也引发了广泛关注，相关综述工作对其理论基础与应用进展进行了系统梳理。
+神经辐射场（Neural Radiance Field，NeRF）由Mildenhall等人\upcite{mildenhall2020nerf}于2020年提出，通过以三维坐标和观测方向为输入的多层感知机（MLP）隐式地表达场景的体积密度与辐射颜色，结合体渲染方程生成任意视角的新视图，在新视角合成任务上取得了里程碑式的成果。此后，研究者围绕NeRF的质量与效率展开了大量改进工作：Mip-NeRF\upcite{barron2021mipnerf}引入圆锥追踪与积分位置编码，有效缓解了多尺度场景中的走样问题；Instant-NGP\upcite{muller2022instantngp}采用多分辨率哈希编码，将训练时间从数小时压缩至数分钟；MERF\upcite{reiser2023merf}利用稀疏体素网格实现实时渲染。神经辐射场方法在国内也引发了广泛关注，相关综述工作对其理论基础与应用进展进行了系统梳理\upcite{chen2025nerfsurvey}。
 
 三维高斯溅射（3D Gaussian Splatting，3DGS）由Kerbl等人\upcite{kerbl2023gaussian}于2023年提出，是近年来新视角合成领域最具影响力的进展之一。3DGS采用显式的三维高斯椭球体作为场景表示单元，每个高斯体携带位置、协方差、不透明度及球谐系数等属性，并通过可微分的基于排序的点云光栅化（Tile-Based Rasterization）进行高效渲染，在单张消费级GPU上实现了超过100帧/秒的实时渲染速度，同时将训练时间缩短至数十分钟以内。
 
@@ -76,7 +76,7 @@ Depth Anything\upcite{yang2024depthanything}及其升级版Depth Anything V2\upc
 
 本文共分为五章，各章节内容安排如下：
 
-\textbf{第一章：绪论。}介绍研究背景与意义，分析水下场景三维重建面临的核心挑战，综述国内外相关研究现状，阐述本文的研究内容与主要贡献，并给出论文整体组织结构。
+\textbf{第一章：绪论。}介绍研究背景与意义，分析水下场景三维重建面临的核心挑战，综述国内外相关研究现状，阐述本文的研究内容与主要贡献，给出论文整体组织结构，并汇总全文所用的主要符号。
 
 \textbf{第二章：相关技术基础。}系统介绍本文所涉及的核心技术背景，包括三维高斯溅射的基本原理与渲染流程、水下图像物理成像模型的数学描述、动态高斯形变建模方法，以及单目深度估计网络的相关理论，为后续方法设计提供理论支撑。
 
@@ -85,3 +85,26 @@ Depth Anything\upcite{yang2024depthanything}及其升级版Depth Anything V2\upc
 \textbf{第四章：实验与分析。}介绍实验数据集、评价指标与实验设置，与现有基线方法进行定量与定性对比，并通过消融实验对各关键模块的贡献进行深入分析，验证所提方法的有效性。
 
 \textbf{第五章：总结与展望。}对全文工作进行总结，指出现有方法的局限性，并对未来研究方向进行展望。
+
+\section{主要符号说明}
+\label{sec:notation}
+
+为便于全文统一阅读，本节列出本文中使用的主要符号及其含义。若无特别说明，粗体符号（如$\mathbf{I}$）表示图像级张量，正常体符号（如$I_c$）表示标量，下标$c\in\{r,g,b\}$表示RGB颜色通道，下标$i$表示高斯基元索引。
+
+\textbf{图像与深度。}$\mathbf{I}$表示模型合成的模拟观测图像，$\mathbf{I}^{\mathrm{gt}}$表示采集到的真实观测图像，$\mathbf{J}$表示经水下成像模型反演得到的干净场景颜色图，$\mathbf{Z}$表示渲染深度图，$Z$为标量深度值。$\mathbf{A}(\mathbf{Z})$和$\mathbf{B}(\mathbf{Z})$分别表示直接透射衰减图与后向散射图，$\mathbf{p}$表示像素坐标。
+
+\textbf{水下物理参数。}$\beta_c^D$为直接透射衰减系数，$\beta_c^B$为后向散射衰减系数，$B_c^{\infty}$为无穷远后向散射强度；$\sigma(\cdot)$为Sigmoid激活函数。
+
+\textbf{高斯基元与属性。}$\mathcal{G}$表示单个高斯基元，$N$为场景中高斯基元总数；每个基元携带以下属性：$\boldsymbol{\mu}\in\mathbb{R}^3$为空间位置，$\boldsymbol{\Sigma}\in\mathbb{R}^{3\times3}$为三维协方差矩阵，$\boldsymbol{\Sigma}'\in\mathbb{R}^{2\times2}$为投影到图像平面后的二维协方差矩阵，$\alpha\in(0,1)$为不透明度，$\mathbf{f}$为球谐系数向量，$\mathbf{c}$为当前视角下的球谐计算颜色，$\mathbf{s}\in\mathbb{R}^3$为缩放向量，$\mathbf{q}\in\mathbb{R}^4$为旋转四元数，$\mathbf{R}$为旋转矩阵，$\mathbf{S}$为缩放矩阵，$\mathbf{R}_c$和$\mathbf{t}_c$分别为相机的旋转矩阵与平移向量。
+
+\textbf{变形网络与动态建模。}$t$为时间戳，$\mathcal{F}$为变形网络，$\Delta\boldsymbol{\mu}$、$\Delta\mathbf{s}$、$\Delta\mathbf{q}$分别为变形网络预测的位置偏移、缩放偏移与旋转偏移，$(x,y,z,t)$为四维时空坐标。
+
+\textbf{相机与投影。}$\mathbf{K}$为相机内参矩阵，$\mathbf{W}$为视图变换矩阵。注：在第2.1.2节的投影公式推导中，符号$\mathbf{J}$按计算机图形学惯例临时表示射影变换的仿射近似雅可比矩阵，与本节定义的干净颜色图$\mathbf{J}$含义不同，请读者留意区分。
+
+\textbf{深度监督。}$d_{\mathrm{render}}$为渲染逆深度，$d_{\mathrm{mono}}$为Depth Anything V2输出的单目逆深度，$\tilde{d}$为归一化逆深度，$\mu_d$和$\sigma_d$分别为深度的均值与标准差，$\alpha(\mathbf{p})$为像素$\mathbf{p}$处的高斯累积透明度权重，$\epsilon$为防止除零的小常数。
+
+\textbf{损失函数。}$\mathcal{L}_1$为像素级L1重建损失，$\mathcal{L}_{\mathrm{D}\mbox{-}\mathrm{SSIM}}$为由结构相似性指数构造的结构损失；水下相关损失项包括暗通道先验损失$\mathcal{L}_{\mathrm{dark}}$、灰度世界损失$\mathcal{L}_{\mathrm{gray}}$、饱和度损失$\mathcal{L}_{\mathrm{sat}}$、背景散射损失$\mathcal{L}_{\mathrm{bg}}$与深度平滑损失$\mathcal{L}_{\mathrm{smooth}}$；此外$\mathcal{L}_{\mathrm{mono}}$为单目深度监督损失，$\mathcal{L}_{\mathrm{TV}}$为多分辨率特征平面的全变分正则化损失。各损失项对应的权重系数以$\lambda$加对应下标表示（如$\lambda_{\mathrm{s}}$、$\lambda_{\mathrm{dark}}$、$\lambda_{\mathrm{mono}}$等）。
+
+\textbf{评估指标。}$\mathrm{PSNR}$为峰值信噪比，$\mathrm{SSIM}$为结构相似性指数，$\mathrm{LPIPS}$为感知图像块相似度，$\mathrm{MSE}$为均方误差。
+
+\textbf{训练参数。}$\tau_{\mathrm{pos}}$为致密化梯度阈值，$\tau_{\mathrm{scale}}$为分裂尺寸阈值，$\tau_{\alpha}$为剪枝不透明度阈值，$k$为当前迭代步，$k_{\mathrm{start}}$和$k_{\mathrm{ramp}}$分别为热启动的起始步与总步数。
