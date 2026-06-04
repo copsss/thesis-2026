@@ -1,0 +1,658 @@
+{
+  "Coral_Ours": {
+    "nr": {
+      "NIQE": 2.623297273751547,
+      "BRISQUE": 22.177623748779297,
+      "PIQE": 35.83606719970703
+    },
+    "fr": {
+      "PSNR": 31.40333366394043,
+      "SSIM": 0.9633576931440079,
+      "LPIPS": 0.04374271258711815
+    },
+    "n_images": 15,
+    "category": "dynamic",
+    "scene": "Coral",
+    "method": "Ours"
+  },
+  "Coral_SeaSplat": {
+    "nr": {
+      "NIQE": 2.7886907356849022,
+      "BRISQUE": 21.368738174438477,
+      "PIQE": 34.13601303100586
+    },
+    "fr": {
+      "PSNR": 26.57525634765625,
+      "SSIM": 0.8972625687716939,
+      "LPIPS": 0.10488465428352356
+    },
+    "n_images": 15,
+    "category": "dynamic",
+    "scene": "Coral",
+    "method": "SeaSplat"
+  },
+  "Coral_ablation_no_stages_coral_fixed": {
+    "nr": {
+      "NIQE": 18.953162304624517,
+      "BRISQUE": 98.72610473632812,
+      "PIQE": 100.0
+    },
+    "fr": {},
+    "n_images": 15,
+    "category": "ablation_training",
+    "scene": "Coral",
+    "method": "ablation_no_stages_coral_fixed"
+  },
+  "Coral_ablation_no_stages_coral_v3": {
+    "nr": {
+      "NIQE": 22.908852236601433,
+      "BRISQUE": 106.10690307617188,
+      "PIQE": 100.0
+    },
+    "fr": {},
+    "n_images": 15,
+    "category": "ablation_training",
+    "scene": "Coral",
+    "method": "ablation_no_stages_coral_v3"
+  },
+  "Curasao_3DGS": {
+    "nr": {
+      "NIQE": 3.093329604178127,
+      "BRISQUE": 9.038432121276855,
+      "PIQE": 22.472169876098633
+    },
+    "fr": {
+      "PSNR": 28.129364013671875,
+      "SSIM": 0.8775474199936176,
+      "LPIPS": 0.1921110898256302
+    },
+    "n_images": 3,
+    "category": "static",
+    "scene": "Curasao",
+    "method": "3DGS"
+  },
+  "Curasao_4DGS": {
+    "nr": {
+      "NIQE": 3.1652210322982515,
+      "BRISQUE": 16.54266357421875,
+      "PIQE": 33.45535659790039
+    },
+    "fr": {
+      "PSNR": 28.42885398864746,
+      "SSIM": 0.7701025222929055,
+      "LPIPS": 0.3030438721179962
+    },
+    "n_images": 3,
+    "category": "static",
+    "scene": "Curasao",
+    "method": "4DGS"
+  },
+  "Curasao_Ours": {
+    "nr": {
+      "NIQE": 2.775323701128137,
+      "BRISQUE": 9.89715576171875,
+      "PIQE": 32.13728713989258
+    },
+    "fr": {
+      "PSNR": 29.0174560546875,
+      "SSIM": 0.8043499731877568,
+      "LPIPS": 0.168881356716156
+    },
+    "n_images": 3,
+    "category": "static",
+    "scene": "Curasao",
+    "method": "Ours"
+  },
+  "Curasao_STN": {
+    "nr": {
+      "NIQE": 2.8632045060621087,
+      "BRISQUE": 8.569682121276855,
+      "PIQE": 23.72208595275879
+    },
+    "fr": {
+      "PSNR": 19.904033660888672,
+      "SSIM": 0.4859711960370005,
+      "LPIPS": 0.48101210594177246
+    },
+    "n_images": 3,
+    "category": "static",
+    "scene": "Curasao",
+    "method": "STN(\u539f\u56fe)"
+  },
+  "Curasao_SeaSplat": {
+    "nr": {
+      "NIQE": 2.943675985290143,
+      "BRISQUE": 7.821634769439697,
+      "PIQE": 20.19283676147461
+    },
+    "fr": {
+      "PSNR": 26.70891761779785,
+      "SSIM": 0.762723517204464,
+      "LPIPS": 0.19229596853256226
+    },
+    "n_images": 3,
+    "category": "static",
+    "scene": "Curasao",
+    "method": "SeaSplat"
+  },
+  "Fish_Ours": {
+    "nr": {
+      "NIQE": 3.8834290341398328,
+      "BRISQUE": 17.21628189086914,
+      "PIQE": 34.03459930419922
+    },
+    "fr": {
+      "PSNR": 27.49971580505371,
+      "SSIM": 0.821997183884413,
+      "LPIPS": 0.10388795286417007
+    },
+    "n_images": 7,
+    "category": "dynamic",
+    "scene": "Fish",
+    "method": "Ours"
+  },
+  "Fish_SeaSplat": {
+    "nr": {
+      "NIQE": 4.3199390915167095,
+      "BRISQUE": 14.48260498046875,
+      "PIQE": 32.45267868041992
+    },
+    "fr": {
+      "PSNR": 23.29975700378418,
+      "SSIM": 0.7836328977537452,
+      "LPIPS": 0.2431817352771759
+    },
+    "n_images": 7,
+    "category": "dynamic",
+    "scene": "Fish",
+    "method": "SeaSplat"
+  },
+  "Fish_ablation_no_stages_fish_fixed": {
+    "nr": {
+      "NIQE": 10.569873640994611,
+      "BRISQUE": 81.63592529296875,
+      "PIQE": 78.00554656982422
+    },
+    "fr": {},
+    "n_images": 7,
+    "category": "ablation_training",
+    "scene": "Fish",
+    "method": "ablation_no_stages_fish_fixed"
+  },
+  "Fish_ablation_no_stages_fish_v3": {
+    "nr": {
+      "NIQE": NaN,
+      "BRISQUE": NaN,
+      "PIQE": 100.0
+    },
+    "fr": {},
+    "n_images": 7,
+    "category": "ablation_training",
+    "scene": "Fish",
+    "method": "ablation_no_stages_fish_v3"
+  },
+  "IUI3-RedSea_3DGS": {
+    "nr": {
+      "NIQE": 3.3329233292728393,
+      "BRISQUE": 20.71099853515625,
+      "PIQE": 19.93441390991211
+    },
+    "fr": {
+      "PSNR": 24.873687744140625,
+      "SSIM": 0.9022800727701275,
+      "LPIPS": 0.1852908432483673
+    },
+    "n_images": 4,
+    "category": "static",
+    "scene": "IUI3-RedSea",
+    "method": "3DGS"
+  },
+  "IUI3-RedSea_4DGS": {
+    "nr": {
+      "NIQE": 2.9319332520578167,
+      "BRISQUE": 23.19708251953125,
+      "PIQE": 33.157508850097656
+    },
+    "fr": {
+      "PSNR": 24.785961151123047,
+      "SSIM": 0.76135131009182,
+      "LPIPS": 0.3060343861579895
+    },
+    "n_images": 4,
+    "category": "static",
+    "scene": "IUI3-RedSea",
+    "method": "4DGS"
+  },
+  "IUI3-RedSea_Ours": {
+    "nr": {
+      "NIQE": 2.7064349811267943,
+      "BRISQUE": 15.87249755859375,
+      "PIQE": 22.080236434936523
+    },
+    "fr": {
+      "PSNR": 25.385026931762695,
+      "SSIM": 0.7843240213299504,
+      "LPIPS": 0.23274070024490356
+    },
+    "n_images": 4,
+    "category": "static",
+    "scene": "IUI3-RedSea",
+    "method": "Ours"
+  },
+  "IUI3-RedSea_STN": {
+    "nr": {
+      "NIQE": 2.9853759511017746,
+      "BRISQUE": 10.74676513671875,
+      "PIQE": 16.60729217529297
+    },
+    "fr": {},
+    "n_images": 4,
+    "category": "static",
+    "scene": "IUI3",
+    "method": "STN(\u539f\u56fe)"
+  },
+  "IUI3-RedSea_SeaSplat": {
+    "nr": {
+      "NIQE": 3.274084531576655,
+      "BRISQUE": 13.84478759765625,
+      "PIQE": 20.275495529174805
+    },
+    "fr": {
+      "PSNR": 24.793720245361328,
+      "SSIM": 0.7935937700265402,
+      "LPIPS": 0.23002131283283234
+    },
+    "n_images": 4,
+    "category": "static",
+    "scene": "IUI3-RedSea",
+    "method": "SeaSplat"
+  },
+  "JapaneseGradens-RedSea_STN": {
+    "nr": {
+      "NIQE": 2.4605558073678666,
+      "BRISQUE": 10.60565185546875,
+      "PIQE": 21.909080505371094
+    },
+    "fr": {
+      "PSNR": 16.311260223388672,
+      "SSIM": 0.559426194465094,
+      "LPIPS": 0.33422747254371643
+    },
+    "n_images": 3,
+    "category": "static",
+    "scene": "JapaneseGradens",
+    "method": "STN(\u539f\u56fe)"
+  },
+  "JapaneseGradens_3DGS": {
+    "nr": {
+      "NIQE": 2.742433987144757,
+      "BRISQUE": 18.63413429260254,
+      "PIQE": 31.41822624206543
+    },
+    "fr": {
+      "PSNR": 22.136260986328125,
+      "SSIM": 0.8683464358718841,
+      "LPIPS": 0.18720896542072296
+    },
+    "n_images": 3,
+    "category": "static",
+    "scene": "JapaneseGradens",
+    "method": "3DGS"
+  },
+  "JapaneseGradens_4DGS": {
+    "nr": {
+      "NIQE": 2.8001950067639836,
+      "BRISQUE": 20.00653076171875,
+      "PIQE": 41.099300384521484
+    },
+    "fr": {
+      "PSNR": 21.917734146118164,
+      "SSIM": 0.7784315825208644,
+      "LPIPS": 0.2709473669528961
+    },
+    "n_images": 3,
+    "category": "static",
+    "scene": "JapaneseGradens",
+    "method": "4DGS"
+  },
+  "JapaneseGradens_Ours": {
+    "nr": {
+      "NIQE": 2.45863010026851,
+      "BRISQUE": 13.16278076171875,
+      "PIQE": 32.44685745239258
+    },
+    "fr": {
+      "PSNR": 22.667238235473633,
+      "SSIM": 0.8289718249315691,
+      "LPIPS": 0.18679805099964142
+    },
+    "n_images": 3,
+    "category": "static",
+    "scene": "JapaneseGradens",
+    "method": "Ours"
+  },
+  "JapaneseGradens_SeaSplat": {
+    "nr": {
+      "NIQE": 2.5634668961516986,
+      "BRISQUE": 16.89487648010254,
+      "PIQE": 28.909570693969727
+    },
+    "fr": {
+      "PSNR": 20.999052047729492,
+      "SSIM": 0.7484522375299493,
+      "LPIPS": 0.20514261722564697
+    },
+    "n_images": 3,
+    "category": "static",
+    "scene": "JapaneseGradens",
+    "method": "SeaSplat"
+  },
+  "Panama_3DGS": {
+    "nr": {
+      "NIQE": 3.5047651223355714,
+      "BRISQUE": 32.22983932495117,
+      "PIQE": 32.986385345458984
+    },
+    "fr": {
+      "PSNR": 29.401525497436523,
+      "SSIM": 0.9015956623689741,
+      "LPIPS": 0.11435427516698837
+    },
+    "n_images": 3,
+    "category": "static",
+    "scene": "Panama",
+    "method": "3DGS"
+  },
+  "Panama_4DGS": {
+    "nr": {
+      "NIQE": 3.8519129433680788,
+      "BRISQUE": 35.03566360473633,
+      "PIQE": 52.0184326171875
+    },
+    "fr": {
+      "PSNR": 25.926467895507812,
+      "SSIM": 0.7530860204092403,
+      "LPIPS": 0.2578537166118622
+    },
+    "n_images": 3,
+    "category": "static",
+    "scene": "Panama",
+    "method": "4DGS"
+  },
+  "Panama_Ours": {
+    "nr": {
+      "NIQE": 3.3762433532706715,
+      "BRISQUE": 28.10239601135254,
+      "PIQE": 37.627655029296875
+    },
+    "fr": {
+      "PSNR": 26.635934829711914,
+      "SSIM": 0.7894818707111346,
+      "LPIPS": 0.15502113103866577
+    },
+    "n_images": 3,
+    "category": "static",
+    "scene": "Panama",
+    "method": "Ours"
+  },
+  "Panama_STN": {
+    "nr": {
+      "NIQE": 3.5149495719011123,
+      "BRISQUE": 22.57928466796875,
+      "PIQE": 25.400794982910156
+    },
+    "fr": {
+      "PSNR": 17.15372085571289,
+      "SSIM": 0.39308956091063463,
+      "LPIPS": 0.45194074511528015
+    },
+    "n_images": 3,
+    "category": "static",
+    "scene": "Panama",
+    "method": "STN(\u539f\u56fe)"
+  },
+  "Panama_SeaSplat": {
+    "nr": {
+      "NIQE": 3.390815224483969,
+      "BRISQUE": 28.24627685546875,
+      "PIQE": 26.576955795288086
+    },
+    "fr": {
+      "PSNR": 24.994661331176758,
+      "SSIM": 0.7685505436894586,
+      "LPIPS": 0.14001058042049408
+    },
+    "n_images": 3,
+    "category": "static",
+    "scene": "Panama",
+    "method": "SeaSplat"
+  },
+  "Robot_4DGS": {
+    "nr": {
+      "NIQE": 6.798337031377608,
+      "BRISQUE": 57.2865104675293,
+      "PIQE": 72.11634063720703
+    },
+    "fr": {
+      "PSNR": 29.1304931640625,
+      "SSIM": 0.9387312910221175,
+      "LPIPS": 0.13435637950897217
+    },
+    "n_images": 5,
+    "category": "dynamic",
+    "scene": "Robot",
+    "method": "4DGS"
+  },
+  "Robot_Abl_a_4DGS": {
+    "nr": {
+      "NIQE": 6.798337031377608,
+      "BRISQUE": 57.2865104675293,
+      "PIQE": 72.11634063720703
+    },
+    "fr": {
+      "PSNR": 29.1304931640625,
+      "SSIM": 0.9387312910221175,
+      "LPIPS": 0.13435637950897217
+    },
+    "n_images": 5,
+    "category": "",
+    "scene": "",
+    "method": "(a) 4DGS only"
+  },
+  "Robot_Abl_b_SeaThru": {
+    "nr": {
+      "NIQE": NaN,
+      "BRISQUE": NaN,
+      "PIQE": 83.32452392578125
+    },
+    "fr": {
+      "PSNR": 11.309550285339355,
+      "SSIM": 0.5903745045038943,
+      "LPIPS": 0.5943630933761597
+    },
+    "n_images": 5,
+    "category": "",
+    "scene": "",
+    "method": "(b) +SeaThru"
+  },
+  "Robot_Abl_c_Depth": {
+    "nr": {
+      "NIQE": 20.65141807043366,
+      "BRISQUE": 111.02713775634766,
+      "PIQE": 79.85670471191406
+    },
+    "fr": {
+      "PSNR": 13.369140625,
+      "SSIM": 0.6502751336294678,
+      "LPIPS": 0.6064537763595581
+    },
+    "n_images": 5,
+    "category": "",
+    "scene": "",
+    "method": "(c) +Depth"
+  },
+  "Robot_Abl_d_Full": {
+    "nr": {
+      "NIQE": 6.192079933957705,
+      "BRISQUE": 49.7298698425293,
+      "PIQE": 67.08305358886719
+    },
+    "fr": {
+      "PSNR": 29.346038818359375,
+      "SSIM": 0.9469321553296519,
+      "LPIPS": 0.09924963861703873
+    },
+    "n_images": 5,
+    "category": "",
+    "scene": "",
+    "method": "(d) Full"
+  },
+  "Robot_Ours": {
+    "nr": {
+      "NIQE": 6.192079933957705,
+      "BRISQUE": 49.7298698425293,
+      "PIQE": 67.08305358886719
+    },
+    "fr": {
+      "PSNR": 29.346038818359375,
+      "SSIM": 0.9469321553296519,
+      "LPIPS": 0.09924963861703873
+    },
+    "n_images": 5,
+    "category": "dynamic",
+    "scene": "Robot",
+    "method": "Ours"
+  },
+  "Robot_SeaSplat": {
+    "nr": {
+      "NIQE": 6.633335639045851,
+      "BRISQUE": 49.3661003112793,
+      "PIQE": 46.63475799560547
+    },
+    "fr": {
+      "PSNR": 28.210132598876953,
+      "SSIM": 0.9414824655820894,
+      "LPIPS": 0.1298970878124237
+    },
+    "n_images": 5,
+    "category": "dynamic",
+    "scene": "Robot",
+    "method": "SeaSplat"
+  },
+  "Robot_ablation_minimal_warmup_robot": {
+    "nr": {
+      "NIQE": 10.79054421251587,
+      "BRISQUE": 85.07098388671875,
+      "PIQE": 90.4625473022461
+    },
+    "fr": {},
+    "n_images": 5,
+    "category": "ablation_training",
+    "scene": "Robot",
+    "method": "ablation_minimal_warmup_robot"
+  },
+  "Robot_ablation_no_stages_robot_fixed": {
+    "nr": {
+      "NIQE": 11.87171208870782,
+      "BRISQUE": 87.25868225097656,
+      "PIQE": 93.74339294433594
+    },
+    "fr": {},
+    "n_images": 5,
+    "category": "ablation_training",
+    "scene": "Robot",
+    "method": "ablation_no_stages_robot_fixed"
+  },
+  "Robot_ablation_no_stages_robot_v3": {
+    "nr": {
+      "NIQE": NaN,
+      "BRISQUE": NaN,
+      "PIQE": 100.0
+    },
+    "fr": {},
+    "n_images": 5,
+    "category": "ablation_training",
+    "scene": "Robot",
+    "method": "ablation_no_stages_robot_v3"
+  },
+  "Streaks_Ours": {
+    "nr": {
+      "NIQE": 2.9944271843067423,
+      "BRISQUE": 24.48917007446289,
+      "PIQE": 31.43206787109375
+    },
+    "fr": {
+      "PSNR": 30.145118713378906,
+      "SSIM": 0.9418117067044578,
+      "LPIPS": 0.04302345588803291
+    },
+    "n_images": 9,
+    "category": "dynamic",
+    "scene": "Streaks",
+    "method": "Ours"
+  },
+  "Streaks_SeaSplat": {
+    "nr": {
+      "NIQE": 2.6414573093428526,
+      "BRISQUE": 17.29803466796875,
+      "PIQE": 28.36672592163086
+    },
+    "fr": {
+      "PSNR": 26.15987777709961,
+      "SSIM": 0.8613494590924474,
+      "LPIPS": 0.11682018637657166
+    },
+    "n_images": 9,
+    "category": "dynamic",
+    "scene": "Streaks",
+    "method": "SeaSplat"
+  },
+  "Streaks_ablation_no_coarse_fine_streaks": {
+    "nr": {
+      "NIQE": NaN,
+      "BRISQUE": 115.333251953125,
+      "PIQE": 100.0
+    },
+    "fr": {},
+    "n_images": 9,
+    "category": "ablation_training",
+    "scene": "Streaks",
+    "method": "ablation_no_coarse_fine_streaks"
+  },
+  "Streaks_ablation_no_coarse_fine_streaks_fixed": {
+    "nr": {
+      "NIQE": 4.216677449839318,
+      "BRISQUE": 24.90296173095703,
+      "PIQE": 59.09712600708008
+    },
+    "fr": {},
+    "n_images": 9,
+    "category": "ablation_training",
+    "scene": "Streaks",
+    "method": "ablation_no_coarse_fine_streaks_fixed"
+  },
+  "Streaks_ablation_no_stages_streaks_fixed": {
+    "nr": {
+      "NIQE": 11.062257023520443,
+      "BRISQUE": 75.45889282226562,
+      "PIQE": 87.11856842041016
+    },
+    "fr": {},
+    "n_images": 9,
+    "category": "ablation_training",
+    "scene": "Streaks",
+    "method": "ablation_no_stages_streaks_fixed"
+  },
+  "Streaks_ablation_no_stages_streaks_v3": {
+    "nr": {
+      "NIQE": NaN,
+      "BRISQUE": NaN,
+      "PIQE": 100.0
+    },
+    "fr": {},
+    "n_images": 9,
+    "category": "ablation_training",
+    "scene": "Streaks",
+    "method": "ablation_no_stages_streaks_v3"
+  }
+}
