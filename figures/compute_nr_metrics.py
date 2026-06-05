@@ -27,6 +27,7 @@ OUT = Path("D:/underwater/4DGaussians/output")
 DYNAMIC_EXP = {}
 
 # --- Ours dynamic (from output/) ---
+# NR metric uses dewatered J images (no_water/), FR metrics use water-bearing I (renders/) vs GT
 OURS_DYNAMIC_DIRS = {
     "Robot": OUT / "Robot_underwater_v2depth" / "test" / "ours_20000",
     "Coral": OUT / "coral_uw_14k" / "test" / "ours_14000",
@@ -35,7 +36,8 @@ OURS_DYNAMIC_DIRS = {
 }
 for scene, d in OURS_DYNAMIC_DIRS.items():
     DYNAMIC_EXP[f"{scene}_Ours"] = {
-        "renders": d / "renders",
+        "renders": d / "renders",        # water-bearing I for FR metrics
+        "renders_nr": d / "no_water",    # dewatered J for NR metrics
         "gt": d / "gt",
         "category": "dynamic",
         "scene": scene,
@@ -51,7 +53,8 @@ SEASPLAT_DIRS = {
 }
 for scene, dname in SEASPLAT_DIRS.items():
     DYNAMIC_EXP[f"{scene}_SeaSplat"] = {
-        "renders": OUT / "baseline_seasplat" / dname / "test" / "with_water",
+        "renders": OUT / "baseline_seasplat" / dname / "test" / "with_water",  # I for FR
+        "renders_nr": OUT / "baseline_seasplat" / dname / "test" / "render",  # J for NR
         "gt": AIC / "Dewater_Results_4DGS_SeaSplat" / scene / "test" / "gt",  # shared GT
         "category": "dynamic",
         "scene": scene,
@@ -73,21 +76,25 @@ DYNAMIC_EXP["Robot_4DGS"] = {
 ABLATION_MODULE = {
     "Robot_Abl_a_4DGS": {
         "renders": OUT / "baseline" / "Robot" / "test" / "ours_14000" / "renders",
+        # no renders_nr — 4DGS has no water model, renders IS the clean output
         "gt": OUT / "baseline" / "Robot" / "test" / "ours_14000" / "gt",
         "label": "(a) 4DGS only",
     },
     "Robot_Abl_b_SeaThru": {
-        "renders": OUT / "Robot_underwater_v2" / "test" / "ours_20000" / "renders",
+        "renders": OUT / "Robot_underwater_v2" / "test" / "ours_20000" / "renders",      # I for FR
+        "renders_nr": OUT / "Robot_underwater_v2" / "test" / "ours_20000" / "no_water",  # J for NR
         "gt": OUT / "Robot_underwater_v2" / "test" / "ours_20000" / "gt",
         "label": "(b) +SeaThru",
     },
     "Robot_Abl_c_Depth": {
-        "renders": OUT / "Robot_underwater_depth" / "test" / "ours_14000" / "renders",
+        "renders": OUT / "Robot_underwater_depth" / "test" / "ours_14000" / "renders",      # I for FR
+        "renders_nr": OUT / "Robot_underwater_depth" / "test" / "ours_14000" / "no_water",  # J for NR
         "gt": OUT / "Robot_underwater_depth" / "test" / "ours_14000" / "gt",
         "label": "(c) +Depth",
     },
     "Robot_Abl_d_Full": {
-        "renders": OUT / "Robot_underwater_v2depth" / "test" / "ours_20000" / "renders",
+        "renders": OUT / "Robot_underwater_v2depth" / "test" / "ours_20000" / "renders",      # I for FR
+        "renders_nr": OUT / "Robot_underwater_v2depth" / "test" / "ours_20000" / "no_water",  # J for NR
         "gt": OUT / "Robot_underwater_v2depth" / "test" / "ours_20000" / "gt",
         "label": "(d) Full",
     },
@@ -140,7 +147,8 @@ for scene in ["Curasao", "IUI3-RedSea", "JapaneseGradens", "Panama"]:
 # --- Ours static (from All_Images_Collection) — no GT in dir, use 4DGS GT ---
 for scene in ["Curasao", "IUI3-RedSea", "JapaneseGradens", "Panama"]:
     STATIC_EXP[f"{scene}_Ours"] = {
-        "renders": AIC / "Ours_Results" / scene / "test" / "with_water",
+        "renders": AIC / "Ours_Results" / scene / "test" / "with_water",  # I for FR
+        "renders_nr": AIC / "Ours_Results" / scene / "test" / "render",   # J for NR
         "gt": AIC / "4DGS_Baseline_Results" / scene / "test" / "ours_14000" / "gt",  # shared GT
         "category": "static",
         "scene": scene,
@@ -150,7 +158,8 @@ for scene in ["Curasao", "IUI3-RedSea", "JapaneseGradens", "Panama"]:
 # --- SeaSplat static (from All_Images_Collection) — no GT in dir, use 4DGS GT ---
 for scene in ["Curasao", "IUI3-RedSea", "JapaneseGradens", "Panama"]:
     STATIC_EXP[f"{scene}_SeaSplat"] = {
-        "renders": AIC / "SeaSplat_Results" / scene / "test" / "with_water",
+        "renders": AIC / "SeaSplat_Results" / scene / "test" / "with_water",  # I for FR
+        "renders_nr": AIC / "SeaSplat_Results" / scene / "test" / "render",   # J for NR
         "gt": AIC / "4DGS_Baseline_Results" / scene / "test" / "ours_14000" / "gt",
         "category": "static",
         "scene": scene,
@@ -257,7 +266,8 @@ def main():
     print(f"Total configurations: {len(all_exp)}\n")
 
     for name, cfg in sorted(all_exp.items()):
-        rpath = cfg["renders"]
+        rpath = cfg["renders"]         # water-bearing I for FR + NR-I metrics
+        nrpath = cfg.get("renders_nr", rpath)  # dewatered J for NR-J metrics (fallback to renders)
         gpath = cfg.get("gt")
 
         if not rpath or not rpath.exists():
@@ -269,10 +279,17 @@ def main():
             print(f"[SKIP] {name} — no images in {rpath}")
             continue
 
-        print(f"[{name}]  {len(rimages)} images", end="", flush=True)
+        # NR on water-bearing I images
+        nr_i = compute_nr_metrics(rimages, device)
 
-        nr = compute_nr_metrics(rimages, device)
-        print(f"  NIQE={nr.get('NIQE', 'N/A'):.2f}  BRISQUE={nr.get('BRISQUE', 'N/A'):.2f}  PIQE={nr.get('PIQE', 'N/A'):.2f}", end="", flush=True)
+        # NR on dewatered J images
+        if nrpath != rpath and nrpath.exists():
+            _, nrimages_j = load_images_from_dir(nrpath)
+            nr_j = compute_nr_metrics(nrimages_j, device)
+        else:
+            nr_j = nr_i  # no separate dewatered output, same as I
+
+        print(f"[{name}]  {len(rimages)} images  |  NIQE_I={nr_i.get('NIQE','N/A'):.2f}  NIQE_J={nr_j.get('NIQE','N/A'):.2f}", end="", flush=True)
 
         fr = {}
         if gpath and gpath.exists():
@@ -284,7 +301,7 @@ def main():
         print()
 
         all_results[name] = {
-            "nr": nr, "fr": fr, "n_images": len(rimages),
+            "nr_i": nr_i, "nr_j": nr_j, "fr": fr, "n_images": len(rimages),
             "category": cfg.get("category", ""),
             "scene": cfg.get("scene", ""),
             "method": cfg.get("method", cfg.get("label", "")),
@@ -292,9 +309,9 @@ def main():
 
     # ===== SUMMARY TABLES =====
     print("\n" + "=" * 100)
-    print("1. DYNAMIC SCENES — Method Comparison")
+    print("1. DYNAMIC SCENES — Method Comparison (I=water-bearing, J=dewatered)")
     print("=" * 100)
-    print(f"{'Scene':<12} {'Method':<10} {'NIQE':>8} {'BRISQUE':>10} {'PIQE':>8}  {'PSNR':>8} {'SSIM':>8} {'LPIPS':>8}")
+    print(f"{'Scene':<12} {'Method':<10} {'NIQE_I':>8} {'NIQE_J':>8}  {'PSNR':>8} {'SSIM':>8} {'LPIPS':>8}")
     print("-" * 100)
 
     for scene in ["Robot", "Coral", "Fish", "Streaks"]:
@@ -304,51 +321,46 @@ def main():
             if key in all_results:
                 r = all_results[key]
                 label = scene if first else ""
-                print(f"{label:<12} {method:<10} {r['nr'].get('NIQE',0):>8.2f} {r['nr'].get('BRISQUE',0):>10.2f} {r['nr'].get('PIQE',0):>8.2f}  {r['fr'].get('PSNR',0):>8.2f} {r['fr'].get('SSIM',0):>8.4f} {r['fr'].get('LPIPS',0):>8.4f}")
+                print(f"{label:<12} {method:<10} {r['nr_i'].get('NIQE',0):>8.2f} {r['nr_j'].get('NIQE',0):>8.2f}  {r['fr'].get('PSNR',0):>8.2f} {r['fr'].get('SSIM',0):>8.4f} {r['fr'].get('LPIPS',0):>8.4f}")
                 first = False
         # 4DGS only available for Robot
         if scene == "Robot" and "Robot_4DGS" in all_results:
             r = all_results["Robot_4DGS"]
-            print(f"{'':12} {'4DGS':<10} {r['nr'].get('NIQE',0):>8.2f} {r['nr'].get('BRISQUE',0):>10.2f} {r['nr'].get('PIQE',0):>8.2f}  {r['fr'].get('PSNR',0):>8.2f} {r['fr'].get('SSIM',0):>8.4f} {r['fr'].get('LPIPS',0):>8.4f}")
+            print(f"{'':12} {'4DGS':<10} {r['nr_i'].get('NIQE',0):>8.2f} {r['nr_j'].get('NIQE',0):>8.2f}  {r['fr'].get('PSNR',0):>8.2f} {r['fr'].get('SSIM',0):>8.4f} {r['fr'].get('LPIPS',0):>8.4f}")
 
     print(f"\n{'='*100}")
-    print("2. MODULE ABLATION (Robot) — a/b/c/d")
+    print("2. MODULE ABLATION (Robot) — a/b/c/d (I=water-bearing, J=dewatered)")
     print("=" * 100)
-    print(f"{'Config':<28} {'NIQE':>8} {'BRISQUE':>10} {'PIQE':>8}  {'PSNR':>8} {'SSIM':>8} {'LPIPS':>8}")
+    print(f"{'Config':<28} {'NIQE_I':>8} {'NIQE_J':>8}  {'PSNR':>8} {'SSIM':>8} {'LPIPS':>8}")
     print("-" * 100)
     for key, cfg in ABLATION_MODULE.items():
         if key in all_results:
             r = all_results[key]
             label = cfg["label"]
-            print(f"{label:<28} {r['nr'].get('NIQE',0):>8.2f} {r['nr'].get('BRISQUE',0):>10.2f} {r['nr'].get('PIQE',0):>8.2f}  {r['fr'].get('PSNR',0):>8.2f} {r['fr'].get('SSIM',0):>8.4f} {r['fr'].get('LPIPS',0):>8.4f}")
+            print(f"{label:<28} {r['nr_i'].get('NIQE',0):>8.2f} {r['nr_j'].get('NIQE',0):>8.2f}  {r['fr'].get('PSNR',0):>8.2f} {r['fr'].get('SSIM',0):>8.4f} {r['fr'].get('LPIPS',0):>8.4f}")
 
     print(f"\n{'='*100}")
     print(f"3. TRAINING STRATEGY ABLATION — best config per scene")
     print(f"{'='*100}")
-    print(f"{'Scene':<12} {'Config':<38} {'NIQE':>8} {'BRISQUE':>10} {'PIQE':>8}  {'PSNR':>8} {'SSIM':>8} {'LPIPS':>8}")
+    print(f"{'Scene':<12} {'Config':<38} {'NIQE_I':>8} {'NIQE_J':>8}")
     print("-" * 100)
     for scene in ["Robot", "Coral", "Fish", "Streaks"]:
         scene_results = [(k, v) for k, v in all_results.items()
                          if v.get("category") == "ablation_training" and v.get("scene") == scene]
         if scene_results:
-            # Sort by BRISQUE (lower is better) to show best first
-            scene_results.sort(key=lambda x: x[1]["nr"].get("BRISQUE", 999))
-            # Show best + worst
+            scene_results.sort(key=lambda x: x[1]["nr_j"].get("NIQE", 999))
             best = scene_results[0]
             worst = scene_results[-1]
-            bcfg = ABLATION_TRAINING.get(best[0], {})
-            print(f"{scene:<12} [BEST] {best[0]:<30} {best[1]['nr'].get('NIQUE',0):>8.2f} {best[1]['nr'].get('BRISQUE',0):>10.2f} {best[1]['nr'].get('PIQE',0):>8.2f}")
+            print(f"{scene:<12} [BEST] {best[0]:<30} {best[1]['nr_i'].get('NIQE',0):>8.2f} {best[1]['nr_j'].get('NIQE',0):>8.2f}")
             if len(scene_results) > 1:
-                wcfg = ABLATION_TRAINING.get(worst[0], {})
-                print(f"{'':12} [WORST]{worst[0]:<30} {worst[1]['nr'].get('NIQE',0):>8.2f} {worst[1]['nr'].get('BRISQUE',0):>10.2f} {worst[1]['nr'].get('PIQE',0):>8.2f}")
-            # Show all
+                print(f"{'':12} [WORST]{worst[0]:<30} {worst[1]['nr_i'].get('NIQE',0):>8.2f} {worst[1]['nr_j'].get('NIQE',0):>8.2f}")
             for k, v in scene_results[1:-1]:
-                print(f"{'':12}        {k:<30} {v['nr'].get('NIQE',0):>8.2f} {v['nr'].get('BRISQUE',0):>10.2f} {v['nr'].get('PIQE',0):>8.2f}")
+                print(f"{'':12}        {k:<30} {v['nr_i'].get('NIQE',0):>8.2f} {v['nr_j'].get('NIQE',0):>8.2f}")
 
     print(f"\n{'='*100}")
-    print("4. STATIC SCENES — Method Comparison")
+    print("4. STATIC SCENES — Method Comparison (I=water-bearing, J=dewatered)")
     print("=" * 100)
-    print(f"{'Scene':<18} {'Method':<10} {'NIQE':>8} {'BRISQUE':>10} {'PIQE':>8}  {'PSNR':>8} {'SSIM':>8} {'LPIPS':>8}")
+    print(f"{'Scene':<18} {'Method':<10} {'NIQE_I':>8} {'NIQE_J':>8}  {'PSNR':>8} {'SSIM':>8} {'LPIPS':>8}")
     print("-" * 100)
 
     static_scene_labels = {"Curasao": "Curasao", "IUI3-RedSea": "IUI3-RedSea",
@@ -367,7 +379,7 @@ def main():
             if key in all_results:
                 r = all_results[key]
                 slabel = label if first else ""
-                print(f"{slabel:<18} {method:<10} {r['nr'].get('NIQE',0):>8.2f} {r['nr'].get('BRISQUE',0):>10.2f} {r['nr'].get('PIQE',0):>8.2f}  {r['fr'].get('PSNR',0):>8.2f} {r['fr'].get('SSIM',0):>8.4f} {r['fr'].get('LPIPS',0):>8.4f}")
+                print(f"{slabel:<18} {method:<10} {r['nr_i'].get('NIQE',0):>8.2f} {r['nr_j'].get('NIQE',0):>8.2f}  {r['fr'].get('PSNR',0):>8.2f} {r['fr'].get('SSIM',0):>8.4f} {r['fr'].get('LPIPS',0):>8.4f}")
                 first = False
 
     # Save

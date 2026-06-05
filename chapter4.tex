@@ -110,6 +110,12 @@
 
 感知图像块相似度（Learned Perceptual Image Patch Similarity，LPIPS）\upcite{zhang2018lpips}利用预训练深度神经网络提取的高层语义特征计算图像间的感知距离。与PSNR和SSIM不同，LPIPS数值越低表示渲染结果与参考图像在感知质量上越接近，更能反映人类对图像细节与纹理质量的主观判断。
 
+上述PSNR、SSIM与LPIPS均为全参考（full-reference）指标，需要与真实参考图像逐像素比对。在实际水下场景中，获得高质量的参考图像往往较为困难。为此，本文额外引入无参考（no-reference）图像质量评估指标进行补充评估：
+
+\textbf{（4）自然图像质量评价器（NIQE）}
+
+自然图像质量评价器（Naturalness Image Quality Evaluator，NIQE）\upcite{mittal2012niqe}通过从自然场景统计（Natural Scene Statistics，NSS）模型中提取图像特征，并与预训练的多元高斯（Multivariate Gaussian，MVG）模型进行比较，计算图像与自然图像统计分布之间的距离。NIQE值越低，表示渲染图像在统计特性上越接近自然图像，感知自然度越高。
+
 \subsection{对比方法}
 
 为全面评估所提方法的性能，本文选取以下四种具有代表性的基线方法进行对比：
@@ -161,6 +167,38 @@
 
 \textbf{第四}，在Streaks场景中本文方法相较UDR-GS提升最为显著，PSNR提升1.74 dB（+6.0\%），SSIM提升0.0701（+8.1\%），LPIPS降低0.0278（$-$31.5\%）。
 
+为进一步从无参考感知质量角度评估各方法的渲染自然度，表\ref{tab:dynamic_nr_I}与表\ref{tab:dynamic_nr_J}分别给出了含水渲染图像（I）与去水重建图像（J）上的NIQE对比（数值越低越好），每列最优值以\textbf{粗体}标注。
+
+\begin{table}[htbp]
+  \centering
+  \tablecaption{动态水下场景含水渲染图像NIQE指标对比（NIQE$\downarrow$）}
+  \label{tab:dynamic_nr_I}
+  \begin{tabular}{lcccc}
+    \hline
+    \textbf{方法} & \textbf{Robot} & \textbf{Fish} & \textbf{Coral} & \textbf{Streaks} \\
+    \hline
+    SeaSplat\upcite{seasplat2025icra} & 6.63 & 4.32 & 2.79 & \textbf{2.64} \\
+    \textbf{本文方法}                  & \textbf{6.19} & \textbf{3.88} & \textbf{2.62} & 2.99 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \tablecaption{动态水下场景去水重建图像NIQE指标对比（NIQE$\downarrow$）}
+  \label{tab:dynamic_nr_J}
+  \begin{tabular}{lcccc}
+    \hline
+    \textbf{方法} & \textbf{Robot} & \textbf{Fish} & \textbf{Coral} & \textbf{Streaks} \\
+    \hline
+    SeaSplat\upcite{seasplat2025icra} & 6.56 & 4.26 & 2.79 & \textbf{2.65} \\
+    \textbf{本文方法}                  & \textbf{5.68} & \textbf{3.74} & \textbf{2.63} & 3.07 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+由表\ref{tab:dynamic_nr_I}与表\ref{tab:dynamic_nr_J}综合可知，无论评价对象是含水渲染图像还是去水重建图像，本文方法在Robot、Coral与Fish三个场景上均取得最优NIQE，在Streaks场景上则略逊于SeaSplat。对比I与J两表可以发现，去水处理后的本文方法优势在色偏和散射较明显的场景中更为突出：Robot场景中$\Delta$NIQE从0.44（I图像）扩大至0.88（J图像），Fish场景中从0.44扩大至0.52。这说明水下物理模型不仅提升了含水渲染的统计自然度，其解耦出的去水重建结果（直接透射分量）具有更高的内在图像质量。在Streaks这种色偏较弱的光纹场景中，物理分支的参数冗余对感知自然度仍可能产生轻微扰动。
+
 \section{静态水下场景实验结果}
 
 为进一步评估本文方法在静态水下场景上的迁移能力，本文在SeaThru-NeRF\upcite{levy2023seathrunerf}数据集所提供的四个典型水下场景上进行实验，包括Curasao、IUI3-RedSea、JapaneseGardens-RedSea与Panama。对比方法包括原始3DGS\upcite{kerbl2023gaussian}、SeaThru-NeRF\upcite{levy2023seathrunerf}（下表中简记为STN）、SeaSplat\upcite{seasplat2025icra}以及未引入水下物理模型的原始4DGS\upcite{wu2024gaussian}。表\ref{tab:psnr_static}给出了PSNR/SSIM/LPIPS三项指标的综合对比，每行最优值以\textbf{粗体}标注。
@@ -183,78 +221,89 @@
   }
 \end{table}
 
-为进一步从视觉层面对静态场景结果进行比较，图\ref{fig:static_multimethod_curacao}至图\ref{fig:static_multimethod_panama}给出了五种方法在四个SeaThru-NeRF场景上的代表性渲染结果及对应深度图。每幅图对应一个数据集，列方向依次为水下拍摄原图、SeaThru-NeRF（STN）、SeaSplat、4DGS与本文方法，除原图外，上行为渲染结果，下行为深度图。
+为进一步从视觉层面对静态场景结果进行比较，图\ref{fig:static_multimethod_curacao}至图\ref{fig:static_multimethod_panama}给出了五种方法在四个SeaThru-NeRF场景上的局部差异放大对比。每幅图上排为各方法的全景渲染与深度图，红色方框标注本文方法与各基线差异最大的局部区域；下排为该区域在各方法上的放大裁剪，以突出方法间的结构与色彩差异。
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
-  \setlength{\tabcolsep}{2pt}
-  \renewcommand{\arraystretch}{0.6}
-  \begin{tabular}{@{}>{\centering\arraybackslash}m{1.2em}@{\hspace{2pt}}*{5}{>{\centering\arraybackslash}m{0.17\textwidth}}@{}}
-     & 原图 & STN & SeaSplat & 4DGS & 本文方法 \\
-    \rotatebox{90}{渲染} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/curacao/render_orig.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/curacao/render_stn.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/curacao/render_seasplat.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/curacao/render_fdgs.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/curacao/render_ours.png} \\
-    \rotatebox{90}{深度} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/curacao/depth_orig.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/curacao/depth_stn.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/curacao/depth_seasplat.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/curacao/depth_fdgs.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/curacao/depth_ours.png} \\
-  \end{tabular}
-  \caption{Curasao场景五种方法渲染结果与深度图对比。}
+  \includegraphics[width=0.8\textwidth]{figures/static_multimethod/curacao_zoomin_gtref.png}
+  \caption{Curasao场景渲染与深度图的局部差异放大对比。}
   \label{fig:static_multimethod_curacao}
 \end{figure}
 
-\begin{figure}[htbp]
+如图\ref{fig:static_multimethod_curacao}所示，4DGS方法的局部区域重建结果有许多细长的结构，而本文方法对于局部细节相对4DGS方法有一定提升，另外深度平滑损失的引入使得本文深度图相较4DGS更为平滑，但是出现了一些浮影，这是由于单目深度监督并不能完全真实反映真实深度，仅适合作为参考进行软约束，使得动态重建仍然缺乏对于深度的准确信息。
+
+\begin{figure}[H]
   \centering
-  \setlength{\tabcolsep}{2pt}
-  \renewcommand{\arraystretch}{0.6}
-  \begin{tabular}{@{}>{\centering\arraybackslash}m{1.2em}@{\hspace{2pt}}*{5}{>{\centering\arraybackslash}m{0.17\textwidth}}@{}}
-     & 原图 & STN & SeaSplat & 4DGS & 本文方法 \\
-    \rotatebox{90}{渲染} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/iui3_redsea/render_orig.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/iui3_redsea/render_stn.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/iui3_redsea/render_seasplat.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/iui3_redsea/render_fdgs.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/iui3_redsea/render_ours.png} \\
-    \rotatebox{90}{深度} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/iui3_redsea/depth_orig.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/iui3_redsea/depth_stn.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/iui3_redsea/depth_seasplat.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/iui3_redsea/depth_fdgs.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/iui3_redsea/depth_ours.png} \\
-  \end{tabular}
-  \caption{IUI3-RedSea场景五种方法渲染结果与深度图对比。}
+  \includegraphics[width=0.8\textwidth]{figures/static_multimethod/iui3_redsea_zoomin_gtref.png}
+  \caption{IUI3-RedSea场景渲染与深度图的局部差异放大对比。}
   \label{fig:static_multimethod_iui3}
 \end{figure}
 
+如图\ref{fig:static_multimethod_iui3}所示，本文方法的渲染结果与基线方法相比，在人类视觉感知上差距并不明显，但在深度上可见与其他方法差异较大。同时深度监督的引入使得本文方法相对4DGS方法的局部区域重建结果有明显的提升。
 \begin{figure}[htbp]
   \centering
-  \setlength{\tabcolsep}{2pt}
-  \renewcommand{\arraystretch}{0.6}
-  \begin{tabular}{@{}>{\centering\arraybackslash}m{1.2em}@{\hspace{2pt}}*{5}{>{\centering\arraybackslash}m{0.17\textwidth}}@{}}
-     & 原图 & STN & SeaSplat & 4DGS & 本文方法 \\
-    \rotatebox{90}{渲染} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/japanese_gardens/render_orig.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/japanese_gardens/render_stn.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/japanese_gardens/render_seasplat.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/japanese_gardens/render_fdgs.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/japanese_gardens/render_ours.png} \\
-    \rotatebox{90}{深度} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/japanese_gardens/depth_orig.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/japanese_gardens/depth_stn.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/japanese_gardens/depth_seasplat.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/japanese_gardens/depth_fdgs.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/japanese_gardens/depth_ours.png} \\
-  \end{tabular}
-  \caption{JapaneseGardens-RedSea场景五种方法渲染结果与深度图对比。}
+  \includegraphics[width=0.8\textwidth]{figures/static_multimethod/japanese_gardens_zoomin_gtref.png}
+  \caption{JapaneseGardens-RedSea场景渲染与深度图的局部差异放大对比。}
   \label{fig:static_multimethod_japanese}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
-  \setlength{\tabcolsep}{2pt}
-  \renewcommand{\arraystretch}{0.6}
-  \begin{tabular}{@{}>{\centering\arraybackslash}m{1.2em}@{\hspace{2pt}}*{5}{>{\centering\arraybackslash}m{0.17\textwidth}}@{}}
-     & 原图 & STN & SeaSplat & 4DGS & 本文方法 \\
-    \rotatebox{90}{渲染} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/panama/render_orig.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/panama/render_stn.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/panama/render_seasplat.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/panama/render_fdgs.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/panama/render_ours.png} \\
-    \rotatebox{90}{深度} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/panama/depth_orig.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/panama/depth_stn.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/panama/depth_seasplat.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/panama/depth_fdgs.png} & \includegraphics[width=0.17\textwidth]{figures/static_multimethod/cells/panama/depth_ours.png} \\
-  \end{tabular}
-  \caption{Panama场景五种方法渲染结果与深度图对比。}
+  \includegraphics[width=0.8\textwidth]{figures/static_multimethod/panama_zoomin.png}
+  \caption{Panama场景渲染与深度图的局部差异放大对比。}
   \label{fig:static_multimethod_panama}
 \end{figure}
 
 
 
-为进一步展示外观恢复效果，以静态复杂珊瑚礁场景JapaneseGardens-RedSea为例，图\ref{fig:static_japanese_dewater}给出了该场景的原图、渲染结果与去水结果。图中列方向依次为原始水下图像、SeaThru-NeRF、SeaSplat与本文方法；行方向分别对应带水渲染结果与依据水下成像模型得到的去水结果。
+为进一步展示外观恢复效果，以静态复杂珊瑚礁场景JapaneseGardens-RedSea为例，图\ref{fig:static_japanese_dewater}给出了该场景的局部差异放大对比。上排两行分别为各方法的全景渲染与去水结果，红色方框标注本文方法与各基线差异最大的局部区域；下排为该区域在各方法上的放大裁剪。
 
 \begin{figure}[htbp]
   \centering
-  \setlength{\tabcolsep}{2pt}
-  \renewcommand{\arraystretch}{0.6}
-  \begin{tabular}{@{}>{\centering\arraybackslash}m{1.2em}@{\hspace{2pt}}*{4}{>{\centering\arraybackslash}m{0.21\textwidth}}@{}}
-     & 原图 & STN & SeaSplat & 本文方法 \\
-    \rotatebox{90}{渲染} & \includegraphics[width=0.21\textwidth]{figures/static_multimethod/cells/japanese_dewater/render_orig.png} & \includegraphics[width=0.21\textwidth]{figures/static_multimethod/cells/japanese_dewater/render_stn.png} & \includegraphics[width=0.21\textwidth]{figures/static_multimethod/cells/japanese_dewater/render_seasplat.png} & \includegraphics[width=0.21\textwidth]{figures/static_multimethod/cells/japanese_dewater/render_ours.png} \\
-    \rotatebox{90}{去水} & \includegraphics[width=0.21\textwidth]{figures/static_multimethod/cells/japanese_dewater/dewater_orig.png} & \includegraphics[width=0.21\textwidth]{figures/static_multimethod/cells/japanese_dewater/dewater_stn.png} & \includegraphics[width=0.21\textwidth]{figures/static_multimethod/cells/japanese_dewater/dewater_seasplat.png} & \includegraphics[width=0.21\textwidth]{figures/static_multimethod/cells/japanese_dewater/dewater_ours.png} \\
-  \end{tabular}
-  \caption{JapaneseGardens-RedSea场景原图、渲染结果与去水结果对比。上行为带水渲染结果，下行为去水结果；原图列在两行中重复显示作为参考。}
+  \includegraphics[width=0.8\textwidth]{figures/static_multimethod/japanese_dewater_zoomin.png}
+  \caption{JapaneseGardens-RedSea场景渲染与去水结果的局部差异放大对比。}
   \label{fig:static_japanese_dewater}
 \end{figure}
 
 由表\ref{tab:psnr_static}可观察到，本文方法在JapaneseGardens-RedSea场景上的PSNR（23.38 dB）超过所有基线，相较SeaSplat提升+0.68 dB，相较4DGS提升+1.57 dB，反映出当场景具有丰富细粒度纹理时，本文方法的水下物理模型与深度监督相结合所带来的联合约束依然能够提供增益；相较于不带水下物理模型的原始4DGS\upcite{wu2024gaussian}，本文方法在所有四个静态场景上的PSNR平均提升约1.05 dB，且SSIM与LPIPS同步改善，表明所引入的水下物理建模能够在动态主干基础上有效补偿静态场景的色偏与散射；本文方法在Curasao、IUI3-RedSea、Panama上仍略逊于SeaSplat，原因在于SeaSplat专为静态场景优化，而本文方法在这些场景中保留的形变场参数构成不必要的自由度，引入了一定的优化噪声。
+
+表\ref{tab:static_nr_I}与表\ref{tab:static_nr_J}分别给出了四个静态场景上五种方法在含水渲染图像（I）与去水重建图像（J）上的NIQE指标对比（数值越低越好），每列最优值以\textbf{粗体}标注。
+
+\begin{table}[htbp]
+  \centering
+  \tablecaption{静态水下场景含水渲染图像NIQE指标对比（NIQE$\downarrow$）}
+  \label{tab:static_nr_I}
+  \begin{tabular}{lcccc}
+    \hline
+    \textbf{方法} & \textbf{Curasao} & \textbf{IUI3-RedSea} & \textbf{JapaneseGardens} & \textbf{Panama} \\
+    \hline
+    原始水下图像                      & 2.86 & 2.99 & \textbf{2.46} & 3.51 \\
+    3DGS\upcite{kerbl2023gaussian}    & 3.09 & 3.33 & 2.74 & 3.50 \\
+    4DGS\upcite{wu2024gaussian}       & 3.17 & 2.93 & 2.80 & 3.85 \\
+    SeaSplat\upcite{seasplat2025icra} & 2.94 & 3.27 & 2.56 & 3.39 \\
+    \textbf{本文方法}                  & \textbf{2.78} & \textbf{2.71} & \textbf{2.46} & \textbf{3.38} \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \tablecaption{静态水下场景去水重建图像NIQE指标对比（NIQE$\downarrow$）}
+  \label{tab:static_nr_J}
+  \begin{tabular}{lcccc}
+    \hline
+    \textbf{方法} & \textbf{Curasao} & \textbf{IUI3-RedSea} & \textbf{JapaneseGardens} & \textbf{Panama} \\
+    \hline
+    原始水下图像                      & 2.86 & 2.99 & 2.46 & 3.51 \\
+    3DGS\upcite{kerbl2023gaussian}    & 3.09 & 3.33 & 2.74 & 3.50 \\
+    4DGS\upcite{wu2024gaussian}       & 3.17 & 2.93 & 2.80 & 3.85 \\
+    SeaSplat\upcite{seasplat2025icra} & \textbf{2.77} & 3.20 & 2.54 & 3.50 \\
+    \textbf{本文方法}                  & 2.78 & \textbf{2.71} & \textbf{2.45} & \textbf{3.38} \\
+    \hline
+  \end{tabular}
+\end{table}
+
+由表\ref{tab:static_nr_I}与表\ref{tab:static_nr_J}综合可知：在含水图像上，四种合成方法中本文方法在全部四个场景上均取得最优NIQE，其中JapaneseGardens与原始水下图像并列最优（2.46）。在去水图像上，本文方法在IUI3-RedSea（2.71）、JapaneseGardens（2.45）和Panama（3.38）三个场景上保持最优，JapaneseGardens上甚至超越了原始水下图像；Curasao场景中SeaSplat的去水重建结果（NIQE 2.77）略优于本文方法（2.78）。对比含水图像与去水图像可以发现，去水处理对本文方法与SeaSplat的NIQE改善方向并不一致：本文方法在IUI3-RedSea上I与J持平（2.71），但在Panama上同样持平（3.38）；SeaSplat在Curasao上去水后NIQE从2.94降至2.77（$\Delta$=0.17），说明该场景中去水重建有效去除了散射噪声。NIQE在本文方法与SeaSplat之间的差距以IUI3-RedSea最为显著，这主要是因为深度监督对远距离几何结构的改善抑制了远景区域的漂浮伪影。
 
 
 
@@ -276,22 +325,17 @@
 
 \subsection{渲染效果对比}
 
-图\ref{fig:render_compare}展示了本文方法与SeaSplat在四个动态场景上的渲染效果对比。每行对应一个动态水下场景（Robot、Coral、Fish、Streaks），每列从左至右依次为：测试视角采集到的原始水下参考图像（GT）、SeaSplat的渲染图像、SeaSplat的深度图（以热力图显示）、本文方法的渲染结果、本文方法的深度图（以热力图显示）。深度图颜色仅表示相对远近关系，不代表RGB渲染颜色。通过对比SeaSplat渲染图像与GT，可以观察到静态方法在动态区域容易出现重影与模糊；本文方法在运动区域的轮廓保持更稳定。
+图\ref{fig:render_compare}展示了本文方法与SeaSplat在四个动态场景（Robot、Coral、Fish、Streaks）上的渲染效果对比。
 
 \begin{figure}[htbp]
   \centering
-  \setlength{\tabcolsep}{1pt}
-  \renewcommand{\arraystretch}{0.6}
-  \begin{tabular}{@{}>{\centering\arraybackslash}m{1.2em}@{\hspace{2pt}}*{5}{>{\centering\arraybackslash}m{0.17\textwidth}}@{}}
-     & GT（原始） & SeaSplat & SeaSplat深度 & 本文方法 & 本文深度 \\
-    \rotatebox{90}{Robot}   & \includegraphics[width=0.17\textwidth]{figures/render_compare/robot_gt.png}   & \includegraphics[width=0.17\textwidth]{figures/render_compare/robot_sea_water.png}   & \includegraphics[width=0.17\textwidth]{figures/render_compare/robot_sea_depth.png}   & \includegraphics[width=0.17\textwidth]{figures/render_compare/robot_ours.png}   & \includegraphics[width=0.17\textwidth]{figures/render_compare/robot_ours_depth.png}   \\
-    \rotatebox{90}{Coral}   & \includegraphics[width=0.17\textwidth]{figures/render_compare/coral_gt.png}   & \includegraphics[width=0.17\textwidth]{figures/render_compare/coral_sea_water.png}   & \includegraphics[width=0.17\textwidth]{figures/render_compare/coral_sea_depth.png}   & \includegraphics[width=0.17\textwidth]{figures/render_compare/coral_ours.png}   & \includegraphics[width=0.17\textwidth]{figures/render_compare/coral_ours_depth.png}   \\
-    \rotatebox{90}{Fish}    & \includegraphics[width=0.17\textwidth]{figures/render_compare/fish_gt.png}    & \includegraphics[width=0.17\textwidth]{figures/render_compare/fish_sea_water.png}    & \includegraphics[width=0.17\textwidth]{figures/render_compare/fish_sea_depth.png}    & \includegraphics[width=0.17\textwidth]{figures/render_compare/fish_ours.png}    & \includegraphics[width=0.17\textwidth]{figures/render_compare/fish_ours_depth.png}    \\
-    \rotatebox{90}{Streaks} & \includegraphics[width=0.17\textwidth]{figures/render_compare/streaks_gt.png} & \includegraphics[width=0.17\textwidth]{figures/render_compare/streaks_sea_water.png} & \includegraphics[width=0.17\textwidth]{figures/render_compare/streaks_sea_depth.png} & \includegraphics[width=0.17\textwidth]{figures/render_compare/streaks_ours.png} & \includegraphics[width=0.17\textwidth]{figures/render_compare/streaks_ours_depth.png} \\
-  \end{tabular}
+  \includegraphics[width=\textwidth]{figures/render_compare.png}
   \caption{四个动态水下场景的渲染效果对比。GT为测试视角采集到的原始水下参考图像；两列深度图为相对深度的热力图显示。与SeaSplat静态基线相比，本文方法在动态区域的重影和轮廓模糊更少。}
   \label{fig:render_compare}
 \end{figure}
+
+每列从左至右依次为：测试视角采集到的原始水下参考图像（GT）、SeaSplat的渲染图像、SeaSplat的深度图（以热力图显示）、本文方法的渲染结果、本文方法的深度图（以热力图显示）。深度图颜色仅表示相对远近关系，不代表RGB渲染颜色。通过对比SeaSplat渲染图像与GT，可以观察到静态方法在动态区域容易出现重影与模糊；本文方法在运动区域的轮廓保持更稳定。
+
 
 由图\ref{fig:render_compare}可以观察到，在各个场景中，SeaSplat由于缺乏动态建模能力，在运动物体区域更容易出现重影与模糊；本文方法通过时变高斯形变场显式建模运动，使运动物体轮廓保持相对稳定。需要注意的是，图中深度结果主要用于辅助判断几何连续性，定量结论仍以表\ref{tab:dynamic_all_metrics}为准。
 
@@ -302,15 +346,7 @@
 
 \begin{figure}[htbp]
   \centering
-  \setlength{\tabcolsep}{2pt}
-  \renewcommand{\arraystretch}{0.6}
-  \begin{tabular}{@{}>{\centering\arraybackslash}m{1.2em}@{\hspace{2pt}}*{5}{>{\centering\arraybackslash}m{0.17\textwidth}}@{}}
-     & GT（$\mathbf{I}$） & SeaSplat $\mathbf{I}$ & SeaSplat $\mathbf{J}$ & 本文 $\mathbf{I}$ & 本文 $\mathbf{J}$ \\
-    \rotatebox{90}{Robot}   & \includegraphics[width=0.17\textwidth]{figures/dewater/robot_gt.png}   & \includegraphics[width=0.17\textwidth]{figures/dewater/robot_sea_I.png}   & \includegraphics[width=0.17\textwidth]{figures/dewater/robot_sea_J.png}   & \includegraphics[width=0.17\textwidth]{figures/dewater/robot_ours_I.png}   & \includegraphics[width=0.17\textwidth]{figures/dewater/robot_ours_J.png}   \\
-    \rotatebox{90}{Coral}   & \includegraphics[width=0.17\textwidth]{figures/dewater/coral_gt.png}   & \includegraphics[width=0.17\textwidth]{figures/dewater/coral_sea_I.png}   & \includegraphics[width=0.17\textwidth]{figures/dewater/coral_sea_J.png}   & \includegraphics[width=0.17\textwidth]{figures/dewater/coral_ours_I.png}   & \includegraphics[width=0.17\textwidth]{figures/dewater/coral_ours_J.png}   \\
-    \rotatebox{90}{Fish}    & \includegraphics[width=0.17\textwidth]{figures/dewater/fish_gt.png}    & \includegraphics[width=0.17\textwidth]{figures/dewater/fish_sea_I.png}    & \includegraphics[width=0.17\textwidth]{figures/dewater/fish_sea_J.png}    & \includegraphics[width=0.17\textwidth]{figures/dewater/fish_ours_I.png}    & \includegraphics[width=0.17\textwidth]{figures/dewater/fish_ours_J.png}    \\
-    \rotatebox{90}{Streaks} & \includegraphics[width=0.17\textwidth]{figures/dewater/streaks_gt.png} & \includegraphics[width=0.17\textwidth]{figures/dewater/streaks_sea_I.png} & \includegraphics[width=0.17\textwidth]{figures/dewater/streaks_sea_J.png} & \includegraphics[width=0.17\textwidth]{figures/dewater/streaks_ours_I.png} & \includegraphics[width=0.17\textwidth]{figures/dewater/streaks_ours_J.png} \\
-  \end{tabular}
+  \includegraphics[width=\textwidth]{img/2.png}
   \caption{四个动态水下场景的物理分解结果。从左至右依次为：测试视角原始水下参考图像（GT）、SeaSplat渲染水下观测图像$\mathbf{I}$、SeaSplat干净外观$\mathbf{J}$、本文方法渲染水下观测图像$\mathbf{I}$、本文方法干净外观$\mathbf{J}$。}
   \label{fig:dewater}
 \end{figure}
@@ -382,31 +418,53 @@
 
 由表\ref{tab:ablation_psnr}可观察到，完整模型并非在所有场景上均为最优。完整模型在Robot上以29.71 dB取得最优PSNR；在Fish场景上，基础4DGS配置（29.09 dB）以约0.57 dB领先完整模型（28.52 dB）；在Coral与Streaks场景上，完整模型（33.29、30.65 dB）相较基础4DGS配置（31.14、28.81 dB）分别提升+2.15 dB和+1.84 dB。以下分析均以消融表的数值差异和图\ref{fig:ablation_qualitative}的可视化结果为依据，不额外假设未观测的水体参数。综合四个场景可以看出，水下物理模型和深度监督的收益依赖场景条件，并不存在对所有场景都最优的固定配置。
 
+表\ref{tab:ablation_nr_I}与表\ref{tab:ablation_nr_J}分别给出了四种消融配置在Robot场景的含水渲染图像（I）与去水重建图像（J）上的NIQE指标对比（数值越低越好），每列最优值以\textbf{粗体}标注。
+
+\begin{table}[htbp]
+  \centering
+  \tablecaption{Robot场景含水渲染图像NIQE指标（NIQE$\downarrow$）}
+  \label{tab:ablation_nr_I}
+  \begin{tabular}{lc}
+    \hline
+    \textbf{配置} & \textbf{NIQE} \\
+    \hline
+    (a) 仅4DGS主干       & 6.80 \\
+    (b) 增加水下物理模型 & 6.75 \\
+    (c) 增加深度监督     & 20.65 \\
+    (d) 完整方法         & \textbf{6.19} \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \tablecaption{Robot场景去水重建图像NIQE指标（NIQE$\downarrow$）}
+  \label{tab:ablation_nr_J}
+  \begin{tabular}{lc}
+    \hline
+    \textbf{配置} & \textbf{NIQE} \\
+    \hline
+    (a) 仅4DGS主干       & —  \\
+    (b) 增加水下物理模型 & 5.79 \\
+    (c) 增加深度监督     & —  \\
+    (d) 完整方法         & \textbf{5.68} \\
+    \hline
+  \end{tabular}
+\end{table}
+
+由表\ref{tab:ablation_nr_I}与表\ref{tab:ablation_nr_J}对比可发现，完整方法取得有效改善（6.19）相较于仅4DGS主干（6.80）和仅水下物理模型（6.75）的NIQE，说明水下物理建模与深度监督的联合设计能够提升渲染图像的自然度；单独启用深度监督（20.65）导致NIQE大幅恶化，可能是由于缺乏水下物理约束导致的颜色失真和结构不连续；在去水重建图像J上，完整方法（5.68）相较于仅水下物理模型（5.79）进一步降低NIQE，表明深度监督在去水重建中也能提供一定的辅助约束。
+
 图\ref{fig:ablation_qualitative}以Robot场景为例，给出四种消融配置的渲染效果以及对应的深度图。图中(a)--(d)四列与表\ref{tab:ablation_psnr}中的四种配置一一对应，用于辅助观察不同组件对场景外观与几何重建的影响。需要说明的是，本文为该消融图选取了机械臂运动幅度较大、深度变化较为明显的代表性视角；红框区域突出显示了不同配置在物体边缘清晰度与背景深度连续性上的差异，这些差异在RGB渲染上整体较温和，更明显地反映在右下方深度图的相对分布与边缘锐利度上。
 
 
-% 红框工具宏：在图像归一化坐标 (0.30,0.20)-(0.70,0.65) 区域绘制红色矩形以突出差异。
-% (0,0)=左下，(1,1)=右上；如需调整位置可直接修改本宏定义中的坐标。
 \providecommand{\hlimg}[2]{%
-  \begin{tikzpicture}[inner sep=0]
-    \node[anchor=south west] (im) {\includegraphics[width=#1]{#2}};
-    \begin{scope}[x={(im.south east)},y={(im.north west)}]
-      \draw[red,very thick] (0.40,0.30) rectangle (0.85,0.65);
-    \end{scope}
-  \end{tikzpicture}%
+  \includegraphics[width=#1]{#2}%
 }
 
 \begin{figure}[htbp]
   \centering
-  \setlength{\tabcolsep}{1pt}
-  \renewcommand{\arraystretch}{0.6}
-  \begin{tabular}{@{}>{\centering\arraybackslash}m{1.2em}@{\hspace{2pt}}*{4}{>{\centering\arraybackslash}m{0.21\textwidth}}@{}}
-     &  &  &  &  \\
-    \rotatebox{90}{渲染} & \hlimg{0.21\textwidth}{figures/ablation/a_plain_render.png}  & \hlimg{0.21\textwidth}{figures/ablation/b_seathru_render.png}  & \hlimg{0.21\textwidth}{figures/ablation/c_depthonly_render.png}  & \hlimg{0.21\textwidth}{figures/ablation/d_full_render.png}  \\
-    \rotatebox{90}{深度} & \hlimg{0.21\textwidth}{figures/ablation/a_plain_depth.png}   & \hlimg{0.21\textwidth}{figures/ablation/b_seathru_depth.png}   & \hlimg{0.21\textwidth}{figures/ablation/c_depthonly_depth.png}   & \hlimg{0.21\textwidth}{figures/ablation/d_full_depth.png}   \\
-     & (a) & (b) & (c) & (d) \\
-  \end{tabular}
-  \caption{消融实验定性结果（Robot场景），红框标出各配置间差异最显著的区域。各列对应不同消融配置：(a)仅保留时空高斯溅射主干；(b)在(a)之上启用水下物理模型；(c)在(a)之上仅启用基于Depth Anything V2的逆深度监督；(d)同时启用水下物理模型与深度监督，即本文完整方法。上行为渲染结果，下行为对应深度图。}
+  \includegraphics[width=\textwidth]{img/3.png}
+  \caption{消融实验定性结果（Robot场景）。各列对应不同消融配置：(a)仅保留时空高斯溅射主干；(b)在(a)之上启用水下物理模型；(c)在(a)之上仅启用基于Depth Anything V2的逆深度监督；(d)同时启用水下物理模型与深度监督，即本文完整方法。}
   \label{fig:ablation_qualitative}
 \end{figure}
 
