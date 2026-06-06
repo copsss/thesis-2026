@@ -163,7 +163,7 @@ SeaSplat\upcite{seasplat2025icra}基于原始3DGS静态框架实现，而4DGS\up
   \mathcal{L}_{\mathrm{coarse}} = (1-\lambda_{\mathrm{s}})\mathcal{L}_1(\mathbf{J}, \mathbf{I}^{\mathrm{gt}}) + \lambda_{\mathrm{s}} \mathcal{L}_{\mathrm{D}\mbox{-}\mathrm{SSIM}}(\mathbf{J}, \mathbf{I}^{\mathrm{gt}}).
   \label{eq:losscoarse}
 \end{equation}
-其中，$\lambda_{\mathrm{s}}=0.2$为结构损失权重，$\mathcal{L}_{\mathrm{D}\mbox{-}\mathrm{SSIM}}$表示由SSIM构造的结构差异项。此阶段开启自适应密度控制（Adaptive Density Control），执行高斯体的分裂、克隆与修剪操作，建立场景的基础几何骨架。为避免视角相关颜色效应与后续水下模型产生干扰，球谐阶数固定为0（仅使用DC项），使每个高斯体只学习与视角无关的漫反射颜色。
+其中，$\lambda_{\mathrm{s}}=0.2$为结构损失权重，$\mathcal{L}_{\mathrm{D}\mbox{-}\mathrm{SSIM}}$表示由SSIM构造的结构差异项。此阶段开启自适应密度控制（Adaptive Density Control），执行高斯体的分裂、克隆与修剪操作，建立场景的基础几何骨架。为避免视角相关颜色效应与后续水下模型产生干扰，球谐阶数固定为0，使每个高斯体只学习与视角无关的漫反射颜色。
 
 \subsection{精细阶段初始化}
 

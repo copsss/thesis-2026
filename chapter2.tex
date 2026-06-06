@@ -189,13 +189,13 @@ SeaSplat在标准3DGS的光度损失基础上，增加了一系列面向水下�
 
 \subsection{多分辨率特征平面}
 
-变形网络的核心模块为多分辨率特征平面（HexPlane）\upcite{cao2023hexplane}。多分辨率特征平面（HexPlane）将四维时空体（$x, y, z, t$）分解为6个二维特征平面，分别对应三维空间的3个空间平面（$xy$、$xz$、$yz$）和3个时空平面（$xt$、$yt$、$zt$）：
+变形网络的核心模块为多分辨率特征平面（HexPlane）\upcite{cao2023hexplane}。多分辨率特征平面（HexPlane）将四维时空体（$x, y, z, t$）分解为6个二维特征平面，分别对应三维空间的3个空间平面（$(x,y)$、$(x,z)$、$(y,z)$）和3个时空平面（$(x,t)$、$(y,t)$、$(z,t)$）：
 \begin{equation}
     \mathbf{f}(\mathbf{x}, t) =
-    \operatorname{concat}_{(u,v) \in \{xy,xz,yz,xt,yt,zt\}}
-    \Phi_{uv}\!\left(u(\mathbf{x},t),\, v(\mathbf{x},t)\right).
+    \operatorname{concat}_{(u,v) \in \{(x,y),(x,z),(y,z),(x,t),(y,t),(z,t)\}}
+    \Phi_{u,v}\!\left(u(\mathbf{x},t),\, v(\mathbf{x},t)\right).
     \label{eq:hexplane}
-\end{equation}其中，$\Phi_{uv}$表示对应二维特征平面的双线性插值查询，$u(\cdot)$和$v(\cdot)$为从四维坐标中提取对应分量的投影操作。6个平面查询得到的特征向量拼接后输入轻量级MLP，得到最终的形变预测。
+\end{equation}其中，$\Phi_{u,v}$表示$(u,v)$平面的双线性插值查询函数，$u(\cdot)$和$v(\cdot)$为从四维时空坐标中提取$u$、$v$分量的投影操作。6个平面查询得到的特征向量拼接后输入轻量级MLP，得到最终的形变预测。
 
 为捕捉不同尺度下的时空相关性，多分辨率特征平面（HexPlane）采用多分辨率特征方案：在$1\times$、$2\times$、$4\times$三种分辨率下分别维护一组特征平面，对应分辨率的查询结果拼接后共同表达多尺度的时空信息。这种分解策略将四维时空体的存储与计算复杂度由$O(N^4)$降低至$O(N^2)$，大幅提升了方法的可扩展性。
 

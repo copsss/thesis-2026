@@ -81,7 +81,7 @@
     \includegraphics[height=0.095\textheight,keepaspectratio]{figures/dataset_samples/iui3_redsea_sample.png} &
     \includegraphics[height=0.095\textheight,keepaspectratio]{figures/dataset_samples/japanese_gardens_sample.png} &
     \includegraphics[height=0.095\textheight,keepaspectratio]{figures/dataset_samples/panama_sample.png} \\
-    (a) Curasao & (b) IUI3-RedSea & \shortstack{(c) JapaneseGardens\\-RedSea} & (d) Panama \\
+    (a) Curasao & (b) IUI3-RedSea & (c) JG-RedSea & (d) Panama \\
   \end{tabular}
   \caption{SeaThru-NeRF静态水下场景数据集示例图像。四个子图依次对应Curasao、IUI3-RedSea、JapaneseGardens-RedSea与Panama场景。}
   \label{fig:static_dataset_samples}
@@ -180,6 +180,7 @@
     SeaSplat\upcite{seasplat2025icra} & 6.63 & 4.32 & 2.79 & \textbf{2.64} \\
     \textbf{本文方法}                  & \textbf{6.19} & \textbf{3.88} & \textbf{2.62} & 2.99 \\
     \hline
+    \multicolumn{5}{l}{\small 注：粗体表示该列最优值，NIQE越低越好。}
   \end{tabular}
 \end{table}
 
@@ -194,6 +195,7 @@
     SeaSplat\upcite{seasplat2025icra} & 6.56 & 4.26 & 2.79 & \textbf{2.65} \\
     \textbf{本文方法}                  & \textbf{5.68} & \textbf{3.74} & \textbf{2.63} & 3.07 \\
     \hline
+    \multicolumn{5}{l}{\small 注：粗体表示该列最优值，NIQE越低越好。}
   \end{tabular}
 \end{table}
 
@@ -283,6 +285,7 @@
     SeaSplat\upcite{seasplat2025icra} & 2.94 & 3.27 & 2.56 & 3.39 \\
     \textbf{本文方法}                  & \textbf{2.78} & \textbf{2.71} & \textbf{2.46} & \textbf{3.38} \\
     \hline
+    \multicolumn{5}{l}{\small 注：粗体表示该列最优值，NIQE越低越好。}
   \end{tabular}
 \end{table}
 
@@ -300,6 +303,7 @@
     SeaSplat\upcite{seasplat2025icra} & \textbf{2.77} & 3.20 & 2.54 & 3.50 \\
     \textbf{本文方法}                  & 2.78 & \textbf{2.71} & \textbf{2.45} & \textbf{3.38} \\
     \hline
+    \multicolumn{5}{l}{\small 注：粗体表示该列最优值，NIQE越低越好。}
   \end{tabular}
 \end{table}
 
@@ -318,6 +322,8 @@
 与4DGS相比，本文方法的改进主要来自水下成像约束。4DGS能够描述场景运动，但将水体散射、颜色衰减和真实表面颜色混合到同一外观表示中，容易在色偏明显或光照变化复杂的区域产生颜色误差。本文方法引入后向散射和衰减建模后，将水下介质影响从场景外观中分离出来，使渲染结果在结构一致性之外进一步获得颜色和对比度上的改善。
 
 与UDR-GS相比，本文方法在Robot、Coral和Streaks上取得更高PSNR与SSIM，在Fish上则表现出指标互补：UDR-GS的PSNR和SSIM略高，本文方法的LPIPS更低。这说明本文方法在多数动态水下场景中能够更好地平衡几何、颜色和物理分解，但在快速非规律运动场景中，形变估计与颜色恢复之间仍可能存在耦合影响。总体而言，本文方法相较静态水下模型弥补了动态建模不足，相较普通动态模型补充了水下物理约束，并在与动态水下基线的比较中展现出更稳定的综合性能。
+
+从无参考感知质量角度看，本文方法在动态场景的NIQE指标上与PSNR趋势基本一致：在Robot（NIQE 5.68）、Fish（3.74）和Coral（2.63）三个场景的去水重建图像上取得最优，Streaks场景略逊于SeaSplat。静态场景中，本文方法在IUI3-RedSea、JapaneseGardens和Panama上取得最优NIQE。值得关注的是，去水图像J上的NIQE改善幅度在色偏较重的场景（如Robot，$\Delta$NIQE$_{\text{I}\to\text{J}}=0.51$）中明显大于清水场景，说明水下物理建模对图像统计自然度的提升与场景光学退化程度正相关。
 
 
 
@@ -359,15 +365,7 @@
 
 \begin{figure}[htbp]
   \centering
-  \setlength{\tabcolsep}{1pt}
-  \renewcommand{\arraystretch}{0.6}
-  \begin{tabular}{@{}>{\centering\arraybackslash}m{1.2em}@{\hspace{2pt}}*{4}{>{\centering\arraybackslash}m{0.21\textwidth}}@{}}
-     & 输入图像 & 深度 $\mathbf{Z}$ & 衰减 $\mathbf{A}(\mathbf{Z})$ & 后向散射 $\mathbf{B}(\mathbf{Z})$ \\
-    \rotatebox{90}{Robot}   & \includegraphics[width=0.21\textwidth]{figures/intermediate/robot_input.png}   & \includegraphics[width=0.21\textwidth]{figures/intermediate/robot_depth.png}   & \includegraphics[width=0.21\textwidth]{figures/intermediate/robot_atten.png}   & \includegraphics[width=0.21\textwidth]{figures/intermediate/robot_bs.png}   \\
-    \rotatebox{90}{Coral}   & \includegraphics[width=0.21\textwidth]{figures/intermediate/coral_input.png}   & \includegraphics[width=0.21\textwidth]{figures/intermediate/coral_depth.png}   & \includegraphics[width=0.21\textwidth]{figures/intermediate/coral_atten.png}   & \includegraphics[width=0.21\textwidth]{figures/intermediate/coral_bs.png}   \\
-    \rotatebox{90}{Fish}    & \includegraphics[width=0.21\textwidth]{figures/intermediate/fish_input.png}    & \includegraphics[width=0.21\textwidth]{figures/intermediate/fish_depth.png}    & \includegraphics[width=0.21\textwidth]{figures/intermediate/fish_atten.png}    & \includegraphics[width=0.21\textwidth]{figures/intermediate/fish_bs.png}    \\
-    \rotatebox{90}{Streaks} & \includegraphics[width=0.21\textwidth]{figures/intermediate/streaks_input.png} & \includegraphics[width=0.21\textwidth]{figures/intermediate/streaks_depth.png} & \includegraphics[width=0.21\textwidth]{figures/intermediate/streaks_atten.png} & \includegraphics[width=0.21\textwidth]{figures/intermediate/streaks_bs.png} \\
-  \end{tabular}
+  \includegraphics[width=\textwidth]{img/4.png}
   \caption{四个动态水下场景的中间产物可视化。从左至右依次为：原始输入图像、估计深度图$\mathbf{Z}$、衰减图$\mathbf{A}(\mathbf{Z})$与后向散射图$\mathbf{B}(\mathbf{Z})$。深度图采用热力图显示，仅表示相对远近关系。}
   \label{fig:intermediate}
 \end{figure}
@@ -433,6 +431,7 @@
     (c) 增加深度监督     & 20.65 \\
     (d) 完整方法         & \textbf{6.19} \\
     \hline
+    \multicolumn{2}{l}{\small 注：粗体表示最优值，NIQE越低越好。}
   \end{tabular}
 \end{table}
 
@@ -449,6 +448,7 @@
     (c) 增加深度监督     & —  \\
     (d) 完整方法         & \textbf{5.68} \\
     \hline
+    \multicolumn{2}{l}{\small 注：粗体表示最优值，NIQE越低越好。}
   \end{tabular}
 \end{table}
 
@@ -495,11 +495,5 @@
   }
 \end{table}
 
-由表\ref{tab:ablation_training}可以观察到几个关键现象：
-
-\textbf{（1）无预热导致训练崩溃}：完全移除预热时，四个场景PSNR均下降到10至15 dB区间，渲染结果几乎不可用。这表明水下物理分支不宜在缺少单独预热的情况下直接与尚未成形的高斯几何共同参与训练，梯度冲突会导致训练不稳定。
-
-\textbf{（2）短预热不足以恢复全部场景}：200次迭代预热在Robot和Fish上可恢复到约26 dB，但Coral仅为13.82 dB，说明极短预热对部分场景不足，需要更长的预热迭代来建立稳定的水下模型初始化。
-
-\textbf{（3）粗训练阶段对场景有重要作用}：500次迭代预热可改善稳定性，但Coral和Streaks仍受限。跳过粗训练时，Robot仍可达到28.69 dB，而Fish、Coral和Streaks明显退化，说明粗训练阶段主要为复杂动态场景提供几何基础，是后续精细优化的必要前提。
+由表\ref{tab:ablation_training}可以观察到几个关键现象：完全移除预热时，四个场景PSNR均下降到10至15 dB区间，渲染结果几乎不可用。这表明水下物理分支不宜在缺少单独预热的情况下直接与尚未成形的高斯几何共同参与训练，梯度冲突会导致训练不稳定;短预热不足以恢复全部场景,200次迭代预热在Robot和Fish上可恢复到约26 dB，但Coral仅为13.82 dB，说明极短预热对部分场景不足，需要更长的预热迭代来建立稳定的水下模型初始化;粗训练阶段对场景有重要作用,500次迭代预热可改善稳定性，但Coral和Streaks仍受限。跳过粗训练时，Robot仍可达到28.69 dB，而Fish、Coral和Streaks明显退化，说明粗训练阶段主要为复杂动态场景提供几何基础，是后续精细优化的必要前提。
 

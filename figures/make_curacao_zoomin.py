@@ -25,7 +25,8 @@ GAP = 8
 ROW_GAP = 10
 HEADER_H = 52
 SSIM_WIN = 11
-RED = (220, 40, 40)
+BOX_COLOR = (255, 255, 0)
+BOX_WIDTH = 4
 FONT_SIZE_LABEL = 34
 FONT_SIZE_NUM = 20
 OVERVIEW_W_5COL = 240
@@ -111,31 +112,33 @@ def ssim_map(img1, img2):
     return np.mean(maps, axis=0)
 
 
-def find_best_region(ours, baselines, baseline_names, h, w, crop_size):
-    """Find CROP_SIZE region with lowest mean SSIM(ours, baselines)."""
-    half = crop_size // 2
+def find_best_region(ours, baselines, baseline_names, h, w, crop_w, crop_h):
+    """Find CROP_W x CROP_H region with lowest mean SSIM(ours, baselines)."""
+    half_w, half_h = crop_w // 2, crop_h // 2
     ssim_maps = [ssim_map(ours, bl) for bl in baselines]
     ssim_combined = np.mean(ssim_maps, axis=0)
     dissim = 1.0 - ssim_combined
-    window_mean = ndimage.uniform_filter(dissim, size=crop_size)
+    window_mean = ndimage.uniform_filter(dissim, size=(crop_h, crop_w))
     sh, sw = window_mean.shape
     mask = np.zeros_like(window_mean)
-    mask[half: sh - half, half: sw - half] = 1.0
+    mask[half_h: sh - half_h, half_w: sw - half_w] = 1.0
     best_y, best_x = np.unravel_index(np.argmax(np.where(mask, window_mean, -1.0)),
                                        window_mean.shape)
     cx, cy = int(best_x), int(best_y)
     info = {}
     for name, sm in zip(baseline_names, ssim_maps):
-        info[name] = float(sm[cy-half:cy+half, cx-half:cx+half].mean())
+        info[name] = float(sm[cy-half_h:cy+half_h, cx-half_w:cx+half_w].mean())
     return cx, cy, info
 
 
-def find_best_region_gt_ref(ours, gt, baselines, baseline_names, h, w, crop_size):
+def find_best_region_gt_ref(ours, gt, baselines, baseline_names, h, w, crop_w, crop_h,
+                            bounds=None):
     """Find region where Ours is MOST similar to GT while baselines are LEAST similar.
 
     Criterion: SSIM(Ours, GT) x (SSIM(Ours, GT) - mean(SSIM(baseline_i, GT))) -> maximize.
+    bounds: optional (x_min, y_min, x_max, y_max) in pixel coords to restrict search.
     """
-    half = crop_size // 2
+    half_w, half_h = crop_w // 2, crop_h // 2
     ssim_ours_gt = ssim_map(ours, gt)
     ssim_bl_gt = [ssim_map(bl, gt) for bl in baselines]
     ssim_bl_mean = np.mean(ssim_bl_gt, axis=0)
@@ -143,22 +146,27 @@ def find_best_region_gt_ref(ours, gt, baselines, baseline_names, h, w, crop_size
     advantage = ssim_ours_gt - ssim_bl_mean
     score = advantage * np.maximum(ssim_ours_gt, 0.0)
 
-    window_score = ndimage.uniform_filter(score, size=crop_size)
-    window_ours_gt = ndimage.uniform_filter(ssim_ours_gt, size=crop_size)
+    window_score = ndimage.uniform_filter(score, size=(crop_h, crop_w))
+    window_ours_gt = ndimage.uniform_filter(ssim_ours_gt, size=(crop_h, crop_w))
 
     sh, sw = window_score.shape
     mask = np.zeros_like(window_score)
-    mask[half: sh - half, half: sw - half] = 1.0
+    mask[half_h: sh - half_h, half_w: sw - half_w] = 1.0
     mask[window_ours_gt < 0.3] = 0
+    if bounds is not None:
+        bx_min, by_min, bx_max, by_max = bounds
+        region = np.zeros_like(mask)
+        region[by_min:by_max, bx_min:bx_max] = 1.0
+        mask = mask * region
 
     best_y, best_x = np.unravel_index(np.argmax(np.where(mask, window_score, -1.0)),
                                        window_score.shape)
     cx, cy = int(best_x), int(best_y)
     info = {}
-    info["Ours vs GT"] = float(ssim_ours_gt[cy-half:cy+half, cx-half:cx+half].mean())
+    info["Ours vs GT"] = float(ssim_ours_gt[cy-half_h:cy+half_h, cx-half_w:cx+half_w].mean())
     for name, sm in zip(baseline_names, ssim_bl_gt):
-        info[f"{name} vs GT"] = float(sm[cy-half:cy+half, cx-half:cx+half].mean())
-    info["advantage"] = advantage[cy-half:cy+half, cx-half:cx+half].mean()
+        info[f"{name} vs GT"] = float(sm[cy-half_h:cy+half_h, cx-half_w:cx+half_w].mean())
+    info["advantage"] = advantage[cy-half_h:cy+half_h, cx-half_w:cx+half_w].mean()
     return cx, cy, info
 
 
@@ -181,20 +189,24 @@ def paste_crop_centered(canvas, crop_im, col_center, y, crop_display):
 
 
 def build_figure_5col(renders, depths, methods, labels,
-                      cx, cy, half, target_size,
+                      cx, cy, half_w, half_h, target_size,
                       out_path, crop_dir):
     h, w = target_size[1], target_size[0]
     overview_w = OVERVIEW_W_5COL
     overview_h = int(overview_w * h / w)
     scale = overview_w / w
-    scaled_half = int(half * scale)
+    scaled_half_w = int(half_w * scale)
+    scaled_half_h = int(half_h * scale)
     n_cols = len(methods)
-    crop_display = CROP_DISPLAY_5COL
+    crop_w_src = half_w * 2
+    crop_h_src = half_h * 2
+    crop_disp_w = overview_w
+    crop_disp_h = int(crop_disp_w * crop_h_src / crop_w_src)
 
     canvas_w = n_cols * overview_w + (n_cols - 1) * GAP
     canvas_h = (HEADER_H + ROW_GAP
                 + overview_h * 2 + ROW_GAP
-                + crop_display * 2 + ROW_GAP)
+                + crop_disp_h * 2 + ROW_GAP)
     canvas = Image.new("RGB", (canvas_w, canvas_h), (255, 255, 255))
     draw = ImageDraw.Draw(canvas)
 
@@ -212,8 +224,9 @@ def build_figure_5col(renders, depths, methods, labels,
         im = im.resize((overview_w, overview_h), Image.LANCZOS)
         im_d = ImageDraw.Draw(im)
         scx, scy = int(cx * scale), int(cy * scale)
-        im_d.rectangle([scx - scaled_half, scy - scaled_half,
-                        scx + scaled_half, scy + scaled_half], outline=RED, width=2)
+        im_d.rectangle([scx - scaled_half_w, scy - scaled_half_h,
+                        scx + scaled_half_w, scy + scaled_half_h],
+                       outline=BOX_COLOR, width=BOX_WIDTH)
         canvas.paste(im, (col_x(j), y_cur))
     y_cur += overview_h + ROW_GAP
 
@@ -224,36 +237,27 @@ def build_figure_5col(renders, depths, methods, labels,
         if m != "orig":
             im_d = ImageDraw.Draw(im)
             scx, scy = int(cx * scale), int(cy * scale)
-            im_d.rectangle([scx - scaled_half, scy - scaled_half,
-                            scx + scaled_half, scy + scaled_half], outline=RED, width=2)
+            im_d.rectangle([scx - scaled_half_w, scy - scaled_half_h,
+                            scx + scaled_half_w, scy + scaled_half_h],
+                           outline=BOX_COLOR, width=BOX_WIDTH)
         canvas.paste(im, (col_x(j), y_cur))
     y_cur += overview_h + ROW_GAP
 
-    x1, y1 = cx - half, cy - half
-    x2, y2 = cx + half, cy + half
+    x1, y1 = cx - half_w, cy - half_h
+    x2, y2 = cx + half_w, cy + half_h
 
     # ===== Render crops =====
     for j, m in enumerate(methods):
         crop = renders[m][y1:y2, x1:x2].astype(np.uint8)
-        crop_im = Image.fromarray(crop).resize((crop_display, crop_display), Image.LANCZOS)
-        if m == "ours":
-            b = 3
-            bordered = Image.new("RGB", (crop_display + 2*b, crop_display + 2*b), RED)
-            bordered.paste(crop_im, (b, b))
-            crop_im = bordered.resize((crop_display, crop_display), Image.LANCZOS)
-        paste_crop_centered(canvas, crop_im, col_x(j) + overview_w // 2, y_cur, crop_display)
-    y_cur += crop_display + ROW_GAP
+        crop_im = Image.fromarray(crop).resize((crop_disp_w, crop_disp_h), Image.LANCZOS)
+        paste_crop_centered(canvas, crop_im, col_x(j) + overview_w // 2, y_cur, crop_disp_w)
+    y_cur += crop_disp_h + ROW_GAP
 
     # ===== Depth crops =====
     for j, m in enumerate(methods):
         crop = depths[m][y1:y2, x1:x2].astype(np.uint8)
-        crop_im = Image.fromarray(crop).resize((crop_display, crop_display), Image.LANCZOS)
-        if m == "ours":
-            b = 3
-            bordered = Image.new("RGB", (crop_display + 2*b, crop_display + 2*b), RED)
-            bordered.paste(crop_im, (b, b))
-            crop_im = bordered.resize((crop_display, crop_display), Image.LANCZOS)
-        paste_crop_centered(canvas, crop_im, col_x(j) + overview_w // 2, y_cur, crop_display)
+        crop_im = Image.fromarray(crop).resize((crop_disp_w, crop_disp_h), Image.LANCZOS)
+        paste_crop_centered(canvas, crop_im, col_x(j) + overview_w // 2, y_cur, crop_disp_w)
 
     canvas.save(out_path)
     print(f"  Saved: {out_path}")
@@ -265,20 +269,24 @@ def build_figure_5col(renders, depths, methods, labels,
 
 
 def build_figure_dewater(renders, dewatered, methods, labels,
-                         cx, cy, half, target_size,
+                         cx, cy, half_w, half_h, target_size,
                          out_path, crop_dir):
     h, w = target_size[1], target_size[0]
     overview_w = OVERVIEW_W_4COL
     overview_h = int(overview_w * h / w)
     scale = overview_w / w
-    scaled_half = int(half * scale)
+    scaled_half_w = int(half_w * scale)
+    scaled_half_h = int(half_h * scale)
     n_cols = len(methods)
-    crop_display = CROP_DISPLAY_4COL
+    crop_w_src = half_w * 2
+    crop_h_src = half_h * 2
+    crop_disp_w = overview_w
+    crop_disp_h = int(crop_disp_w * crop_h_src / crop_w_src)
 
     canvas_w = n_cols * overview_w + (n_cols - 1) * GAP
     canvas_h = (HEADER_H + ROW_GAP
                 + overview_h * 2 + ROW_GAP
-                + crop_display * 2 + ROW_GAP)
+                + crop_disp_h * 2 + ROW_GAP)
     canvas = Image.new("RGB", (canvas_w, canvas_h), (255, 255, 255))
     draw = ImageDraw.Draw(canvas)
 
@@ -296,8 +304,9 @@ def build_figure_dewater(renders, dewatered, methods, labels,
         im = im.resize((overview_w, overview_h), Image.LANCZOS)
         im_d = ImageDraw.Draw(im)
         scx, scy = int(cx * scale), int(cy * scale)
-        im_d.rectangle([scx - scaled_half, scy - scaled_half,
-                        scx + scaled_half, scy + scaled_half], outline=RED, width=2)
+        im_d.rectangle([scx - scaled_half_w, scy - scaled_half_h,
+                        scx + scaled_half_w, scy + scaled_half_h],
+                       outline=BOX_COLOR, width=BOX_WIDTH)
         canvas.paste(im, (col_x(j), y_cur))
     y_cur += overview_h + ROW_GAP
 
@@ -307,36 +316,27 @@ def build_figure_dewater(renders, dewatered, methods, labels,
         im = im.resize((overview_w, overview_h), Image.LANCZOS)
         im_d = ImageDraw.Draw(im)
         scx, scy = int(cx * scale), int(cy * scale)
-        im_d.rectangle([scx - scaled_half, scy - scaled_half,
-                        scx + scaled_half, scy + scaled_half], outline=RED, width=2)
+        im_d.rectangle([scx - scaled_half_w, scy - scaled_half_h,
+                        scx + scaled_half_w, scy + scaled_half_h],
+                       outline=BOX_COLOR, width=BOX_WIDTH)
         canvas.paste(im, (col_x(j), y_cur))
     y_cur += overview_h + ROW_GAP
 
-    x1, y1 = cx - half, cy - half
-    x2, y2 = cx + half, cy + half
+    x1, y1 = cx - half_w, cy - half_h
+    x2, y2 = cx + half_w, cy + half_h
 
     # ===== Render crops =====
     for j, m in enumerate(methods):
         crop = renders[m][y1:y2, x1:x2].astype(np.uint8)
-        crop_im = Image.fromarray(crop).resize((crop_display, crop_display), Image.LANCZOS)
-        if m == "ours":
-            b = 3
-            bordered = Image.new("RGB", (crop_display + 2*b, crop_display + 2*b), RED)
-            bordered.paste(crop_im, (b, b))
-            crop_im = bordered.resize((crop_display, crop_display), Image.LANCZOS)
-        paste_crop_centered(canvas, crop_im, col_x(j) + overview_w // 2, y_cur, crop_display)
-    y_cur += crop_display + ROW_GAP
+        crop_im = Image.fromarray(crop).resize((crop_disp_w, crop_disp_h), Image.LANCZOS)
+        paste_crop_centered(canvas, crop_im, col_x(j) + overview_w // 2, y_cur, crop_disp_w)
+    y_cur += crop_disp_h + ROW_GAP
 
     # ===== Dewater crops =====
     for j, m in enumerate(methods):
         crop = dewatered[m][y1:y2, x1:x2].astype(np.uint8)
-        crop_im = Image.fromarray(crop).resize((crop_display, crop_display), Image.LANCZOS)
-        if m == "ours":
-            b = 3
-            bordered = Image.new("RGB", (crop_display + 2*b, crop_display + 2*b), RED)
-            bordered.paste(crop_im, (b, b))
-            crop_im = bordered.resize((crop_display, crop_display), Image.LANCZOS)
-        paste_crop_centered(canvas, crop_im, col_x(j) + overview_w // 2, y_cur, crop_display)
+        crop_im = Image.fromarray(crop).resize((crop_disp_w, crop_disp_h), Image.LANCZOS)
+        paste_crop_centered(canvas, crop_im, col_x(j) + overview_w // 2, y_cur, crop_disp_w)
 
     canvas.save(out_path)
     print(f"  Saved: {out_path}")
@@ -359,7 +359,9 @@ def process_5col(name, dir_name, stn_dir, split, fname, idx,
     orig_path = DATA_ROOT / stn_dir / "images_wb" / fname
     with Image.open(orig_path) as im:
         ts = im.size
-    crop_size = int(ts[0] * 0.124)
+    img_w, img_h = ts
+    crop_w = int(img_w * 0.124)
+    crop_h = int(crop_w * img_h / img_w)
 
     if baseline_sea_dir:
         seasplat_base = BL_BASE / baseline_sea_dir / split
@@ -384,7 +386,7 @@ def process_5col(name, dir_name, stn_dir, split, fname, idx,
     }
 
     methods = ["orig", "stn", "seasplat", "fdgs", "ours"]
-    labels = ["GT(原图)", "STN", "SeaSplat", "4DGS", "Ours"]
+    labels = ["GT(原图)", "STN", "SeaSplat", "4DGS", "本文方法"]
 
     ours = renders["ours"]
     baselines = [renders["seasplat"], renders["fdgs"], renders["stn"]]
@@ -393,22 +395,22 @@ def process_5col(name, dir_name, stn_dir, split, fname, idx,
     if gt_ref:
         cx, cy, info = find_best_region_gt_ref(ours, renders["orig"],
                                                 baselines, bl_names,
-                                                ts[1], ts[0], crop_size)
+                                                img_h, img_w, crop_w, crop_h)
     else:
         cx, cy, info = find_best_region(ours, baselines, bl_names,
-                                         ts[1], ts[0], crop_size)
+                                         img_h, img_w, crop_w, crop_h)
 
-    print(f"  Image: {ts[0]}x{ts[1]}, crop: {crop_size}")
+    print(f"  Image: {img_w}x{img_h}, crop: {crop_w}x{crop_h}")
     print(f"  Best center: ({cx}, {cy})")
     for k, v in info.items():
         print(f"  {k}: {v:.4f}")
 
-    half = crop_size // 2
+    half_w, half_h = crop_w // 2, crop_h // 2
     suffix = "_gtref" if gt_ref else ""
     out_path = OUT_DIR / f"{name}_zoomin{suffix}.png"
     crop_dir = OUT_DIR / "cells" / f"{name}_zoomin{suffix}"
     build_figure_5col(renders, depths, methods, labels,
-                      cx, cy, half, ts, out_path, crop_dir)
+                      cx, cy, half_w, half_h, ts, out_path, crop_dir)
 
 
 def process_dewater():
@@ -421,10 +423,12 @@ def process_dewater():
     orig_path = DATA_ROOT / "JapaneseGradens-RedSea" / "images_wb" / fname
     with Image.open(orig_path) as im:
         ts = im.size
-    crop_size = int(ts[0] * 0.124)
+    img_w, img_h = ts
+    crop_w = int(img_w * 0.124)
+    crop_h = int(crop_w * img_h / img_w)
 
     methods = ["orig", "stn", "seasplat", "ours"]
-    labels = ["GT(原图)", "STN", "SeaSplat", "Ours"]
+    labels = ["GT(原图)", "STN", "SeaSplat", "本文方法"]
 
     renders = {
         "orig": load_rgb(orig_path, ts),
@@ -443,20 +447,23 @@ def process_dewater():
     ours = renders["ours"]
     baselines = [renders["seasplat"], renders["stn"]]
     bl_names = ["SeaSplat", "STN"]
+    # Search upper-right quadrant (blue water region)
+    bounds = (img_w // 2, 0, img_w, img_h // 2)
     cx, cy, info = find_best_region_gt_ref(ours, renders["orig"],
                                             baselines, bl_names,
-                                            ts[1], ts[0], crop_size)
+                                            img_h, img_w, crop_w, crop_h,
+                                            bounds=bounds)
 
-    print(f"  Image: {ts[0]}x{ts[1]}, crop: {crop_size}")
+    print(f"  Image: {img_w}x{img_h}, crop: {crop_w}x{crop_h}")
     print(f"  Best center: ({cx}, {cy})")
     for k, v in info.items():
         print(f"  {k}: {v:.4f}")
 
-    half = crop_size // 2
+    half_w, half_h = crop_w // 2, crop_h // 2
     out_path = OUT_DIR / f"{name}_zoomin.png"
     crop_dir = OUT_DIR / "cells" / f"{name}_zoomin"
     build_figure_dewater(renders, dewatered, methods, labels,
-                         cx, cy, half, ts, out_path, crop_dir)
+                         cx, cy, half_w, half_h, ts, out_path, crop_dir)
 
 
 # ============================================================
